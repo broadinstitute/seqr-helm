@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  seqr:
+  - apiVersion: v2
+    appVersion: 0.0.1-abcdef
+    created: "2022-08-03T18:36:48.933914882Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.8.5
+    description: A Helm chart for Kubernetes
+    digest: e0832cd46cdc034c5837284c8bdf1f207b20e2a07474d6a62a7c338597d89af4
+    name: seqr
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.1/seqr-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-08-03T18:36:48.933926182Z"

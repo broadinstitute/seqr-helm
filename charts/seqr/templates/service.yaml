@@ -1,0 +1,17 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "seqr.fullname" . }}
+  labels:
+    name: seqr
+    deployment: {{ .Release.Name }}
+    {{- include "seqr.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+  - port: {{ .Values.service.port }}
+  selector:
+    name: seqr
+    deployment: {{ .Release.Name }}
+    {{- include "seqr.selectorLabels" . | nindent 4 }}

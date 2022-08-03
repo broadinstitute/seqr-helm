@@ -1,0 +1,93 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: seqr
+  labels:
+    name: seqr
+    deployment: {{ .Release.Name }}
+    {{- include "seqr.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.deploymentAnnotations }}
+    {{- tpl (toYaml .Values.deploymentAnnotations) . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "seqr.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        name: seqr
+        deployment: {{ .Release.Name }}
+        {{- include "seqr.labels" . | nindent 8 }}
+    spec:
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+      - name: seqr-pod
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        {{- with .Values.volumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-environment
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.required_secrets.postgresSecretName }}
+                key: password
+          - name: DJANGO_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.required_secrets.seqrSecretName }}
+                key: django_key
+          - name: SEQR_ES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.required_secrets.seqrSecretName }}
+                key: seqr_es_password
+          - name: KIBANA_ES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.required_secrets.kibanaSecretName }}
+                key: elasticsearch.password
+          {{- with .Values.additional_secrets }}
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /readiness_probe
+      {{- with .Values.deployment_sidecars }}
+        {{- tpl . $ | nindent 6 }}
+      {{- end }}
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      {{- with .Values.affinity }}
+      affinity:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

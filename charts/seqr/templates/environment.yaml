@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "seqr.fullname" . }}-environment
+  labels:
+    {{- include "seqr.labels" . | nindent 4 }}
+data:
+  {{- with .Values.environment }}
+    {{- toYaml . | nindent 2 }}
+  {{- end }}

@@ -18,6 +18,6 @@ jobs:
           repository: broadinstitute/seqr-helm
           branch: seqr-version  # todo: update the branch name to something like deployment/${{ steps.image.outputs.version }}
           targetBranch: main
-          createPR: true
+          createPR: false
           message: 'Update appVersion to xxxx'  # todo: change xxxx to ${{ steps.image.outputs.version }}'
           token: ${{ secrets.SEQR_VERSION_UPDATE_TOKEN }}

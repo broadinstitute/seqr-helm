@@ -1,0 +1,16 @@
+name: Update seqr Version
+on:
+  push:
+    branches:
+      - master
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wow-actions/update-file@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.SEQR_VERSION_UPDATE_TOKEN }}
+          path: charts/seqr/Chart.yaml
+          opening_comment: '# <!-- [START AUTO UPDATE -->'
+          closing_comment: '# <!-- [END AUTO UPDATE -->'
+          content: '1.0-aaaaaaa'  # todo: get the version from the seqr repo

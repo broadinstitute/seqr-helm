@@ -22,7 +22,8 @@ version: 0.0.1
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 # <!-- [START AUTO UPDATE -->
-appVersion: "0.0.1-abcdef"
+<!-- Please keep comment here to allow auto update -->
+1.0-aaaaaaa
 # <!-- [END AUTO UPDATE -->
 
 dependencies:

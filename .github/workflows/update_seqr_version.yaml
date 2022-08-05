@@ -14,7 +14,7 @@ jobs:
         with:
           valueFile: 'charts/seqr/Chart.yaml'
           propertyPath: 'appVersion'
-          value: 'v1.0-toBeUpdated'  # todo: add seqr step ${{ steps.seqr.outputs.version }}
+          value: '1.0-toBeUpdated'  # todo: add seqr step ${{ steps.seqr.outputs.version }}
           repository: broadinstitute/seqr-helm
           masterBranchName: main
           branch: seqr-version-pr  # todo: update the branch name to something like deployment/${{ steps.image.outputs.version }}

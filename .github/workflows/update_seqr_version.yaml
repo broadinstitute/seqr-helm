@@ -1,0 +1,22 @@
+
+name: Update seqr Version
+on:
+  push:
+    branches:
+      - seqr-version
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update appVersion in the seqr HelmChart Chart.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'charts/seqr/Chart.yaml'
+          propertyPath: 'appVersion'
+          value: 'v1.0-toBeUpdated'  # todo: add seqr step ${{ steps.seqr.outputs.version }}
+          repository: broadinstitute/seqr-helm
+          branch: seqr-version  # todo: update the branch name to something like deployment/${{ steps.image.outputs.version }}
+          targetBranch: main
+          createPR: true
+          message: 'Update appVersion to xxxx'  # todo: change xxxx to ${{ steps.image.outputs.version }}'
+          token: ${{ secrets.SEQR_VERSION_UPDATE_TOKEN }}

@@ -8,6 +8,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Update appVersion in the seqr HelmChart Chart.yaml
         uses: fjogeleit/yaml-update-action@main
         with:

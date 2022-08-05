@@ -16,6 +16,7 @@ jobs:
           propertyPath: 'appVersion'
           value: 'v1.0-toBeUpdated'  # todo: add seqr step ${{ steps.seqr.outputs.version }}
           repository: broadinstitute/seqr-helm
+          masterBranchName: main
           branch: seqr-version-pr  # todo: update the branch name to something like deployment/${{ steps.image.outputs.version }}
           targetBranch: main
           createPR: true

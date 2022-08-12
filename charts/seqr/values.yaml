@@ -68,7 +68,8 @@ resources: {}
 # -- Pod tolerations for the seqr Deployment
 tolerations: []
 
-# -- Affinity configuration for the seqr Deployment
+# -- Adds affinity rules to the seqr Deployment
+# @default -- The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden.
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

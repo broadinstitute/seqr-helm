@@ -67,7 +67,7 @@ helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | additional_secrets | object | `{}` | If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file. |
-| affinity | string | `"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchLabels:\n            {{- include \"seqr.selectorLabels\" . | nindent 12 }}\n        topologyKey: \"kubernetes.io/hostname\""` | Affinity configuration for the seqr Deployment |
+| affinity | string | The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden. | Adds affinity rules to the seqr Deployment |
 | enable_elasticsearch_auth | bool | `false` | If seqr needs a password to connect to elasticsearch and kibana |
 | environment.ELASTICSEARCH_PROTOCOL | string | `"http"` | The URL protocol that seqr should use to connect to elasticsearch |
 | environment.ELASTICSEARCH_SERVICE_HOSTNAME | string | `"elasticsearch-es-http"` | The hostname that seqr should use to connect to elasticsearch |

@@ -1,0 +1,62 @@
+{{ template "chart.header" . }}
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+## Pre-requisites
+
+### Required Services
+
+Seqr needs the following services to function correctly, and they are expected to be available before installing seqr:
+
+* Redis
+* Elasticsearch
+* Kibana
+* Postgres
+
+### Secret Definition
+
+For minimal functiontionality, seqr requires a few secrets to be defined. You should create these secrets in your kubernetes cluster, and then, using the `required_secrets` variable in your Helm values, inform the chart what the names of the kubernetes secrets are which contain these required settings.
+
+1. A secret containing a `password` field for the postgres database password.
+1. A secret containing a:
+   1. `django_key` field for the django security key
+   1. `seqr_es_password` field which contains the credential that seqr will use to connect to elasticsearch
+1. A secret containing a `elasticsearch.password` field, that the kibana container will use to connect to elasticsearch
+
+
+Here's how you might create some of the multi-field secrets described above:
+
+```bash
+# provide the postgres password. After creating, the required_secrets.postgresSecretName variable in 
+# values.yml should be set to 'postgres-secrets'
+kubectl create secret generic postgres-secrets \
+  --from-literal=password='super-secure-password'
+
+# provide the seqr secrets. After creating, the required_secrets.seqrSecretName variable in 
+# values.yml should be set to 'seqr-secrets'
+kubectl create secret generic seqr-secrets \
+  --from-literal=django_key='securely-generated-key' \
+  --from-literal=seqr_es_password='super-secure-password1' \
+```
+
+Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
+
+## Installation
+
+After ensuring that the prerequisites are taken care of:
+
+helm repo add https://seqr.github.io/charts
+helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}

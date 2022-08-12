@@ -1,24 +1,35 @@
 # Default values for seqr.
 # This is a YAML-formatted file.
 
+# -- The number of replicas of the seqr web service pod to run. Currenly only 1 is supported.
 replicaCount: 1
 
 image:
+  # -- The docker image repository to pull images from
   repository: gcr.io/seqr-project/seqr
+  # -- The policy for pulling images
   pullPolicy: Always
+  # -- The docker image tag to pull from the repository
   tag: "gcloud-dev"
 
+# -- If needed, you can provide secrets required to retrieve images
 imagePullSecrets: []
+# -- Overrides the name of the helm chart, for use in templates
 nameOverride: ""
+# -- Overrides the fully qualified name of the app, for use in templates
 fullnameOverride: ""
 
+# -- A dictionary of annotations to add to the seqr Deployment
 podAnnotations: {}
 
 service:
+  # -- The type for the seqr Service
   type: NodePort
+  # -- The port for the seqr Service
   port: 8000
 
 ingress:
+  # -- Enables or Disables the seqr Ingress object
   enabled: false
 # Ingress example
 # ingress:
@@ -41,6 +52,7 @@ ingress:
 #      hosts:
 #        - seqr-dev.broadinstitute.org
 
+# -- Sets the resource requests and limits for the seqr Deployment
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -53,8 +65,10 @@ resources: {}
   #   memory: "4Gi"
   #   cpu: "8"
 
+# -- Pod tolerations for the seqr Deployment
 tolerations: []
 
+# -- Affinity configuration for the seqr Deployment
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -67,36 +81,49 @@ affinity: |-
 
 # default environment variables
 environment:
+  # -- The number of threads to allocate to the gunicorn server
   GUNICORN_WORKER_THREADS: "4"
+  # -- The hostname to use for the postgres database connectsion
   POSTGRES_SERVICE_HOSTNAME: "postgres"
+  # -- The username to use for the postgres database connection
   POSTGRES_USERNAME: "postgres"
+  # -- The TCP port number to use for the postgres database connection
   POSTGRES_SERVICE_PORT: "5432"
+  # -- The hostname that seqr should use to connect to elasticsearch
   ELASTICSEARCH_SERVICE_HOSTNAME: "elasticsearch-es-http"
+  # -- The port number that seqr should use to connect to elasticsearch
   ELASTICSEARCH_SERVICE_PORT: "9200"
+  # -- The URL protocol that seqr should use to connect to elasticsearch
   ELASTICSEARCH_PROTOCOL: "http"
   #ELASTICSEARCH_CA_PATH: "/elasticsearch-certs/ca.crt"
-  KIBANA_SERVICE_HOSTNAME: "kibana-kb-http"
-  KIBANA_SERVICE_PORT: "5601"
+  # KIBANA_SERVICE_HOSTNAME: "kibana-kb-http"
+  # KIBANA_SERVICE_PORT: "5601"
+  # -- The hostname of the redis cache that seqr should use
   REDIS_SERVICE_HOSTNAME: "seqr-redis-master"
-  SEQR_SERVICE_PORT: "8000"
+  # -- The port that the seqr server should listen on
+  SEQR_SERVICE_PORT: "8000" # TODO: this should probably always match the service.port setting?
+  # -- If storing static media files in a local filesystem, the path to that filesystem
   STATIC_MEDIA_DIR: null
 
 
-# If elasticsearch requires authentication, set this to true
 # Secrets will need to be provided for setting the elasticsearch and kibana passwords. See the README for more details
+# -- If seqr needs a password to connect to elasticsearch and kibana
 enable_elasticsearch_auth: false
 
-# secrets to use for elastic creds
+# -- The name of the secret containing seqr's elasticsearch password
 # seqrSecretName: seqr-secrets
+# -- The name of the secret containing seqr's kibana password
 # kibanaSecretName: kibana-secrets
 
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
 required_secrets:
+  # -- The secret containing the postgres credentials. See the README for information on the format of this secret
   postgresSecretName: postgres-secrets
 
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.
+# -- If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file.
 additional_secrets: {}
 # Examples
 # additional_secrets:
@@ -121,11 +148,15 @@ additional_secrets: {}
   #       name: seqr-secrets
   #       key: ga_token_id
 
+# -- Additional data volumes to use in the seqr Deployment
 volumes: {}
+# -- Mountpoint information for additional data volumes on the seqr Deployment
 volumeMounts: {}
 
 # TODO: this is is disabled until we can move the db migration stuff out of the docker entrypoint
+# -- Enables or disables seqr database migration Jobs
 run_seqr_database_migration: false
 
 redis:
+  # -- enables or disables redis deployment using this chart
   enabled: false

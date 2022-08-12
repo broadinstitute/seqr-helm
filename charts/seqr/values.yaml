@@ -118,6 +118,8 @@ enable_elasticsearch_auth: false
 
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
+
+# -- Secrets which are required for seqr's functionality
 required_secrets:
   # -- The secret containing the postgres credentials. See the README for information on the format of this secret
   postgresSecretName: postgres-secrets

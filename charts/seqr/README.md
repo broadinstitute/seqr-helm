@@ -89,7 +89,7 @@ helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
 | podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
-| required_secrets | object | `{"postgresSecretName":"postgres-secrets"}` | The name of the secret containing seqr's kibana password kibanaSecretName: kibana-secrets Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you have named them differently than the defaults. See the README for information on the format of these secrets. |
+| required_secrets | object | `{"postgresSecretName":"postgres-secrets"}` | Secrets which are required for seqr's functionality |
 | required_secrets.postgresSecretName | string | `"postgres-secrets"` | The secret containing the postgres credentials. See the README for information on the format of this secret |
 | resources | object | `{}` | Sets the resource requests and limits for the seqr Deployment |
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |

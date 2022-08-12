@@ -7,10 +7,10 @@ metadata:
     name: seqr
     deployment: {{ .Release.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
+  {{- if .Values.deploymentAnnotations }}
   annotations:
-    {{- if .Values.deploymentAnnotations }}
-    {{- tpl (toYaml .Values.deploymentAnnotations) . | nindent 4 }}
-    {{- end }}
+  {{- tpl (toYaml .Values.deploymentAnnotations) . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -59,16 +59,18 @@ spec:
               secretKeyRef:
                 name: {{ .Values.required_secrets.seqrSecretName }}
                 key: django_key
+          {{- if .Values.enable_elasticsearch_auth }}
           - name: SEQR_ES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.required_secrets.seqrSecretName }}
+                name: {{ .Values.seqrSecretName }}
                 key: seqr_es_password
           - name: KIBANA_ES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.required_secrets.kibanaSecretName }}
+                name: {{ .Values.kibanaSecretName }}
                 key: elasticsearch.password
+          {{- end }}
           {{- with .Values.additional_secrets }}
             {{- toYaml . | nindent 10 }}
           {{- end }}

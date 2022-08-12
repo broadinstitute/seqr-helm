@@ -45,11 +45,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{/*{{- define "seqr.selectorLabels" -}}
+{{- define "seqr.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "seqr.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-*/}}
-{{- define "seqr.selectorLabels" -}}
-name: {{ .Release.Name }}
 {{- end }}

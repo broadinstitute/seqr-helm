@@ -41,9 +41,6 @@ ingress:
 #      hosts:
 #        - seqr-dev.broadinstitute.org
 
-redis:
-  enabled: no
-
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -84,11 +81,19 @@ environment:
   SEQR_SERVICE_PORT: "8000"
   STATIC_MEDIA_DIR: null
 
+
+# If elasticsearch requires authentication, set this to true
+# Secrets will need to be provided for setting the elasticsearch and kibana passwords. See the README for more details
+enable_elasticsearch_auth: false
+
+# secrets to use for elastic creds
+# seqrSecretName: seqr-secrets
+# kibanaSecretName: kibana-secrets
+
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
 required_secrets:
   postgresSecretName: postgres-secrets
-  seqrSecretName: seqr-secrets
 
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.
@@ -121,3 +126,6 @@ volumeMounts: {}
 
 # TODO: this is is disabled until we can move the db migration stuff out of the docker entrypoint
 run_seqr_database_migration: false
+
+redis:
+  enabled: false

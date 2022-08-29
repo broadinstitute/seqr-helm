@@ -123,6 +123,8 @@ enable_elasticsearch_auth: false
 required_secrets:
   # -- The secret containing the postgres credentials. See the README for information on the format of this secret
   postgresSecretName: postgres-secrets
+  # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
+  seqrSecretName: seqr-secrets
 
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.

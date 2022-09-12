@@ -10,7 +10,7 @@ image:
   # -- The policy for pulling images
   pullPolicy: Always
   # -- The docker image tag to pull from the repository
-  tag: "gcloud-dev"
+  # tag: "gcloud-dev"
 
 # -- If needed, you can provide secrets required to retrieve images
 imagePullSecrets: []
@@ -53,7 +53,8 @@ ingress:
 #        - seqr-dev.broadinstitute.org
 
 # -- Sets the resource requests and limits for the seqr Deployment
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -106,7 +107,6 @@ environment:
   # -- If storing static media files in a local filesystem, the path to that filesystem
   STATIC_MEDIA_DIR: null
 
-
 # Secrets will need to be provided for setting the elasticsearch and kibana passwords. See the README for more details
 # -- If seqr needs a password to connect to elasticsearch and kibana
 enable_elasticsearch_auth: false
@@ -132,26 +132,26 @@ required_secrets:
 additional_secrets: {}
 # Examples
 # additional_secrets:
-  # - name: OMIM_KEY
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: seqr-secrets
-  #       key: omim_key
-  # - name: POSTMARK_SERVER_TOKEN  # postmark email service integration
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: seqr-secrets
-  #       key: postmark_server_token
-  # - name: SLACK_TOKEN  # slack notification integration
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: seqr-secrets
-  #       key: slack_token
-  # - name: GA_TOKEN_ID  # token for google analytics integration
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: seqr-secrets
-  #       key: ga_token_id
+# - name: OMIM_KEY
+#   valueFrom:
+#     secretKeyRef:
+#       name: seqr-secrets
+#       key: omim_key
+# - name: POSTMARK_SERVER_TOKEN  # postmark email service integration
+#   valueFrom:
+#     secretKeyRef:
+#       name: seqr-secrets
+#       key: postmark_server_token
+# - name: SLACK_TOKEN  # slack notification integration
+#   valueFrom:
+#     secretKeyRef:
+#       name: seqr-secrets
+#       key: slack_token
+# - name: GA_TOKEN_ID  # token for google analytics integration
+#   valueFrom:
+#     secretKeyRef:
+#       name: seqr-secrets
+#       key: ga_token_id
 
 # -- Additional data volumes to use in the seqr Deployment
 volumes: {}

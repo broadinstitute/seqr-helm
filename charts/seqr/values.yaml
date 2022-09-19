@@ -125,6 +125,8 @@ required_secrets:
   postgresSecretName: postgres-secrets
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
+  # -- The secret containing the credentials required to access the kibana instance, if you've deployed kibana and it requires authentication.
+  kibanaSecretName: kibana-secrets
 
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.

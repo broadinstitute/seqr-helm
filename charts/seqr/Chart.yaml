@@ -26,6 +26,6 @@ appVersion: "d619e7cf6d367b43aec9e92890e69ecece683c5f"
 # Dependencies that should be deployed along with this chart
 dependencies:
   - name: redis
-    version: 17.1.6
+    version: 17.3.6
     repository: "https://charts.bitnami.com/bitnami"
     condition: redis.enabled

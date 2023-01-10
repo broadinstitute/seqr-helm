@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0-dea935a](https://img.shields.io/badge/AppVersion-v1.0--dea935a-informational?style=flat-square)
+![Version: 0.0.11](https://img.shields.io/badge/Version-0.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3e1dc546b849efff11d52145a235f356352ede19](https://img.shields.io/badge/AppVersion-3e1dc546b849efff11d52145a235f356352ede19-informational?style=flat-square)
 
 A Helm chart for deploying Seqr, an open source software platform for rare disease genomics
 
@@ -53,14 +53,16 @@ Alternatively, you can use your preferred method for defining secrets in kuberne
 
 After ensuring that the prerequisites are taken care of:
 
-helm repo add https://seqr.github.io/charts
-helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
+```bash
+helm repo add seqr https://broadinstitute.github.io/seqr-helm
+helm install seqr-institution-name seqr/seqr -f my-values.yaml
+```
 
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis | 16.8.5 |
+| https://charts.bitnami.com/bitnami | redis | 17.3.6 |
 
 ## Values
 
@@ -82,15 +84,16 @@ helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
 | fullnameOverride | string | `""` | Overrides the fully qualified name of the app, for use in templates |
 | image.pullPolicy | string | `"Always"` | The policy for pulling images |
 | image.repository | string | `"gcr.io/seqr-project/seqr"` | The docker image repository to pull images from |
-| image.tag | string | `"gcloud-dev"` | The docker image tag to pull from the repository |
 | imagePullSecrets | list | `[]` | If needed, you can provide secrets required to retrieve images |
 | ingress.enabled | bool | `false` | Enables or Disables the seqr Ingress object |
 | nameOverride | string | `""` | Overrides the name of the helm chart, for use in templates |
 | podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
-| required_secrets | object | `{"postgresSecretName":"postgres-secrets"}` | Secrets which are required for seqr's functionality |
+| required_secrets | object | `{"kibanaSecretName":"kibana-secrets","postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
+| required_secrets.kibanaSecretName | string | `"kibana-secrets"` | The secret containing the credentials required to access the kibana instance, if you've deployed kibana and it requires authentication. |
 | required_secrets.postgresSecretName | string | `"postgres-secrets"` | The secret containing the postgres credentials. See the README for information on the format of this secret |
+| required_secrets.seqrSecretName | string | `"seqr-secrets"` | The secret containing the seqr required secrets. See the README for information on the format of this secret |
 | resources | object | `{}` | Sets the resource requests and limits for the seqr Deployment |
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |
 | service.port | int | `8000` | The port for the seqr Service |

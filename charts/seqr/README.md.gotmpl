@@ -54,8 +54,10 @@ Alternatively, you can use your preferred method for defining secrets in kuberne
 
 After ensuring that the prerequisites are taken care of:
 
-helm repo add https://seqr.github.io/charts
-helm install seqr-institution-name tgg-helm/seqr -f my-values.yaml
+```bash
+helm repo add seqr https://broadinstitute.github.io/seqr-helm
+helm install seqr-institution-name seqr/seqr -f my-values.yaml
+```
 
 {{ template "chart.requirementsSection" . }}
 

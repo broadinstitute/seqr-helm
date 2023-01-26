@@ -22,7 +22,7 @@ version: 0.0.13
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "6dbc7bee29fb644397790a8b86abe0f9aa03e826"
+appVersion: "6c30a0817a17aee07852d04dfab0fb847d69141c"
 # Dependencies that should be deployed along with this chart
 dependencies:
   - name: redis

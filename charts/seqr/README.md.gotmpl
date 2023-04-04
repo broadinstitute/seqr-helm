@@ -17,7 +17,7 @@
 
 Seqr needs the following services to function correctly, and they are expected to be available before installing seqr:
 
-* Redis
+* Redis (optionally, redis can be deployed as a dependency of this chart, see [Redis](#redis) below.)
 * Elasticsearch
 * Kibana
 * Postgres
@@ -58,6 +58,17 @@ After ensuring that the prerequisites are taken care of:
 helm repo add seqr https://broadinstitute.github.io/seqr-helm
 helm install seqr-institution-name seqr/seqr -f my-values.yaml
 ```
+
+## Redis
+
+If you choose to deploy redis using this chart, you can do so by setting the `redis.enabled` flag to `true` in your values.yaml file. The [Bitnami Redis](https://github.com/bitnami/charts/tree/main/bitnami/redis/) chart will be used, and its configuration options can be found in its README. Any values that you pass to this chart in the `redis` namespace of your values.yaml will be passed directly to the Bitnami chart.
+
+The hostname of your redis deployment will need to be defined in the seqr `REDIS_SERVICE_HOSTNAME` environment variable in your values.yaml file. This hostname depends on the configuration you pass to the Bitnami chart. An example hostname when provisioning a `standalone` mode cluster with this chart is "seqr-redis-master".
+
+
+### Updating the Redis dependency
+
+If you need to upgrade the redis version made available by this chart, you can do so by updating the version number of the dependency in Chart.yaml, and then running `helm dep update` to update the Chart.lock file.
 
 {{ template "chart.requirementsSection" . }}
 

@@ -8,7 +8,7 @@ metadata:
     deployment: {{ .Release.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
 spec:
-  type: NodePort
+  type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.port }}
   selector:

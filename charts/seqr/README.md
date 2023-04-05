@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 0.0.11](https://img.shields.io/badge/Version-0.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3e1dc546b849efff11d52145a235f356352ede19](https://img.shields.io/badge/AppVersion-3e1dc546b849efff11d52145a235f356352ede19-informational?style=flat-square)
+![Version: 0.0.21](https://img.shields.io/badge/Version-0.0.21-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10a03ca1b98c149d798fe8c6b90f2b2473dfb4f4](https://img.shields.io/badge/AppVersion-10a03ca1b98c149d798fe8c6b90f2b2473dfb4f4-informational?style=flat-square)
 
 A Helm chart for deploying Seqr, an open source software platform for rare disease genomics
 
@@ -17,7 +17,7 @@ A Helm chart for deploying Seqr, an open source software platform for rare disea
 
 Seqr needs the following services to function correctly, and they are expected to be available before installing seqr:
 
-* Redis
+* Redis (optionally, redis can be deployed as a dependency of this chart, see [Redis](#redis) below.)
 * Elasticsearch
 * Kibana
 * Postgres
@@ -58,11 +58,21 @@ helm repo add seqr https://broadinstitute.github.io/seqr-helm
 helm install seqr-institution-name seqr/seqr -f my-values.yaml
 ```
 
+## Redis
+
+If you choose to deploy redis using this chart, you can do so by setting the `redis.enabled` flag to `true` in your values.yaml file. The [Bitnami Redis](https://github.com/bitnami/charts/tree/main/bitnami/redis/) chart will be used, and its configuration options can be found in its README. Any values that you pass to this chart in the `redis` namespace of your values.yaml will be passed directly to the Bitnami chart.
+
+The hostname of your redis deployment will need to be defined in the seqr `REDIS_SERVICE_HOSTNAME` environment variable in your values.yaml file. This hostname depends on the configuration you pass to the Bitnami chart. An example hostname when provisioning a `standalone` mode cluster with this chart is "seqr-redis-master".
+
+### Updating the Redis dependency
+
+If you need to upgrade the redis version made available by this chart, you can do so by updating the version number of the dependency in Chart.yaml, and then running `helm dep update` to update the Chart.lock file.
+
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis | 17.3.6 |
+| https://charts.bitnami.com/bitnami | redis | 17.9.3 |
 
 ## Values
 

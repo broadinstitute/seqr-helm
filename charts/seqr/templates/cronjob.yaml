@@ -69,7 +69,7 @@ spec:
               - {{ $.Values.cronBeforeHook }};
               {{- end}}
               {{- if $.Values.cronAfterHook}}
-              - trap {{ $.Values.cronAfterHook }} EXIT;
+              - trap "{{ $.Values.cronAfterHook }}" EXIT;
               {{- end}}
               - {{ $c.command }};
           {{- with $.Values.deployment_sidecars }}

@@ -49,3 +49,38 @@ Selector labels
 app.kubernetes.io/name: {{ include "seqr.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Seqr environment shared between application and cron
+*/}}
+{{- define "seqr.environment" -}}
+envFrom:
+- configMapRef:
+   name: {{ .Release.Name }}-environment
+env:
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.required_secrets.postgresSecretName }}
+        key: password
+  - name: DJANGO_KEY
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.required_secrets.seqrSecretName }}
+        key: django_key
+  {{- if $.Values.enable_elasticsearch_auth }}
+  - name: SEQR_ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.required_secrets.seqrSecretName }}
+        key: seqr_es_password
+  - name: KIBANA_ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.required_secrets.kibanaSecretName }}
+        key: elasticsearch.password
+  {{- end }}
+  {{- with .Values.additional_secrets }}
+    {{- toYaml . | nindent 10 }}
+  {{- end }}
+{{- end }}

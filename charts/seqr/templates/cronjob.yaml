@@ -24,7 +24,7 @@ spec:
           shareProcessNamespace: true
           {{- with $.Values.volumes }}
           volumes:
-            {{- toYaml . | nindent 6 }}
+            {{- toYaml . | nindent 10 }}
           {{- end }}
           containers:
           - name: seqr-{{- $c.name }}-cronjob-pod
@@ -32,37 +32,9 @@ spec:
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}
             volumeMounts:
-              {{- toYaml . | nindent 10 }}
+              {{- toYaml . | nindent 14 }}
             {{- end }}
-            envFrom:
-              - configMapRef:
-                name: {{ $.Release.Name }}-environment
-            env:
-              - name: POSTGRES_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.required_secrets.postgresSecretName }}
-                    key: password
-              - name: DJANGO_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.required_secrets.seqrSecretName }}
-                    key: django_key
-              {{- if $.Values.enable_elasticsearch_auth }}
-              - name: SEQR_ES_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.required_secrets.seqrSecretName }}
-                    key: seqr_es_password
-              - name: KIBANA_ES_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.required_secrets.kibanaSecretName }}
-                    key: elasticsearch.password
-              {{- end }}
-              {{- with $.Values.additional_secrets }}
-                {{- toYaml . | nindent 10 }}
-              {{- end }}
+            {{- include "seqr.environment" $ | nindent 12}}
             command: ["/bin/bash", "-c"]
             args:
               {{- if $.Values.cronBeforeHook}}
@@ -73,6 +45,6 @@ spec:
               {{- end}}
               - {{ $c.command }};
           {{- with $.Values.deployment_sidecars }}
-            {{- tpl . $ | nindent 6 }}
+            {{- tpl . $ | nindent 10 }}
           {{- end }}
 {{- end }}

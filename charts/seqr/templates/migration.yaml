@@ -1,6 +1,6 @@
 {{- if .Values.run_seqr_database_migration }}
-kind: Job
 apiVersion: batch/v1
+kind: Job
 metadata:
   name: {{ .Release.Name }}-migration
   labels:

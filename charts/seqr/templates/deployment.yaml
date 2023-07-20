@@ -45,7 +45,7 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        {{- include "seqr.environment" $ | nindent 8}}
+        {{- include "seqr.environment" $ | nindent 8 }}
         readinessProbe:
           exec:
             command:

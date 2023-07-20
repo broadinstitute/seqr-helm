@@ -68,7 +68,7 @@ env:
       secretKeyRef:
         name: {{ .Values.required_secrets.seqrSecretName }}
         key: django_key
-  {{- if $.Values.enable_elasticsearch_auth }}
+  {{- if .Values.enable_elasticsearch_auth }}
   - name: SEQR_ES_PASSWORD
     valueFrom:
       secretKeyRef:

@@ -39,10 +39,10 @@ spec:
             args:
               {{- if $.Values.cronBeforeHook}}
               - {{ $.Values.cronBeforeHook }};
-              {{- end}}
+              {{- end }}
               {{- if $.Values.cronAfterHook}}
               - trap "{{ $.Values.cronAfterHook }}" EXIT;
-              {{- end}}
+              {{- end }}
               - {{ $c.command }};
           {{- with $.Values.deployment_sidecars }}
             {{- tpl . $ | nindent 10 }}

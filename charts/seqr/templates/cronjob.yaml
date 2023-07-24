@@ -1,0 +1,50 @@
+{{- range $c := .Values.cronJobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
+  labels:
+    deployment: {{ $.Release.Name }}
+    {{- include "seqr.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ toYaml $c.schedule }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          activeDeadlineSeconds: 1800 # 30 Minutes?  TODO: get a real number here.
+          backoffLimit: 0
+          completions: 1
+          parallelism: 1
+          restartPolicy: Never
+          shareProcessNamespace: true
+          {{- with $.Values.volumes }}
+          volumes:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+          containers:
+          - name: seqr-{{- $c.name }}-cronjob-pod
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
+            {{- with $.Values.volumeMounts }}
+            volumeMounts:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+            {{- include "seqr.environment" $ | nindent 12}}
+            command: ["/bin/bash", "-c"]
+            args:
+              {{- if $.Values.cronBeforeHook}}
+              - {{ $.Values.cronBeforeHook }};
+              {{- end }}
+              {{- if $.Values.cronAfterHook}}
+              - trap "{{ $.Values.cronAfterHook }}" EXIT;
+              {{- end }}
+              - {{ $c.command }};
+          {{- with $.Values.deployment_sidecars }}
+            {{- tpl . $ | nindent 10 }}
+          {{- end }}
+{{- end }}

@@ -47,7 +47,7 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         envFrom:
           - configMapRef:
-            name: {{ .Release.Name }}-environment
+              name: {{ .Release.Name }}-environment
         env:
           - name: POSTGRES_PASSWORD
             valueFrom:
@@ -59,7 +59,7 @@ spec:
               secretKeyRef:
                 name: {{ .Values.required_secrets.seqrSecretName }}
                 key: django_key
-           {{- if .Values.enable_elasticsearch_auth }}
+          {{- if .Values.enable_elasticsearch_auth }}
           - name: SEQR_ES_PASSWORD
             valueFrom:
               secretKeyRef:

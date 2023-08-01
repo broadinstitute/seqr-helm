@@ -45,35 +45,7 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        envFrom:
-          - configMapRef:
-              name: {{ .Release.Name }}-environment
-        env:
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.required_secrets.postgresSecretName }}
-                key: password
-          - name: DJANGO_KEY
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.required_secrets.seqrSecretName }}
-                key: django_key
-          {{- if .Values.enable_elasticsearch_auth }}
-          - name: SEQR_ES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.required_secrets.seqrSecretName }}
-                key: seqr_es_password
-          - name: KIBANA_ES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.required_secrets.kibanaSecretName }}
-                key: elasticsearch.password
-          {{- end }}
-          {{- with .Values.additional_secrets }}
-            {{- toYaml . | nindent 10 }}
-          {{- end }}
+        {{- include "seqr.environment" $ | nindent 8 }}
         readinessProbe:
           exec:
             command:

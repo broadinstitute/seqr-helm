@@ -55,8 +55,8 @@ Seqr environment shared between application and cron
 */}}
 {{- define "seqr.environment" -}}
 envFrom:
-- configMapRef:
-   name: {{ .Release.Name }}-environment
+  - configMapRef:
+    name: {{ .Release.Name }}-environment
 env:
   - name: POSTGRES_PASSWORD
     valueFrom:

@@ -18,6 +18,16 @@ spec:
       completions: 1
       parallelism: 1
       template:
+        metadata:
+          annotations:
+            checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
+          {{- with $.Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            name: seqr
+            deployment: {{ $.Release.Name }}
+            {{- include "seqr.labels" $ | nindent 12 }}
         spec:
           activeDeadlineSeconds: 1800 # 30 Minutes?  TODO: get a real number here.
           restartPolicy: Never

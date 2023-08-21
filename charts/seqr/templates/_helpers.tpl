@@ -81,6 +81,6 @@ env:
         key: elasticsearch.password
   {{- end }}
   {{- with .Values.additional_secrets }}
-    {{- toYaml . | nindent 10 }}
+    {{- toYaml . | nindent 2}}
   {{- end }}
 {{- end }}

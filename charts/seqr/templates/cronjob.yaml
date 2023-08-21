@@ -14,12 +14,12 @@ spec:
   failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
+      backoffLimit: 0
+      completions: 1
+      parallelism: 1
       template:
         spec:
           activeDeadlineSeconds: 1800 # 30 Minutes?  TODO: get a real number here.
-          backoffLimit: 0
-          completions: 1
-          parallelism: 1
           restartPolicy: Never
           shareProcessNamespace: true
           {{- with $.Values.volumes }}

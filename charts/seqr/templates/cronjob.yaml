@@ -47,13 +47,14 @@ spec:
             {{- include "seqr.environment" $ | nindent 12}}
             command: ["/bin/bash", "-c"]
             args:
+              - echo starting CronJob {{ $c.name }};
               {{- if $.Values.cronBeforeHook}}
-              - {{ $.Values.cronBeforeHook }};
+                {{ $.Values.cronBeforeHook }};
               {{- end }}
               {{- if $.Values.cronAfterHook}}
-              - trap "{{ $.Values.cronAfterHook }}" EXIT;
+                trap "{{ $.Values.cronAfterHook }}" EXIT;
               {{- end }}
-              - {{ $c.command }};
+                {{ $c.command }};
           {{- with $.Values.deployment_sidecars }}
             {{- tpl . $ | nindent 10 }}
           {{- end }}

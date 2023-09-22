@@ -32,10 +32,14 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 30
             httpGet:
               path: /status
               port: http
           readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 30
             httpGet:
               path: /status
               port: http
@@ -44,6 +48,8 @@ spec:
           volumeMounts:
             - mountPath: /datasets
               name: datasets
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
       {{- with .Values.initContainers }}
       initContainers:
         {{- tpl . $ | nindent 8 }}

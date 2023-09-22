@@ -18,6 +18,11 @@ spec:
       labels:
         {{- include "hail-search.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+      - name: datasets
+        emptyDir:
+          # Default sizeLimit is 1/2 the total RAM of the Node.
+          medium: "Memory"
       containers:
         - name: {{ include "hail-search.fullname" . }}-pod
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -29,13 +34,16 @@ spec:
           livenessProbe:
             httpGet:
               path: /status
-              port: http
+              port: {{ .Values.service.port }}
           readinessProbe:
             httpGet:
               path: /status
-              port: http
+              port: {{ .Values.service.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /datasets
+              name: datasets
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

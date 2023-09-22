@@ -34,12 +34,14 @@ spec:
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 30
+            failureThreshold: 5
             httpGet:
               path: /status
               port: http
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 30
+            failureThreshold: 5
             httpGet:
               path: /status
               port: http

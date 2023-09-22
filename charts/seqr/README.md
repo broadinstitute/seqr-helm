@@ -94,7 +94,6 @@ If you need to upgrade the redis version made available by this chart, you can d
 | fullnameOverride | string | `""` | Overrides the fully qualified name of the app, for use in templates |
 | image.pullPolicy | string | `"Always"` | The policy for pulling images |
 | image.repository | string | `"gcr.io/seqr-project/seqr"` | The docker image repository to pull images from |
-| imagePullSecrets | list | `[]` | If needed, you can provide secrets required to retrieve images |
 | ingress.enabled | bool | `false` | Enables or Disables the seqr Ingress object |
 | nameOverride | string | `""` | Overrides the name of the helm chart, for use in templates |
 | podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
@@ -108,6 +107,5 @@ If you need to upgrade the redis version made available by this chart, you can d
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |
 | service.port | int | `8000` | The port for the seqr Service |
 | service.type | string | `"NodePort"` | The type for the seqr Service |
-| tolerations | list | `[]` | Pod tolerations for the seqr Deployment |
 | volumeMounts | object | `{}` | Mountpoint information for additional data volumes on the seqr Deployment |
 | volumes | object | `{}` | Additional data volumes to use in the seqr Deployment |

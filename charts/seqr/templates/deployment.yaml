@@ -15,6 +15,8 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
+      name: seqr
+      deployment: {{ .Release.Name }}
       {{- include "seqr.selectorLabels" . | nindent 6 }}
   template:
     metadata:

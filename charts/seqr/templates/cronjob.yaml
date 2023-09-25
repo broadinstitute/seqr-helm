@@ -5,6 +5,7 @@ kind: CronJob
 metadata:
   name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
   labels:
+    name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
     deployment: {{ $.Release.Name }}
     {{- include "seqr.labels" $ | nindent 4 }}
 spec:
@@ -25,7 +26,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           labels:
-            name: seqr
+            name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
             deployment: {{ $.Release.Name }}
             {{- include "seqr.labels" $ | nindent 12 }}
         spec:
@@ -37,7 +38,7 @@ spec:
             {{- toYaml . | nindent 10 }}
           {{- end }}
           containers:
-          - name: seqr-{{- $c.name }}-cronjob-pod
+          - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob-pod
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}

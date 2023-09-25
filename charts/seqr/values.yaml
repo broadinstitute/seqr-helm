@@ -12,6 +12,8 @@ image:
   # -- The docker image tag to pull from the repository
   # tag: "gcloud-dev"
 
+# -- If needed, you can provide secrets required to retrieve images
+imagePullSecrets: []
 # -- Overrides the name of the helm chart, for use in templates
 nameOverride: ""
 # -- Overrides the fully qualified name of the app, for use in templates
@@ -63,6 +65,9 @@ resources:
   # limits:
   #   memory: "4Gi"
   #   cpu: "8"
+
+# -- Pod tolerations for the seqr Deployment
+tolerations: []
 
 # -- Adds affinity rules to the seqr Deployment
 # @default -- The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden.

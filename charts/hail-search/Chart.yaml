@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hail-search
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
 sources:
   - https://github.com/broadinstitute/seqr
   - https://github.com/broadinstitute/seqr-helm

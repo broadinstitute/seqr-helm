@@ -17,10 +17,14 @@ podAnnotations: {}
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 80
 
 resources: 
   {}
+
+# default environment variables
+environment:
+  DATASETS_DIR: "/datasets"
 
 datasetsRoot: ''
 datasetsVersion: ''

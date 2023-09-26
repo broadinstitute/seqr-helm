@@ -27,13 +27,20 @@ environment:
   DATASETS_DIR: "/datasets"
 
 datasetsRoot: ''
-datasetsVersion: ''
+snvIndelVersion: ''
+mitoVersion: ''
 initContainers: |-
-  - name: init-data
+  - name: init-snvIndel
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/{{ .Values.datasetsVersion }}', '/datasets']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/{{ .Values.snvIndelVersion }}', '/datasets/SNV_INDEL']
     volumeMounts:
-      - mountPath: /datasets
+      - mountPath: /datasets/SNV_INDEL
+        name: datasets
+  - name: init-mito
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/{{ .Values.mitoVersion }}', '/datasets/MITO']
+    volumeMounts:
+      - mountPath:  /datasets/MITO
         name: datasets
 
 # Prefer to be scheduled away from other hail-search pods and other seqr application pods

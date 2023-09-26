@@ -37,6 +37,10 @@ spec:
           volumes:
             {{- toYaml . | nindent 10 }}
           {{- end }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
           containers:
           - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob-pod
             imagePullPolicy: {{ $.Values.image.pullPolicy }}

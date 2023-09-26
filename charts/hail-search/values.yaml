@@ -24,23 +24,23 @@ resources:
 
 # default environment variables
 environment:
-  DATASETS_DIR: "/datasets"
+  DATASETS_DIR: '/datasets'
+  SOURCE_DATASETS_DIR: ''
+  GRCH38_SNV_INDEL_VERSION: ''
+  GRCH38_MITO_VERSION: ''
+  GRCH38_SV_VERSION: ''
+  GRCH38_GCNV_VERSION: ''
+  GRCH37_SNV_INDEL_VERSION: ''
+  GRCH37_MITO_VERSION: ''
+  GRCH37_SV_VERSION: ''
+  GRCH37_GCNV_VERSION: ''
 
-datasetsRoot: ''
-snvIndelVersion: ''
-mitoVersion: ''
 initContainers: |-
-  - name: init-snvIndel
-    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/SNV_INDEL/{{ .Values.snvIndelVersion }}', '/datasets/SNV_INDEL']
+  - name: sync-datasets
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+    command: ['/sync_datasets]
     volumeMounts:
-      - mountPath: /datasets/SNV_INDEL
-        name: datasets
-  - name: init-mito
-    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/MITO/{{ .Values.mitoVersion }}', '/datasets/MITO']
-    volumeMounts:
-      - mountPath:  /datasets/MITO
+      - mountPath: /datasets
         name: datasets
 
 # Prefer to be scheduled away from other hail-search pods and other seqr application pods

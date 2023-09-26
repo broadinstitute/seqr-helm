@@ -32,13 +32,13 @@ mitoVersion: ''
 initContainers: |-
   - name: init-snvIndel
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/{{ .Values.snvIndelVersion }}', '/datasets/SNV_INDEL']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/SNV_INDEL/{{ .Values.snvIndelVersion }}', '/datasets/SNV_INDEL']
     volumeMounts:
       - mountPath: /datasets/SNV_INDEL
         name: datasets
   - name: init-mito
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/{{ .Values.mitoVersion }}', '/datasets/MITO']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ .Values.datasetsRoot }}/MITO/{{ .Values.mitoVersion }}', '/datasets/MITO']
     volumeMounts:
       - mountPath:  /datasets/MITO
         name: datasets

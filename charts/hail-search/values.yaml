@@ -38,7 +38,7 @@ environment:
 initContainers: |-
   - name: sync-datasets
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-    command: ['/sync_datasets]
+    command: ['/sync_datasets']
     volumeMounts:
       - mountPath: {{ .Values.environment.DATASETS_DIR }}
         name: datasets
@@ -63,4 +63,5 @@ affinity: |-
                 - seqr
           topologyKey: "kubernetes.io/hostname"
 
-nodeSelector: {}
+nodeSelector: 
+  {}

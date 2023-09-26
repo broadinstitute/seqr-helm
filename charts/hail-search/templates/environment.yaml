@@ -6,6 +6,5 @@ metadata:
     {{- include "hail-search.labels" . | nindent 4 }}
 data:
   {{- with .Values.environment }}
-  initContainers:
     {{- toYaml . | nindent 2 }}
   {{- end }}

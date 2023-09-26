@@ -57,7 +57,7 @@ spec:
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers }}
       initContainers:
-        {{- tpl . $ | nindent 8 }}
+        {{- tpl . $ | nindent 8}}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:

@@ -107,7 +107,7 @@ If you need to upgrade the redis version made available by this chart, you can d
 | resources | object | `{}` | Sets the resource requests and limits for the seqr Deployment |
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |
 | service.port | int | `8000` | The port for the seqr Service |
-| tolerations | list | `[]` | Pod tolerations for the seqr Deployment |
 | service.type | string | `"NodePort"` | The type for the seqr Service |
+| tolerations | list | `[]` | Pod tolerations for the seqr Deployment |
 | volumeMounts | object | `{}` | Mountpoint information for additional data volumes on the seqr Deployment |
 | volumes | object | `{}` | Additional data volumes to use in the seqr Deployment |

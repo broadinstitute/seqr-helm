@@ -51,7 +51,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /datasets
+            - mountPath: {{ .Values.environment.DATASETS_DIR }}
               name: datasets
       restartPolicy: Always
       dnsPolicy: ClusterFirst

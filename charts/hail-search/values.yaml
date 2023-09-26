@@ -40,7 +40,7 @@ initContainers: |-
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
     command: ['/sync_datasets]
     volumeMounts:
-      - mountPath: /datasets
+      - mountPath: {{ .Values.environment.DATASETS_DIR }}
         name: datasets
 
 # Prefer to be scheduled away from other hail-search pods and other seqr application pods

@@ -7,5 +7,5 @@ metadata:
 data:
   {{- with .Values.environment }}
   initContainers:
-    {{- tpl . $ | nindent 2 }}
+    {{- toYaml . | nindent 2 }}
   {{- end }}

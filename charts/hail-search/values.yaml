@@ -26,19 +26,23 @@ resources:
 environment:
   DATASETS_DIR: '/datasets'
   SOURCE_DATASETS_DIR: ''
+  GRCH37_SNV_INDEL_VERSION: ''
   GRCH38_SNV_INDEL_VERSION: ''
   GRCH38_MITO_VERSION: ''
   GRCH38_SV_VERSION: ''
   GRCH38_GCNV_VERSION: ''
-  GRCH37_SNV_INDEL_VERSION: ''
-  GRCH37_MITO_VERSION: ''
-  GRCH37_SV_VERSION: ''
-  GRCH37_GCNV_VERSION: ''
 
 initContainers: |-
   - name: sync-datasets
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-    command: ['/sync_datasets']
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+    command: ['/bin/bash', '-c']
+    args: 
+      - echo "Syncing data";
+        gsutil -m rsync -r {{ .Values.environment.SOURCE_DATASETS_DIR }}/GRCh37/SNV_INDEL/runs/{{ .Values.environment.GRCH37_SNV_INDEL_VERSION }} {{ .Values.environment.DATASETS_DIR }}/GRCh37/SNV_INDEL;
+        gsutil -m rsync -r {{ .Values.environment.SOURCE_DATASETS_DIR }}/GRCh38/SNV_INDEL/runs/{{ .Values.environment.GRCH38_SNV_INDEL_VERSION }} {{ .Values.environment.DATASETS_DIR }}/GRCh38/SNV_INDEL;
+        gsutil -m rsync -r {{ .Values.environment.SOURCE_DATASETS_DIR }}/GRCh38/MITO/runs/{{ .Values.environment.GRCH38_MITO_VERSION }} {{ .Values.environment.DATASETS_DIR }}/GRCh38/MITO;
+        gsutil -m rsync -r {{ .Values.environment.SOURCE_DATASETS_DIR }}/GRCh38/SV/runs/{{ .Values.environment.GRCH38_SV_VERSION }} {{ .Values.environment.DATASETS_DIR }}/GRCh38/SV;
+        gsutil -m rsync -r {{ .Values.environment.SOURCE_DATASETS_DIR }}/GRCh38/GCNV/runs/{{ .Values.environment.GRCH38_GCNV_VERSION }} {{ .Values.environment.DATASETS_DIR }}/GRCh38/GCNV;
     volumeMounts:
       - mountPath: {{ .Values.environment.DATASETS_DIR }}
         name: datasets

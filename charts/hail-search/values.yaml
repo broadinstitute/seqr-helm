@@ -44,7 +44,7 @@ initContainers: |-
       - mountPath: {{ .Values.environment.DATASETS_DIR }}
         name: datasets
 
-# Prefer to be scheduled away from other hail-search pods and other seqr application pods
+# Prefer to be scheduled away from other hail-search pods and seqr application pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

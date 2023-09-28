@@ -55,9 +55,9 @@ spec:
               name: datasets
       restartPolicy: Always
       dnsPolicy: ClusterFirst
-      {{- with .Values.initContainers }}
+      {{- with .Values.initContainers}}
       initContainers:
-        {{- tpl . $ | nindent 8}}
+        {{- tpl . $ | trim | nindent 8}}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:

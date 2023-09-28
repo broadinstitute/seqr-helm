@@ -32,17 +32,14 @@ datasetVersions:
   GRCh38/SNV_INDEL: ''
 
 initContainers: |-
-  - name: sync-datasets
+  {{- range $path, $version := .Values.datasetVersions -}}
+  - name: sync-datasets-{{ $path }}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['/bin/bash', '-c']
-    args: 
-      - echo "Syncing data";
-      {{- range $path, $version := .Values.datasetVersions }}
-        gsutil -m rsync -r {{ $.Values.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }} {{ $.Values.environment.DATASETS_DIR }}/{{ $path }};
-      {{- end }}
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
     volumeMounts:
-      - mountPath: {{ .Values.environment.DATASETS_DIR }}
+      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
+  {{ end }}
 
 # Prefer to be scheduled away from other hail-search pods and seqr application pods
 affinity: |-

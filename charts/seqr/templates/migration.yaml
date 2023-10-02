@@ -17,9 +17,9 @@ spec:
         deployment: {{ .Release.Name }}
         {{- include "seqr.labels" . | nindent 4 }}
     spec:
-      {{- with .Values.cronjob_volumes }}
+      {{- with $.Values.volumes }}
       volumes:
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 10 }}
       {{- end }}
       containers:
         - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}

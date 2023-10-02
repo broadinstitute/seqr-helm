@@ -180,3 +180,9 @@ run_seqr_database_migration: false
 redis:
   # -- enables or disables redis deployment using this chart
   enabled: false
+
+global:
+  sourceDatasetsDir: ''
+  datasetVersions:
+    GRCh37/SNV_INDEL: ''
+    GRCh38/SNV_INDEL: ''

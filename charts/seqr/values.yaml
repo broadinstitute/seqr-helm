@@ -66,9 +66,6 @@ resources:
   #   memory: "4Gi"
   #   cpu: "8"
 
-# -- Pod tolerations for the seqr Deployment
-tolerations: []
-
 # -- Adds affinity rules to the seqr Deployment
 # @default -- The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden.
 affinity: |-
@@ -80,6 +77,9 @@ affinity: |-
             matchLabels:
               {{- include "seqr.selectorLabels" . | nindent 12 }}
           topologyKey: "kubernetes.io/hostname"
+
+# -- Pod tolerations for the seqr Deployment
+tolerations: []
 
 # default environment variables
 environment:

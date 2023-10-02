@@ -21,6 +21,7 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      restartPolicy: Never
       containers:
         - name: {{ include "seqr.fullname" . }}-check-new-samples-job-pod
           image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
@@ -29,7 +30,7 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          command: ["python", "manage.py", "check_new_samples"]
+          command: ["python", "manage.py", "check_for_new_samples_from_pipeline"]
       {{- with .Values.deployment_sidecars }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}

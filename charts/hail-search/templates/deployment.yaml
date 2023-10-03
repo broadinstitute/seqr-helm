@@ -24,6 +24,10 @@ spec:
         emptyDir:
           # Default sizeLimit is 1/2 the total RAM of the Node.
           medium: "Memory"
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ include "hail-search.fullname" . }}-pod
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

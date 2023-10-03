@@ -28,10 +28,10 @@ environment:
   DATASETS_DIR: '/datasets'
 
 initContainers: |-
-  {{- range $path, $version := .Values.global.hail-search.datasetVersions -}}
+  {{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
   - name: sync-datasets-{{ $path }}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail-search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
@@ -61,7 +61,7 @@ nodeSelector:
   {}
 
 global:
-  hail-search:
+  hail_search:
     sourceDatasetsDir: ''
     datasetVersions:
       GRCh37/SNV_INDEL: ''

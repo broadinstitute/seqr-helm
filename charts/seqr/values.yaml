@@ -183,7 +183,7 @@ redis:
   enabled: false
 
 global:
-  hail-search:
+  hail_search:
     sourceDatasetsDir: ''
     datasetVersions:
       GRCh37/SNV_INDEL: ''

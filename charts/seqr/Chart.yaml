@@ -17,12 +17,12 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.0.42
+version: 0.0.49
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "ee4afa08ee1190ac05ef06543adcb1833f5e2e8e"
+appVersion: "b3d29ef288c546a0be73d38f29edd2d9e4724411"
 # Dependencies that should be deployed along with this chart
 dependencies:
   - name: redis

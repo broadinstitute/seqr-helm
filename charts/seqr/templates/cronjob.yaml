@@ -30,7 +30,7 @@ spec:
             deployment: {{ $.Release.Name }}
             {{- include "seqr.labels" $ | nindent 12 }}
         spec:
-          activeDeadlineSeconds: 1800 # 30 Minutes?  TODO: get a real number here.
+          activeDeadlineSeconds: {{ $c.timeout_s | default 1800 }}
           restartPolicy: Never
           shareProcessNamespace: true
           {{- with $.Values.volumes }}

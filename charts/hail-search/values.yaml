@@ -29,12 +29,14 @@ environment:
 
 initContainers: |-
   {{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+  {{ if $version }}
   - name: sync-datasets-{{ $path }}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
     command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
+  {{ end }}
   {{ end }}
 
 # Prefer to be scheduled away from other hail-search pods and seqr application pods

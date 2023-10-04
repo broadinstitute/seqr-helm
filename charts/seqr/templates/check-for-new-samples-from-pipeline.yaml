@@ -1,4 +1,5 @@
 {{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+{{ if $version }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -39,4 +40,5 @@ spec:
       {{- with $.Values.deployment_sidecars }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}
+{{ end }}
 {{ end }}

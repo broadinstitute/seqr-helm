@@ -1,0 +1,70 @@
+# Default values for hail-search.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 4
+
+image:
+  repository: gcr.io/seqr-project/seqr-hail-search
+  pullPolicy: Always
+  # -- The docker image tag to pull from the repository
+  # tag: "gcloud-dev"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 5000
+
+resources: 
+  {}
+
+# default environment variables
+environment:
+  DATASETS_DIR: '/datasets'
+
+initContainers: |-
+  {{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+  {{ if $version }}
+  - name: sync-datasets-{{ $path }}
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    volumeMounts:
+      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
+        name: datasets
+  {{ end }}
+  {{ end }}
+
+# Prefer to be scheduled away from other hail-search pods and seqr application pods
+affinity: |-
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1.0
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              {{- include "hail-search.selectorLabels"  . | nindent 12 }}
+          topologyKey: "kubernetes.io/hostname"
+      - weight: 1.0
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "name"
+                operator: In
+                values:
+                - seqr
+          topologyKey: "kubernetes.io/hostname"
+
+nodeSelector: 
+  {}
+
+global:
+  hail_search:
+    sourceDatasetsDir: ''
+    datasetVersions:
+      GRCh37/SNV_INDEL: ''
+      GRCh38/SNV_INDEL: ''

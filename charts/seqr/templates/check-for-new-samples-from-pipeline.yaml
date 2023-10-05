@@ -1,0 +1,44 @@
+{{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+{{ if $version }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "seqr.fullname" $ }}-check-new-samples-job
+  labels:
+    {{- include "seqr.labels" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    {{- with $.Values.podAnnotations }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "seqr.labels" $ | nindent 8 }}
+    spec:
+      {{- with $.Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Never
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+        - name: {{ include "seqr.fullname" $ }}-check-new-samples-job-pod
+          image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          {{- with $.Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          command: ["python", "manage.py", "check_for_new_samples_from_pipeline", "{{ $path }}", "{{ $version }}"]
+      {{- with $.Values.deployment_sidecars }}
+        {{- tpl . $ | nindent 6 }}
+      {{- end }}
+{{ end }}
+{{ end }}

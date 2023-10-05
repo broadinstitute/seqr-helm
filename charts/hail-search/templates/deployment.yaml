@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hail-search.fullname" . }}
+  labels:
+    {{- include "hail-search.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "hail-search.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "hail-search.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+      - name: datasets
+        emptyDir:
+          # Default sizeLimit is 1/2 the total RAM of the Node.
+          medium: "Memory"
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+        - name: {{ include "hail-search.fullname" . }}-pod
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "hail-search.fullname" . }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 5
+            httpGet:
+              path: /status
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 5
+            httpGet:
+              path: /status
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: {{ .Values.environment.DATASETS_DIR }}
+              name: datasets
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      {{- with .Values.initContainers}}
+      initContainers:
+        {{- tpl . $ | trim | nindent 8}}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

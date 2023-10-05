@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "seqr.fullname" $ }}-check-new-samples-job-{{ $path | replace "/" "-" | replace "_" "-"}}
+  name: {{ include "seqr.fullname" $ }}-check-new-samples-job-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
   labels:
     {{- include "seqr.labels" $ | nindent 4 }}
   annotations:
@@ -29,7 +29,7 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       containers:
-        - name: {{ include "seqr.fullname" $ }}-check-new-samples-job-pod-{{ $path | replace "/" "-" | replace "_" "-"}}
+        - name: {{ include "seqr.fullname" $ }}-check-new-samples-job-pod-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
           image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           {{- with $.Values.volumeMounts }}

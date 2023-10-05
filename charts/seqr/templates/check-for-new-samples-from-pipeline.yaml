@@ -1,4 +1,4 @@
-{{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+{{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
 {{ if $version }}
 apiVersion: batch/v1
 kind: Job

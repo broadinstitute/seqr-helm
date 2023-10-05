@@ -28,7 +28,7 @@ environment:
   DATASETS_DIR: '/datasets'
 
 initContainers: |-
-  {{- range $path, $version := .Values.global.hail_search.datasetVersions -}}
+  {{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
   {{ if $version }}
   - name: sync-datasets-{{ $path }}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest

@@ -37,7 +37,7 @@ spec:
           volumes:
             {{- toYaml . | nindent 10 }}
           {{- end }}
-          {{- with .Values.imagePullSecrets }}
+          {{- with $.Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 10 }}
           {{- end }}

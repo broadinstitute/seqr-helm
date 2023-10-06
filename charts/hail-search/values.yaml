@@ -32,13 +32,13 @@ initContainers: |-
   {{ if $version }}
   - name: mkdir-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: busybox:1.35
-    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
   - name: sync-datasets-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets

@@ -178,6 +178,8 @@ cronJobs: {}
 # -- Enables or disables seqr database migration Jobs
 run_seqr_database_migration: false
 
+check_for_new_samples_job_enabled: false
+
 redis:
   # -- enables or disables redis deployment using this chart
   enabled: false

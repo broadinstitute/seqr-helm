@@ -1,3 +1,4 @@
+{{- if .Values.check_for_new_samples_job_enabled }}
 {{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
 {{ if $version }}
 apiVersion: batch/v1
@@ -36,9 +37,11 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- include "seqr.environment" $ | nindent 10}}
           command: ["python", "manage.py", "check_for_new_samples_from_pipeline", "{{ $path }}", "{{ $version }}"]
       {{- with $.Values.deployment_sidecars }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}
+{{ end }}
 {{ end }}
 {{ end }}

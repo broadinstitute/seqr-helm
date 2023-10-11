@@ -160,8 +160,8 @@ volumes: {}
 # -- Mountpoint information for additional data volumes on the seqr Deployment
 volumeMounts: {}
 
-cronAfterHook: ""
-cronBeforeHook: ""
+jobAfterHook: "echo before"
+jobBeforeHook: "/wait_for_routes localhost:9091/readiness localhost:4191/ready"
 cronJobs: {}
 # Examples
 #cronJobs:

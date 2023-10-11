@@ -160,8 +160,8 @@ volumes: {}
 # -- Mountpoint information for additional data volumes on the seqr Deployment
 volumeMounts: {}
 
-cronAfterHook: ""
-cronBeforeHook: ""
+jobAfterHook: ""
+jobBeforeHook: ""
 cronJobs: {}
 # Examples
 #cronJobs:

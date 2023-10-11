@@ -10,14 +10,15 @@ metadata:
     "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "-1"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
-    {{- with $.Values.podAnnotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
 spec:
   template:
     metadata:
       labels:
         {{- include "seqr.labels" $ | nindent 8 }}
+      annotations:
+        {{- with $.Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with $.Values.volumes }}
       volumes:
@@ -37,7 +38,16 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- include "seqr.environment" $ | nindent 10}}
-          command: ["python", "manage.py", "check_for_new_samples_from_pipeline", "{{ $path }}", "{{ $version }}"]
+          command: ["/bin/bash", "-c"]
+          args:
+            - echo starting check new samples job;
+            {{- if $.Values.jobBeforeHook}}
+              {{ $.Values.jobBeforeHook }};
+            {{- end }}
+            {{- if $.Values.jobAfterHook}}
+              trap "{{ $.Values.jobAfterHook }}" EXIT;
+            {{- end }}
+              python manage.py check_for_new_samples_from_pipeline {{ $path }} {{ $version }};
       {{- with $.Values.deployment_sidecars }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}

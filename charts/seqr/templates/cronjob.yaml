@@ -53,11 +53,11 @@ spec:
             command: ["/bin/bash", "-c"]
             args:
               - echo starting CronJob {{ $c.name }};
-              {{- if $.Values.cronBeforeHook}}
-                {{ $.Values.cronBeforeHook }};
+              {{- if $.Values.jobBeforeHook}}
+                {{ $.Values.jobBeforeHook }};
               {{- end }}
-              {{- if $.Values.cronAfterHook}}
-                trap "{{ $.Values.cronAfterHook }}" EXIT;
+              {{- if $.Values.jobAfterHook}}
+                trap "{{ $.Values.jobAfterHook }}" EXIT;
               {{- end }}
                 {{ $c.command }};
           {{- with $.Values.deployment_sidecars }}

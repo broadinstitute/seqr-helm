@@ -80,8 +80,6 @@ nodeSelector:
 
 sourceCachedReferenceDatasetQueriesDir: 'gs://seqr-reference-data/v03'
 cachedReferenceDatasetQueries:
-  GRCh37/SNV_INDEL:
-    - 'GRCh37/cached_reference_dataset_queries/clinvar_path_variants.ht'
   GRCh38/SNV_INDEL:
     - 'GRCh38/cached_reference_dataset_queries/clinvar_path_variants.ht'
   GRCh38/MITO:

@@ -36,6 +36,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
       {{- end }}
+      serviceAccountName: {{ include "seqr.fullname" . }}
       containers:
       - name: seqr-pod
         ports:

@@ -28,7 +28,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
       {{- end }}
-      {{- if .Values.serviceAccount.create -}}
+      {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ include "hail-search.fullname" . }}
       {{- end }}
       containers:

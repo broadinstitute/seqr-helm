@@ -19,6 +19,12 @@ nameOverride: ""
 # -- Overrides the fully qualified name of the app, for use in templates
 fullnameOverride: ""
 
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
 # -- A dictionary of annotations to add to the seqr Deployment
 podAnnotations: {}
 

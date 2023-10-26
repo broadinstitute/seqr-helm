@@ -28,6 +28,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
       {{- end }}
+      {{- if .Values.serviceAccount.create -}}
+      serviceAccountName: {{ include "hail-search.fullname" . }}
+      {{- end }}
       containers:
         - name: {{ include "hail-search.fullname" . }}-pod
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

@@ -41,7 +41,7 @@ spec:
           imagePullSecrets:
             {{- toYaml . | nindent 10 }}
           {{- end }}
-          {{- if .Values.serviceAccount.create }}
+          {{- if $.Values.serviceAccount.create }}
           serviceAccountName: {{ include "seqr.fullname" . }}
           {{- end }}
           containers:

@@ -42,7 +42,7 @@ spec:
             {{- toYaml . | nindent 10 }}
           {{- end }}
           {{- if $.Values.serviceAccount.create }}
-          serviceAccountName: {{ include "seqr.fullname" . }}
+          serviceAccountName: {{ include "seqr.fullname" $ }}
           {{- end }}
           containers:
           - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob-pod

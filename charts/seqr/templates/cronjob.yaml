@@ -63,6 +63,10 @@ spec:
                 trap "{{ $.Values.jobAfterHook }}" EXIT;
               {{- end }}
                 {{ $c.command }};
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with $.Values.deployment_sidecars }}
             {{- tpl . $ | nindent 10 }}
           {{- end }}

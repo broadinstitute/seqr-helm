@@ -54,7 +54,7 @@ initContainers: |-
   {{- range $query := $queries -}}
   - name: sync-cached-reference-dataset-queries-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    command: ['gsutil', '-m', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets

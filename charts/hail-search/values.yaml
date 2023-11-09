@@ -48,7 +48,17 @@ initContainers: |-
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
+  {{ end -}}
   {{ end }}
+  {{- range $path, $queries := $.Values.cachedReferenceDatasetQueries -}}
+  {{- range $query := $queries -}}
+  - name: sync-cached-reference-dataset-queries-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+    command: ['gsutil', '-m', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
+    volumeMounts:
+      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
+        name: datasets
+  {{ end -}}
   {{ end }}
 
 # Prefer to be scheduled away from other hail-search pods and seqr application pods
@@ -73,6 +83,14 @@ affinity: |-
 
 nodeSelector: 
   {}
+
+sourceCachedReferenceDatasetQueriesDir: 'gs://seqr-reference-data/v03'
+cachedReferenceDatasetQueries:
+  GRCh38/SNV_INDEL:
+    - 'clinvar_path_variants'
+    - 'high_af_variants'
+  GRCh38/MITO:
+    - 'clinvar_path_variants'
 
 global:
   hail_search:

@@ -22,6 +22,10 @@ jobs:
           fetch-depth: 0
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.6.0
+      - name: Build deps
+        run: |
+          helm dep build charts/seqr
+          helm dep build charts/hail-search
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

@@ -51,7 +51,13 @@ initContainers: |-
   {{ end -}}
   {{ end }}
   {{- range $path, $queries := $.Values.cachedReferenceDatasetQueries -}}
-  {{- range $query := $queries -}}
+  - name: mkdir-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
+    image: busybox:1.35
+    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
+    volumeMounts:
+      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
+        name: datasets
+  {{range $query := $queries -}}
   - name: sync-crdq-{{ $path | replace "/" "-" | replace "_" "-" | lower}}-{{ $query | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
     command: ['gsutil', '-m', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']

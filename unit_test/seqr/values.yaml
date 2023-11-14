@@ -87,7 +87,6 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
   hosts:
@@ -104,7 +103,7 @@ additional_secrets:
   - name: OMIM_KEY
     valueFrom:
       secretKeyRef:
-        name: seqr-secrets
+        name: test-secrets
         key: omim_key
 
 serviceAccount:

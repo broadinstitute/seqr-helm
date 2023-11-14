@@ -1,0 +1,27 @@
+import os
+import subprocess
+import unittest
+
+WORK_DIR = os.path.dirname(__file__)
+DEFAULT_ARGS = [
+    'helm',
+    'install',
+    'test-hail-search', 
+    'charts/hail-search', 
+    '--dry-run',
+    '--debug', 
+    '-f',
+    os.path.join(WORK_DIR, 'values.yaml')
+]
+
+class TestHailSearchChart(unittest.TestCase):
+
+    def test_values(self):
+        p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
+        p.check_returncode()
+        self.assertIn('serviceAccountName: test-hail-search', p.stdout)
+        self.assertIn('name: sync-datasets-grch38-snv-indel', p.stdout)
+
+
+if __name__ == '__main__':
+    unittest.main()

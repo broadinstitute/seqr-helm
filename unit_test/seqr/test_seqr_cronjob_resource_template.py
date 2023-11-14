@@ -23,6 +23,7 @@ class TestSeqrCronJobResourceChart(unittest.TestCase):
         self.assertIn('test-cron-1', p.stdout)
         self.assertIn('test-cron-2', p.stdout)
         self.assertEqual(p.stdout.count('kind: CronJob'), 2)
+        self.assertEqual(p.stdout.count('nodeSelector:\n            cloud.google.com/gke-nodepool: test-pool'), 2)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,5 @@
+global:
+  hail_search:
+    sourceDatasetsDir: 'gs://seqr-datasets/v03'
+    datasetVersions:
+      GRCh38/SNV_INDEL: manual__2023-11-07T23-31-23.149902+00-00

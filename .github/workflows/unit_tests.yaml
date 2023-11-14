@@ -25,6 +25,8 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.12.2
+      - name: Helm Lint
+        run: helm lint charts/seqr charts/hail-search
       - name: start minikube
         id: minikube
         uses: medyagh/setup-minikube@latest
@@ -32,5 +34,5 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Run Tests
-        run: python3 -m unittest unit-test/*.py
+      - name: Run Chart Install Tests
+        run: python3 -m unittest unit_test/**/*.py

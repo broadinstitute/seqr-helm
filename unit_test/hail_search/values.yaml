@@ -1,5 +1,5 @@
 global:
   hail_search:
-    sourceDatasetsDir: 'gs://seqr-datasets/v03'
+    sourceDatasetsDir: 's3://datasets/v01'
     datasetVersions:
       GRCh38/SNV_INDEL: 2023-11-02T23-31-23.149902+00-00

@@ -22,7 +22,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertEqual(p.stdout.count('kind: CronJob'), 0)
 
     def test_values(self):
-        p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
+        p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True)
         p.check_returncode()
         self.assertIn('kind: Deployment\nmetadata:\n  name: seqr', p.stdout)
         self.assertIn('echo starting CronJob test-cron-1;', p.stdout)

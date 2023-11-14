@@ -3,7 +3,15 @@ import subprocess
 import unittest
 
 WORK_DIR = os.path.dirname(__file__)
-DEFAULT_ARGS = ['helm', 'template', 'test-seqr', 'charts/seqr',  '-f', os.path.join(WORK_DIR, 'values.yaml')]
+DEFAULT_ARGS = [
+    'helm',
+    'install',
+    'test-seqr', 
+    'charts/seqr', 
+    '--dry-run',
+    '--debug', 
+    '-f', os.path.join(WORK_DIR, 'values.yaml')
+]
 
 class TestSeqrChart(unittest.TestCase):
 

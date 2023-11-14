@@ -2,8 +2,14 @@ import os
 import subprocess
 import unittest
 
+import unit_test.test_seqr_chart as test_seqr_chart
+
 WORK_DIR = os.path.dirname(__file__)
-DEFAULT_ARGS = ['helm', 'template', 'test-seqr', 'charts/seqr',  '-s', 'templates/cronjob.yaml', '-f', os.path.join(WORK_DIR, 'values.yaml')]
+DEFAULT_ARGS = [
+    *test_seqr_chart.DEFAULT_ARGS,
+    '-s',
+    'templates/cronjob.yaml',
+]
 
 class TestSeqrCronJobResourceChart(unittest.TestCase):
 

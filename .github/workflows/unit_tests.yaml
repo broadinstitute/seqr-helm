@@ -15,6 +15,23 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10']
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: "super-secure-password"
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,3 +51,8 @@ jobs:
         uses: helm/kind-action@v1.8.0
       - name: Run Chart Templating Unit Tests
         run: python3 -m unittest unit_test/**/*.py
+      - name: Test Seqr Chart Installation
+        run: |
+          kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
+          kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
+          ct install --charts charts/seqr --namespace default

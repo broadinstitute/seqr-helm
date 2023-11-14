@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10']
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,6 +24,8 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.12.2
+      - name: Helm Dep Update
+        run: helm dep update charts/seqr charts/hail-search
       - name: Helm Lint
         run: helm lint charts/seqr charts/hail-search
       - name: start minikube

@@ -53,6 +53,7 @@ jobs:
         run: python3 -m unittest unit_test/**/*.py
       - name: Test Seqr Chart Installation
         run: |
+          export PGPASSWORD='super-secure-password'; psql -h localhost -U postgres -c 'CREATE DATABASE seqrdb';
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
           ct install --charts charts/seqr --namespace default --helm-extra-set-args "--set=environment.POSTGRES_SERVICE_HOSTNAME=172.17.0.1"

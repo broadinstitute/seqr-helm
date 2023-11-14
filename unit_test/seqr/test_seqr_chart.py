@@ -24,6 +24,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com', p.stdout)
         self.assertIn('cloud-sql-proxy', p.stdout)
         self.assertIn('serviceAccountName: test-seqr', p.stdout)
+        self.assertIn('SEQR_ES_PASSWORD', p.stdout)
 
     def test_no_deployment_sidecars(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'no-deployment-sidecars.yaml')], capture_output=True, text=True)

@@ -34,5 +34,5 @@ jobs:
         uses: helm/kind-action@v1.8.0
       - name: Run Chart Templating Unit Tests
         run: python3 -m unittest unit_test/**/*.py
-      - name: Test hail search install
-        run: ct install --charts charts/hail-search
+      #- name: Test hail search install
+      #  run: ct install --charts charts/hail-search

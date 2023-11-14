@@ -103,7 +103,7 @@ additional_secrets:
   - name: OMIM_KEY
     valueFrom:
       secretKeyRef:
-        name: test-secrets
+        name: seqr-secrets
         key: omim_key
 
 serviceAccount:

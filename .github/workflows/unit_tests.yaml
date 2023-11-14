@@ -32,5 +32,5 @@ jobs:
         run: ct lint --all
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
-      - name: Run Chart Templating Tests
+      - name: Run Chart Templating Unit Tests
         run: python3 -m unittest unit_test/**/*.py

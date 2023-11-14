@@ -92,7 +92,7 @@ environment:
   # -- The number of threads to allocate to the gunicorn server
   GUNICORN_WORKER_THREADS: "4"
   # -- The hostname to use for the postgres database connectsion
-  POSTGRES_SERVICE_HOSTNAME: "postgres"
+  POSTGRES_SERVICE_HOSTNAME: "localhost"
   # -- The username to use for the postgres database connection
   POSTGRES_USERNAME: "postgres"
   # -- The TCP port number to use for the postgres database connection

@@ -10,7 +10,8 @@ DEFAULT_ARGS = [
     'charts/seqr', 
     '--dry-run',
     '--debug', 
-    '-f', os.path.join(WORK_DIR, 'values.yaml')
+    '-f',
+    os.path.join(WORK_DIR, 'values.yaml')
 ]
 
 class TestSeqrChart(unittest.TestCase):
@@ -37,7 +38,7 @@ class TestSeqrChart(unittest.TestCase):
     def test_incorrectly_formatted_cronjob(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'incorrectly-formatted-cronjob.yaml')], capture_output=True, text=True)
         self.assertRaises(subprocess.CalledProcessError, p.check_returncode)
-        self.assertIn("can't evaluate field name in type interface", p.stderr)
+        self.assertIn('invalid resource name "test-seqr-test/cron/1-cronjob": [may not contain \'/\']\nhelm.go', p.stderr)
 
 if __name__ == '__main__':
     unittest.main()

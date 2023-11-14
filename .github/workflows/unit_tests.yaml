@@ -25,6 +25,9 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: v3.12.2
+      - name: start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@latest
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

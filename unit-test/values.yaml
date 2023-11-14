@@ -1,0 +1,118 @@
+replicaCount: 4
+podAnnotations:
+  linkerd.io/inject: enabled
+
+nodeSelector:
+  cloud.google.com/gke-nodepool: "test-pool"
+
+deployment_type: "test"
+cluster_hostname: &cluster_hostname "test-seqr.myinstitute.org"
+enable_elasticsearch_auth: true
+
+gunicorn_worker_threads: 20 # number of webserver threads
+
+ingress:
+  hosts:
+    - host: *cluster_hostname
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: nginx-secrets-cert-manager
+      hosts:
+        - *cluster_hostname
+
+resources:
+  requests:
+    memory: "0.5Gi"
+    cpu: "0.05"
+  limits:
+    memory: "35Gi"
+    cpu: "8"
+
+environment:
+  DEPLOYMENT_TYPE: "test"
+  BASE_URL: "https://test-seqr.myinstitute.org/"
+
+redis:
+  enabled: yes
+  architecture: standalone
+  auth:
+    enabled: no
+  master:
+    podAnnotations:
+      linkerd.io/inject: enabled
+      config.linkerd.io/opaque-ports: "6379"
+    resources:
+      limits:
+        memory: "10Gi"
+        cpu: "1"
+      requests:
+        memory: "0.25Gi"
+        cpu: "0.01"
+
+deployment_sidecars: |-
+  - name: cloud-sql-proxy
+    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:1.0.0
+    command:
+      - "/cloud-sql-proxy"
+    startupProbe:
+      httpGet:
+        path: /startup
+        port: 9090
+      periodSeconds: 1
+      timeoutSeconds: 5
+      failureThreshold: 20
+    livenessProbe:
+      httpGet:
+        path: /liveness
+        port: 9090
+      initialDelaySeconds: 0
+      periodSeconds: 60
+      timeoutSeconds: 30
+      failureThreshold: 5
+
+
+jobAfterHook: "curl -s -m 60 -o /dev/null -X POST localhost:9091/quitquitquit; curl -s -m 60 -o /dev/null -X POST localhost:4191/shutdown; echo 'Pinged shutdown routes'"
+jobBeforeHook: "/wait_for_routes localhost:9091/readiness localhost:4191/ready"
+cronJobs:
+  - name: test-cron-1
+    schedule: "1 0 * * 0"
+    command: "python /seqr/manage.py test_1 key=$KEY"
+  - name: test-cron-2
+    schedule: "2 0 * * 0"
+    command: "python /seqr/manage.py test_2"
+
+volumes:
+  - name: matchbox-secrets-volume
+    secret:
+      secretName: matchbox-secrets
+volumeMounts:
+  - name: matchbox-secrets-volume
+    mountPath: /mme
+
+ingress:
+  enabled: true
+  nameOverride: ingress-nginx
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
+      grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+
+additional_secrets:
+  - name: OMIM_KEY
+    valueFrom:
+      secretKeyRef:
+        name: seqr-secrets
+        key: omim_key
+
+serviceAccount:
+  create: true
+  annotations:
+    iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com

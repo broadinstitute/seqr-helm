@@ -16,8 +16,13 @@ DEFAULT_ARGS = [
 
 class TestSeqrChart(unittest.TestCase):
 
+    def test_open_source_values(self):
+        p = subprocess.run(DEFAULT_ARGS[:-2], capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
+        p.check_returncode()
+        self.assertEqual(p.stdout.count('kind: CronJob'), 0)
+
     def test_values(self):
-        p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
+        p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True)
         p.check_returncode()
         self.assertIn('kind: Deployment\nmetadata:\n  name: seqr', p.stdout)
         self.assertIn('echo starting CronJob test-cron-1;', p.stdout)
@@ -25,6 +30,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('cloud-sql-proxy', p.stdout)
         self.assertIn('serviceAccountName: test-seqr', p.stdout)
         self.assertIn('SEQR_ES_PASSWORD', p.stdout)
+        self.assertEqual(p.stdout.count('kind: CronJob'), 2)
 
     def test_no_deployment_sidecars(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'no-deployment-sidecars.yaml')], capture_output=True, text=True)

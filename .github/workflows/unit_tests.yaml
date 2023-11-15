@@ -1,0 +1,64 @@
+name: unit tests
+
+# Run the test suite on pushes (incl. merges) to main
+# Run the test suite when a PR is opened, pushed to, or reopened
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10']
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: "super-secure-password"
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.0
+      - name: Add bitnami
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Chart Lint
+        run: ct lint --all
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+      - name: Run Chart Templating Unit Tests
+        run: python3 -m unittest unit_test/**/*.py
+      - name: Test Seqr Chart Installation
+        run: |
+          # This hack us skip some expensive setup within the seqr startup
+          export PGPASSWORD='super-secure-password'; psql -h localhost -U postgres -c 'CREATE DATABASE seqrdb';
+
+          # Add secrets
+          kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
+          kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
+
+          # The extra variable is to allow kubernetes to ping our postrgres running locally
+          ct install --charts charts/seqr --namespace default --helm-extra-set-args "--set=environment.POSTGRES_SERVICE_HOSTNAME=172.17.0.1"

@@ -21,7 +21,7 @@ class TestHailSearchChart(unittest.TestCase):
         p.check_returncode()
         self.assertIn('serviceAccountName: test-hail-search', p.stdout)
         self.assertIn('name: sync-datasets-grch38-snv-indel', p.stdout)
-        self.assertIn('checksum/datasetVersions', p.stdout)  
+        self.assertIn('checksum/datasetVersions', p.stdout)
         self.assertIn('checksum/config', p.stdout)
 
 

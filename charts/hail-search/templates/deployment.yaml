@@ -13,6 +13,7 @@ spec:
     metadata:
       annotations:
         checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

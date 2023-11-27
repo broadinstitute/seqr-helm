@@ -1,5 +1,6 @@
 {{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
 {{ if and $.Values.check_for_new_samples_job_enabled $version }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:

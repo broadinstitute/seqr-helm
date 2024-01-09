@@ -45,7 +45,7 @@ initContainers: |-
         name: datasets
   - name: mkdir-ssd-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: busybox:1.35
-    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/families']
+    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/families']
     volumeMounts:
       - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
         name: ssd-datasets
@@ -69,7 +69,7 @@ initContainers: |-
         name: datasets
   - name: sync-families-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/families', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/families']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/families', '{{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/families']
     volumeMounts:
       - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
         name: ssd-datasets

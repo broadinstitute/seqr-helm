@@ -51,7 +51,7 @@ initContainers: |-
         name: ssd-datasets
   - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/annotations.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
+    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/annotations.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/annotations.ht']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets

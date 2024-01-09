@@ -20,7 +20,8 @@ class TestHailSearchChart(unittest.TestCase):
         p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
         p.check_returncode()
         self.assertIn('serviceAccountName: test-hail-search', p.stdout)
-        self.assertIn('name: sync-datasets-grch38-snv-indel', p.stdout)
+        self.assertIn('name: sync-projects-grch38-snv-indel', p.stdout)
+        self.assertIn('name: sync-families-grch38-snv-indel', p.stdout)
         self.assertIn('checksum/datasetVersions', p.stdout)
         self.assertIn('checksum/config', p.stdout)
 

@@ -39,13 +39,13 @@ initContainers: |-
   {{ if $version }}
   - name: mkdir-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: busybox:1.35
-    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
+    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/projects']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
   - name: mkdir-ssd-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: busybox:1.35
-    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
+    command: ['/bin/mkdir', '-p', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/families']
     volumeMounts:
       - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
         name: ssd-datasets

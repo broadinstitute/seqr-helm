@@ -47,5 +47,12 @@ class TestSeqrChart(unittest.TestCase):
         self.assertRaises(subprocess.CalledProcessError, p.check_returncode)
         self.assertIn('invalid resource name "test-seqr-test/cron/1-cronjob": [may not contain \'/\']\nhelm.go', p.stderr)
 
+    def test_check_new_samples_job(self):
+        p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'check-new-samples-job.yaml')], capture_output=True, text=True)
+        p.check_returncode()
+        self.assertIn('python manage.py check_for_new_samples_from_pipeline GRCh38/MITO manual_run_123\n', p.stdout)
+        
+
+
 if __name__ == '__main__':
     unittest.main()

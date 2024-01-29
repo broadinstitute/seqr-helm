@@ -53,6 +53,12 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         {{- include "seqr.environment" $ | nindent 8 }}
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /readiness_probe
         readinessProbe:
           exec:
             command:

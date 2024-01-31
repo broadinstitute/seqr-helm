@@ -47,14 +47,14 @@ spec:
               protocol: TCP
           livenessProbe:
             initialDelaySeconds: 10
-            periodSeconds: 30
+            periodSeconds: 60
             failureThreshold: 5
             httpGet:
               path: /status
               port: http
           readinessProbe:
             initialDelaySeconds: 10
-            periodSeconds: 30
+            periodSeconds: 60
             failureThreshold: 5
             httpGet:
               path: /status

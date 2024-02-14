@@ -51,13 +51,13 @@ initContainers: |-
         name: ssd-datasets
   - name: sync-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/annotations.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/annotations.ht', '2>&1']
+    command: ['gsutil', '-qm', 'rsync', '-r', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}/annotations.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}/annotations.ht']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets
   - name: sync-ssd-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'rsync', '-r', '-x', '.*annotations.*', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}', '2>&1']
+    command: ['gsutil', '-qm', 'rsync', '-r', '-x', '.*annotations.*', '{{ $.Values.global.hail_search.sourceDatasetsDir }}/{{ $path }}/runs/{{ $version }}', '{{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES"}}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
         name: ssd-datasets
@@ -67,7 +67,7 @@ initContainers: |-
   {{- range $query := $queries -}}
   - name: sync-crdq-{{ $path | replace "/" "-" | replace "_" "-" | lower}}-{{ $query | replace "_" "-" | lower}}
     image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-m', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}', '2>&1']
+    command: ['gsutil', '-qm', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
         name: datasets

@@ -100,8 +100,7 @@ If you need to upgrade the redis version made available by this chart, you can d
 | podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
-| required_secrets | object | `{"kibanaSecretName":"kibana-secrets","postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
-| required_secrets.kibanaSecretName | string | `"kibana-secrets"` | The secret containing the credentials required to access the kibana instance, if you've deployed kibana and it requires authentication. |
+| required_secrets | object | `{"postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
 | required_secrets.postgresSecretName | string | `"postgres-secrets"` | The secret containing the postgres credentials. See the README for information on the format of this secret |
 | required_secrets.seqrSecretName | string | `"seqr-secrets"` | The secret containing the seqr required secrets. See the README for information on the format of this secret |
 | resources | object | `{}` | Sets the resource requests and limits for the seqr Deployment |

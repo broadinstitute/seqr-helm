@@ -119,8 +119,6 @@ enable_elasticsearch_auth: false
 
 # -- The name of the secret containing seqr's elasticsearch password
 # seqrSecretName: seqr-secrets
-# -- The name of the secret containing seqr's kibana password
-# kibanaSecretName: kibana-secrets
 
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
@@ -131,8 +129,6 @@ required_secrets:
   postgresSecretName: postgres-secrets
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
-  # -- The secret containing the credentials required to access the kibana instance, if you've deployed kibana and it requires authentication.
-  kibanaSecretName: kibana-secrets
 
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.
@@ -160,6 +156,11 @@ additional_secrets: {}
 #     secretKeyRef:
 #       name: seqr-secrets
 #       key: ga_token_id
+# - name: KIBANA_ES_PASSWORD
+#   valueFrom:
+#     secretKeyRef:
+#       name: kibana-secrets
+#       key: elasticsearch.password
 
 # -- Additional data volumes to use in the seqr Deployment
 volumes: {}

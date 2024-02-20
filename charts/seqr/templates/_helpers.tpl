@@ -74,11 +74,6 @@ env:
       secretKeyRef:
         name: {{ .Values.required_secrets.seqrSecretName }}
         key: seqr_es_password
-  - name: KIBANA_ES_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.required_secrets.kibanaSecretName }}
-        key: elasticsearch.password
   {{- end }}
   {{- with .Values.additional_secrets }}
     {{- toYaml . | nindent 2}}

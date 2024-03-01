@@ -2,6 +2,23 @@ apiVersion: v1
 entries:
   hail-search:
   - apiVersion: v2
+    appVersion: 924c71e9343bf336222df7e7cb5e87653a400246
+    created: "2024-03-01T17:55:54.814930189Z"
+    description: A Helm chart for deploying the hail backend of Seqr, an open source
+      software platform for rare disease genomics
+    digest: d7ceed855c796838d03e3759e8845f35173e31322d32d1f58ae2c6482a74acc5
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: hail-search
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/hail-search-0.1.34/hail-search-0.1.34.tgz
+    version: 0.1.34
+  - apiVersion: v2
     appVersion: 8601754098666056309d522506a23a60cbb922aa
     created: "2024-02-26T18:14:23.214696546Z"
     description: A Helm chart for deploying the hail backend of Seqr, an open source
@@ -524,6 +541,29 @@ entries:
     - https://github.com/broadinstitute/seqr-helm/releases/download/hail-search-0.1.0/hail-search-0.1.0.tgz
     version: 0.1.0
   seqr:
+  - apiVersion: v2
+    appVersion: 924c71e9343bf336222df7e7cb5e87653a400246
+    created: "2024-03-01T17:55:54.975067088Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.9.3
+    description: A Helm chart for deploying Seqr, an open source software platform
+      for rare disease genomics
+    digest: ec8962c5fe66f25fe4052aa92ba319f4f45b8c5a5b3c49da87be5a7add4eb44c
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.83/seqr-0.0.83.tgz
+    version: 0.0.83
   - apiVersion: v2
     appVersion: 8601754098666056309d522506a23a60cbb922aa
     created: "2024-02-26T18:14:23.649021167Z"
@@ -2199,4 +2239,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.1/seqr-0.0.1.tgz
     version: 0.0.1
-generated: "2024-02-26T18:14:23.649782345Z"
+generated: "2024-03-01T17:55:54.975907656Z"

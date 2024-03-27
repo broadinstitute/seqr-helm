@@ -1,3 +1,8 @@
+persistentVolume:
+  enabled: true
+  driver: pd.csi.storage.gke.io
+  volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
+
 global:
   hail_search:
     sourceDatasetsDir: 's3://datasets/v01'

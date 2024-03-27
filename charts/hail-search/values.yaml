@@ -36,6 +36,7 @@ environment:
 
 persistentVolume:
   enabled: false
+  storageCapacity: ''
   driver: ''
   volumeHandle: ''
 

@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: 2000G
+    storage: {{ .Values.storageCapacity }}
   accessModes:
     - ReadOnlyMany
   volumeMode: Filesystem

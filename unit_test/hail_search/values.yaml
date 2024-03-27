@@ -1,5 +1,12 @@
+persistentVolume:
+  enabled: true
+  driver: pd.csi.storage.gke.io
+  volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
+
 global:
   hail_search:
     sourceDatasetsDir: 's3://datasets/v01'
     datasetVersions:
+      GRCh38/GCNV: 2023-11-03T22-31-23.149902+00-00
+      GRCh37/SNV_INDEL: 2023-11-03T22-31-23.149902+00-00
       GRCh38/SNV_INDEL: 2023-11-02T23-31-23.149902+00-00

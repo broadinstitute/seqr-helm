@@ -34,5 +34,5 @@ spec:
     - ReadOnlyMany
   resources:
     requests:
-      storage: 2000G
+      storage: {{ .Values.storageCapacity }}
 {{- end }}

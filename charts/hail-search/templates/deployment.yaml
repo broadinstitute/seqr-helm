@@ -26,7 +26,12 @@ spec:
           # Default sizeLimit is 1/2 the total RAM of the Node.
           medium: "Memory"
       - name: ssd-datasets
+      {{- if .Values.persistentVolume.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ include "hail-search.fullname" . }}-pvc
+      {{- else }}
         emptyDir: {}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}

@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: {{ .Values.storageCapacity }}
+    storage: {{ .Values.persistentVolume.storageCapacity }}
   accessModes:
     - ReadOnlyMany
   volumeMode: Filesystem
@@ -34,5 +34,5 @@ spec:
     - ReadOnlyMany
   resources:
     requests:
-      storage: {{ .Values.storageCapacity }}
+      storage: {{ .Values.persistentVolume.storageCapacity }}
 {{- end }}

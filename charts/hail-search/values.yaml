@@ -45,7 +45,7 @@ initContainers: |-
   {{ if $version }}
   {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
   - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
-    image: busybox:1.35
+    image: alpine
     command: ['/bin/sh', '-c', 'mkdir -p {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }} && rsync -r {{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $localPath }}/annotations.ht {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }}/annotations.ht']
     volumeMounts:
       - mountPath: {{ $.Values.environment.DATASETS_DIR }}

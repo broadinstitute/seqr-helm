@@ -23,6 +23,7 @@ spec:
     driver: {{ .Values.persistentVolume.driver }}
     volumeHandle: {{ .Values.persistentVolume.volumeHandle }}
     fsType: 'ext4'
+    readOnly: True
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

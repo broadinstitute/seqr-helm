@@ -29,7 +29,7 @@ spec:
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
           readOnly: true
-          claimName: {{ include "hail-search.fullname" . }}-pvc
+          claimName: {{ include "hail-search.fullname" . }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
       {{- else }}
         emptyDir: {}
       {{- end }}

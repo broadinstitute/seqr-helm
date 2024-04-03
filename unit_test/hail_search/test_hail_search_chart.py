@@ -28,8 +28,8 @@ class TestHailSearchChart(unittest.TestCase):
     def test_persistent_volume(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'persistentvolume.yaml')], capture_output=True, text=True)
         p.check_returncode()
-        self.assertIn('claimName: test-hail-search-pvc', p.stdout)
-        self.assertIn("command: ['/bin/sh', '-c', 'mkdir -p /datasets/GRCh38/SV_WES && rsync -r /ssd-datasets/GRCh38/SV_WES/annotations.ht /datasets/GRCh38/SV_WES/annotations.ht']", p.stdout)
+        self.assertIn('claimName: test-hail-search-pvc-9ff0a', p.stdout)
+        self.assertIn("command: ['/bin/sh', '-c', 'mkdir -p /datasets/GRCh38/SV_WES && cp -r /ssd-datasets/GRCh38/SV_WES/annotations.ht /datasets/GRCh38/SV_WES/annotations.ht']", p.stdout)
         self.assertIn('volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk', p.stdout)
 
 if __name__ == '__main__':

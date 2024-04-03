@@ -28,6 +28,7 @@ spec:
       - name: ssd-datasets
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
+          readOnly: true
           claimName: {{ include "hail-search.fullname" . }}-pvc
       {{- else }}
         emptyDir: {}
@@ -71,6 +72,7 @@ spec:
               name: datasets
             - mountPath: {{ .Values.environment.SSD_DATASETS_DIR }}
               name: ssd-datasets
+              readOnly: true
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

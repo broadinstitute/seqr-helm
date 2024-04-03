@@ -15,6 +15,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     name: {{ include "hail-search.fullname" . }}-pvc
+    # namespace appears to default to '' here.
+    # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
+    # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
+    namespace: default
   csi:
     driver: {{ .Values.persistentVolume.driver }}
     volumeHandle: {{ .Values.persistentVolume.volumeHandle }}

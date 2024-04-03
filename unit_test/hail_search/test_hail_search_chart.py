@@ -23,7 +23,7 @@ class TestHailSearchChart(unittest.TestCase):
         self.assertIn('name: sync-annotations-grch38-snv-indel', p.stdout)
         self.assertIn('checksum/datasetVersions', p.stdout)
         self.assertIn('checksum/config', p.stdout)
-        self.assertNotIn('claimName: test-hail-search-pvc', p.stdout)
+        self.assertNotIn('claimName: test-hail-search-pvc-9ff0a', p.stdout)
 
     def test_persistent_volume(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'persistentvolume.yaml')], capture_output=True, text=True)

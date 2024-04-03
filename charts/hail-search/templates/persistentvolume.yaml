@@ -14,7 +14,7 @@ spec:
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Delete
   claimRef:
-    name: {{ include "hail-search.fullname" . }}-pvc
+    name: {{ include "hail-search.fullname" . }}-pvc-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
     # namespace appears to default to '' here.
     # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
     # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
@@ -33,7 +33,7 @@ metadata:
 spec:
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: {{ include "hail-search.fullname" . }}-pv
+  volumeName: {{ include "hail-search.fullname" . }}-pv-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
   accessModes:
     - ReadOnlyMany
   resources:

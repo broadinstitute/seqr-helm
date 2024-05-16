@@ -84,6 +84,8 @@ affinity: |-
               {{- include "seqr.selectorLabels" . | nindent 12 }}
           topologyKey: "kubernetes.io/hostname"
 
+probeInitialDelaySeconds: 5
+
 # -- Pod tolerations for the seqr Deployment
 tolerations: []
 

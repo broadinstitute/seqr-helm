@@ -54,12 +54,14 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         {{- include "seqr.environment" $ | nindent 8 }}
         livenessProbe:
+          initialDelaySeconds: {{ .Values.probeInitialDelaySeconds }}
           exec:
             command:
             - /bin/bash
             - -c
             - /readiness_probe
         readinessProbe:
+          initialDelaySeconds: {{ .Values.probeInitialDelaySeconds }}
           exec:
             command:
             - /bin/bash

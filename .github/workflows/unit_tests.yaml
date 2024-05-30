@@ -5,6 +5,7 @@ name: unit tests
 on:
   push:
     branches:
+      - dev
       - main
   pull_request:
     types: [opened, synchronize, reopened]

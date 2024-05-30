@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - main
+      - dev
 
 jobs:
   release:
@@ -33,6 +33,9 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.3.0
+        with:
+          mark_as_latest: false
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
+          CR_RELEASE_NAME_TEMPLATE: "{{ .Name }}-{{ .Version }}-dev"

@@ -32,20 +32,18 @@ jobs:
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Set environment variables for chart-releaser
+      - name: Set release name environment variable for chart-releaser
         run: |
           if [ "${{ github.event.workflow_run.head_branch }}" == "dev" ]; then
-            echo "MARK_AS_LATEST=false" >> $GITHUB_ENV
             echo "CR_RELEASE_NAME_TEMPLATE={{ .Name }}-{{ .Version }}-dev" >> $GITHUB_ENV
           else
-            echo "MARK_AS_LATEST=true" >> $GITHUB_ENV
             echo "CR_RELEASE_NAME_TEMPLATE={{ .Name }}-{{ .Version }}" >> $GITHUB_ENV
           fi
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.3.0
         with:
-          mark_as_latest: ${{ env.MARK_AS_LATEST }}
+          mark_as_latest: "${{ github.event.workflow_run.head_branch }}" == "main"
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"

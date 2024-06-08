@@ -5,6 +5,8 @@ metadata:
   name: {{ include "hail-search.fullname" . }}-pv-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   storageClassName: ""
   capacity:
@@ -31,6 +33,8 @@ metadata:
   name: {{ include "hail-search.fullname" . }}-pvc-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   storageClassName: ""
   volumeMode: Filesystem

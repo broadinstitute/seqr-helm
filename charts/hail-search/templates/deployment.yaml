@@ -13,6 +13,7 @@ spec:
   template:
     metadata:
       annotations:
+        argocd.argoproj.io/sync-wave: "3"
         checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}

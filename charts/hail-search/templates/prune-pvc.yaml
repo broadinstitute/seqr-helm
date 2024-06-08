@@ -6,12 +6,9 @@ metadata:
   name: describe-pv
   namespace: default
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - ['pvc']
-  verbs:
-  - ['describe']
+- apiGroups: [""]
+  resources: ['pvc']
+  verbs: ['describe']
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

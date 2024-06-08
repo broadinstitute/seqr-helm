@@ -6,8 +6,8 @@ metadata:
   name: describe-pv
   namespace: default
 rules:
-- apiGroups: [""]
-  resources: ['persistentvolumeclaims']
+- apiGroups: ['']
+  resources: ['persistentvolumeclaims', 'pods']
   verbs: ['get', 'list']
 ---
 apiVersion: rbac.authorization.k8s.io/v1

@@ -34,7 +34,7 @@ metadata:
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   storageClassName: ""
   volumeMode: Filesystem

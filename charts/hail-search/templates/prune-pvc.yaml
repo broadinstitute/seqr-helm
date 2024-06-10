@@ -50,7 +50,14 @@ spec:
           image: bitnami/kubectl
           command: ["/bin/bash", "-c"]
           args:
-            - kubectl describe pvc seqr-hail-search-pvc | grep -E "^Name:.*$|^Used By:.*$" | grep -B1 '<none>' | grep -E "^Name:.*$" | awk '{print $2}' | xargs -I{} kubectl delete pvc {}
+            - echo starting prune pvc job;
+            {{- if $.Values.jobBeforeHook}}
+              {{ $.Values.jobBeforeHook }};
+            {{- end }}
+            {{- if $.Values.jobAfterHook}}
+              trap "{{ $.Values.jobAfterHook }}" EXIT;
+            {{- end }}
+              kubectl describe pvc seqr-hail-search-pvc | grep -E "^Name:.*$|^Used By:.*$" | grep -B1 '<none>' | grep -E "^Name:.*$" | awk '{print $2}' | xargs -I{} kubectl delete pvc {}
       {{- with $.Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

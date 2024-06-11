@@ -10,7 +10,7 @@ on:
       - dev
 
 env:
-  CHART_RELEASE_NAME_SUFFIX: ${{ github.event.workflow_run.head_branch == 'dev' && '-dev' || '' }}
+  CR_RELEASE_NAME_TEMPLATE: "{{ .Name }}-{{ .Version }}${{ github.event.workflow_run.head_branch == 'dev' && '-dev' || '' }}"
 
 jobs:
   release:
@@ -42,4 +42,4 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
-          CR_RELEASE_NAME_TEMPLATE: "{{ .Name }}-{{ .Version }}${{ env.CHART_RELEASE_NAME_SUFFIX }}"
+          CR_RELEASE_NAME_TEMPLATE: "${{ env.CR_RELEASE_NAME_TEMPLATE }}"

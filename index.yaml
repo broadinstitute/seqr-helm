@@ -1070,6 +1070,29 @@ entries:
   seqr:
   - apiVersion: v2
     appVersion: 5344b0c7e9ecb9b37ca53936d89e1261aef614c2
+    created: "2024-06-13T20:10:58.709236519Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.2
+    description: A Helm chart for deploying Seqr, an open source software platform
+      for rare disease genomics
+    digest: 61240d7a447c7f1e54dababec479ebe255e10159244169d78b8ebd49addf82fa
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.98-dev/seqr-0.0.98.tgz
+    version: 0.0.98
+  - apiVersion: v2
+    appVersion: 5344b0c7e9ecb9b37ca53936d89e1261aef614c2
     created: "2024-06-11T17:43:40.035032545Z"
     dependencies:
     - condition: redis.enabled
@@ -3088,4 +3111,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.1/seqr-0.0.1.tgz
     version: 0.0.1
-generated: "2024-06-11T17:43:40.03655021Z"
+generated: "2024-06-13T20:10:58.709578755Z"

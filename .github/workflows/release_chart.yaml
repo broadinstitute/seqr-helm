@@ -7,7 +7,6 @@ on:
       - completed
     branches:
       - main
-      - dev
 
 env:
   CR_RELEASE_NAME_TEMPLATE: "{{ .Name }}-{{ .Version }}${{ github.event.workflow_run.head_branch == 'dev' && '-dev' || '' }}"

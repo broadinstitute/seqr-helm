@@ -39,4 +39,4 @@ jobs:
           mark_as_latest: "${{ github.event.workflow_run.head_branch == 'main' }}"
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_SKIP_EXISTING: "${{ github.event.workflow_run.head_branch == 'main' }}"
+          CR_SKIP_EXISTING: "true"

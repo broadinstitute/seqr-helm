@@ -19,6 +19,8 @@ resources:
     memory: "35Gi"
     cpu: "8"
 
+probeInitialDelaySeconds: 5
+
 environment:
   DEPLOYMENT_TYPE: "test"
   BASE_URL: "https://test-seqr.myinstitute.org/"

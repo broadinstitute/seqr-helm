@@ -84,8 +84,6 @@ affinity: |-
               {{- include "seqr.selectorLabels" . | nindent 12 }}
           topologyKey: "kubernetes.io/hostname"
 
-probeInitialDelaySeconds: 5
-
 # -- Pod tolerations for the seqr Deployment
 tolerations: []
 
@@ -194,7 +192,6 @@ redis:
 
 global:
   hail_search:
-    sourceDatasetsDir: ''
     datasetVersions:
       GRCh37/SNV_INDEL: ''
       GRCh38/SNV_INDEL: ''

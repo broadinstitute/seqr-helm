@@ -55,19 +55,25 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         {{- include "seqr.environment" $ | nindent 8 }}
         livenessProbe:
-          initialDelaySeconds: {{ .Values.probeInitialDelaySeconds }}
           exec:
             command:
             - /bin/bash
             - -c
             - /readiness_probe
         readinessProbe:
-          initialDelaySeconds: {{ .Values.probeInitialDelaySeconds }}
           exec:
             command:
             - /bin/bash
             - -c
             - /readiness_probe
+        startupProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /readiness_probe
+          failureThreshold: 6
+          periodSeconds: 10
       {{- with .Values.deployment_sidecars }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}

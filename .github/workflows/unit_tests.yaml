@@ -55,7 +55,7 @@ jobs:
       - name: Test Seqr Chart Installation
         run: |
           # This hack lets us skip some expensive setup within the seqr startup
-          export PGPASSWORD='super-secure-password'; psql -h localhost -U postgres -c 'CREATE DATABASE seqrdb';
+          export PGPASSWORD='super-secure-password'; psql -h localhost -U postgres -c 'CREATE DATABASE seqrdb'; psql -h localhost -U postgres -c 'CREATE DATABASE reference_data_db';
 
           # Add secrets
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'

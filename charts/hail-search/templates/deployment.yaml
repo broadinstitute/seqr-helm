@@ -19,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "hail-search.selectorLabels" . | nindent 8 }}
+        {{- include "hail-search.labels" . | nindent 8 }}
     spec:
       volumes:
       - name: datasets

@@ -83,9 +83,6 @@ affinity: |-
               {{- include "seqr.selectorLabels" . | nindent 12 }}
           topologyKey: "kubernetes.io/hostname"
 
-# -- Pod tolerations for the seqr Deployment
-tolerations: []
-
 # default environment variables
 environment:
   # -- The number of threads to allocate to the gunicorn server

@@ -4,14 +4,10 @@ kind: Service
 metadata:
   name: {{ include "seqr.fullname" . }}
   labels:
-    name: seqr
-    deployment: {{ .Release.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.port }}
   selector:
-    name: seqr
-    deployment: {{ .Release.Name }}
     {{- include "seqr.selectorLabels" . | nindent 4 }}

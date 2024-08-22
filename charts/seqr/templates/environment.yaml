@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "seqr.fullname" . }}-environment
+  name: {{ include "seqr.fullname" . }}
   labels:
     {{- include "seqr.labels" . | nindent 4 }}
 data:

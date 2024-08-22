@@ -2,15 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: seqr
+  name: {{ include "seqr.fullname" . }}
   labels:
-    name: seqr
-    deployment: {{ .Release.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
-  {{- if .Values.deploymentAnnotations }}
-  annotations:
-  {{- tpl (toYaml .Values.deploymentAnnotations) . | nindent 4 }}
-  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 5
@@ -19,14 +13,13 @@ spec:
       {{- include "seqr.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      name: {{ include "seqr.fullname" . }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        name: seqr
-        deployment: {{ .Release.Name }}
         {{- include "seqr.labels" . | nindent 8 }}
     spec:
       {{- with .Values.volumes }}
@@ -41,7 +34,7 @@ spec:
       serviceAccountName: {{ include "seqr.fullname" . }}
       {{- end }}
       containers:
-      - name: seqr-pod
+      - name: {{ include "seqr.fullname" . }}
         ports:
         - containerPort: 8000
           protocol: TCP

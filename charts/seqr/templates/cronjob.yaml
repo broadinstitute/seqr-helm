@@ -3,10 +3,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
+  name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
   labels:
-    name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
-    deployment: {{ $.Release.Name }}
     {{- include "seqr.labels" $ | nindent 4 }}
 spec:
   schedule: {{ toYaml $c.schedule }}
@@ -20,15 +18,14 @@ spec:
       parallelism: 1
       template:
         metadata:
+          name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
+          labels:
+            {{- include "seqr.labels" $ | nindent 12 }}
           annotations:
             checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
           {{- with $.Values.podAnnotations }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          labels:
-            name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob
-            deployment: {{ $.Release.Name }}
-            {{- include "seqr.labels" $ | nindent 12 }}
         spec:
           activeDeadlineSeconds: {{ $c.timeout_s | default 1800 }}
           restartPolicy: Never
@@ -45,7 +42,7 @@ spec:
           serviceAccountName: {{ include "seqr.fullname" $ }}
           {{- end }}
           containers:
-          - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}-cronjob-pod
+          - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}

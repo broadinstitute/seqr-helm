@@ -14,10 +14,6 @@ image:
 
 # -- If needed, you can provide secrets required to retrieve images
 imagePullSecrets: []
-# -- Overrides the name of the helm chart, for use in templates
-nameOverride: ""
-# -- Overrides the fully qualified name of the app, for use in templates
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -27,6 +23,9 @@ serviceAccount:
 
 # -- A dictionary of annotations to add to the seqr Deployment
 podAnnotations: {}
+
+nodeSelector:
+  {}
 
 service:
   # -- The type for the seqr Service
@@ -179,10 +178,6 @@ cronJobs: {}
 #  - name: fail_50
 #    schedule: "6-59/5 * * * *"
 #    command: "/bin/sleep 2 && exit $((RANDOM % 2))"
-
-# TODO: this is is disabled until we can move the db migration stuff out of the docker entrypoint
-# -- Enables or disables seqr database migration Jobs
-run_seqr_database_migration: false
 
 check_for_new_samples_job_enabled: false
 

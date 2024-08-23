@@ -6,7 +6,7 @@ WORK_DIR = os.path.dirname(__file__)
 DEFAULT_ARGS = [
     'helm',
     'install',
-    'test-seqr', 
+    'test', 
     'charts/seqr', 
     '--dry-run',
     '--debug', 

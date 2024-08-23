@@ -45,14 +45,14 @@ class TestSeqrChart(unittest.TestCase):
     def test_incorrectly_formatted_cronjob(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'incorrectly-formatted-cronjob.yaml')], capture_output=True, text=True)
         self.assertRaises(subprocess.CalledProcessError, p.check_returncode)
-        self.assertIn('invalid resource name "test-seqr/a/bad/cron/1": [may not contain \'/\']\nhelm.go', p.stderr)
+        self.assertIn('invalid resource name "test-seqr-a/bad/cron/1": [may not contain \'/\']\nhelm.go', p.stderr)
 
     def test_check_new_samples_job(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'check-new-samples-job.yaml')], capture_output=True, text=True)
         p.check_returncode()
         self.assertIn('python manage.py check_for_new_samples_from_pipeline GRCh38/MITO manual_run_123;\n', p.stdout)
         
-
+invalid resource name "test-seqr-a/bad/cron/1
 
 if __name__ == '__main__':
     unittest.main()

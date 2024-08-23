@@ -24,7 +24,7 @@ class TestSeqrChart(unittest.TestCase):
     def test_values(self):
         p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True)
         p.check_returncode()
-        self.assertIn('kind: Deployment\nmetadata:\n  name: seqr', p.stdout)
+        self.assertIn('kind: Deployment\nmetadata:\n  name: test-seqr', p.stdout)
         self.assertIn('echo starting CronJob test-cron-1;', p.stdout)
         self.assertIn('iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com', p.stdout)
         self.assertIn('cloud-sql-proxy', p.stdout)

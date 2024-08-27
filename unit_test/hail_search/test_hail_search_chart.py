@@ -23,6 +23,7 @@ class TestHailSearchChart(unittest.TestCase):
         self.assertIn('name: sync-annotations-grch38-snv-indel', p.stdout)
         self.assertIn('checksum/datasetVersions', p.stdout)
         self.assertIn('checksum/config', p.stdout)
+        self.assertIn('a/deployment', p.stdout)
         self.assertNotIn('claimName: test-hail-search-pvc-9ff0a', p.stdout)
 
     def test_persistent_volume(self):

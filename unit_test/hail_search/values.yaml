@@ -4,3 +4,6 @@ global:
       GRCh38/GCNV: 2023-11-03T22-31-23.149902+00-00
       GRCh37/SNV_INDEL: 2023-11-03T22-31-23.149902+00-00
       GRCh38/SNV_INDEL: 2023-11-02T23-31-23.149902+00-00
+
+deploymentAnnotations:
+  a/deployment: 'hello world'

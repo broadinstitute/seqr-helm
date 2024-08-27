@@ -1,6 +1,8 @@
 replicaCount: 4
 podAnnotations:
   linkerd.io/inject: enabled
+deploymentAnnotations:
+  a/deployment: 'hello world'
 
 nodeSelector:
   cloud.google.com/gke-nodepool: "test-pool"

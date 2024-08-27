@@ -30,6 +30,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('cloud-sql-proxy', p.stdout)
         self.assertIn('serviceAccountName: test-seqr', p.stdout)
         self.assertIn('SEQR_ES_PASSWORD', p.stdout)
+        self.assertIn('a/deployment', p.stdout)
         self.assertEqual(p.stdout.count('kind: CronJob'), 2)
 
     def test_no_deployment_sidecars(self):

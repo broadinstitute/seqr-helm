@@ -19,6 +19,7 @@ serviceAccount:
   annotations: {}
 
 podAnnotations: {}
+deploymentAnnotations: {}
 
 service:
   type: ClusterIP

@@ -96,7 +96,8 @@ If you need to upgrade the redis version made available by this chart, you can d
 | imagePullSecrets | list | `[]` | If needed, you can provide secrets required to retrieve images |
 | ingress.enabled | bool | `false` | Enables or Disables the seqr Ingress object |
 | nodeSelector | object | `{}` | A dictionary of node selection annotations.  Used to assign the seqr application pods to specific node types.
-| podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
+| podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Pod |
+| deploymentAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
 | required_secrets | object | `{"postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |

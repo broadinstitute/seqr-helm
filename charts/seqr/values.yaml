@@ -21,8 +21,11 @@ serviceAccount:
   # Annotations to add to the service account
   annotations: {}
 
-# -- A dictionary of annotations to add to the seqr Deployment
+# -- A dictionary of annotations to add to the seqr Pod
 podAnnotations: {}
+
+# -- A dictionary of annotations to add to the seqr Deployment
+deploymentAnnotations: {}
 
 nodeSelector:
   {}

@@ -4,6 +4,10 @@ metadata:
   name: {{ include "hail-search.fullname" . }}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 5
@@ -12,14 +16,14 @@ spec:
       {{- include "hail-search.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      labels:
+        {{- include "hail-search.labels" . | nindent 8 }}
       annotations:
         checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      labels:
-        {{- include "hail-search.labels" . | nindent 8 }}
     spec:
       volumes:
       - name: datasets

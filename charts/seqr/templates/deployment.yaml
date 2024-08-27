@@ -5,6 +5,10 @@ metadata:
   name: {{ include "seqr.fullname" . }}
   labels:
     {{- include "seqr.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 5
@@ -14,13 +18,13 @@ spec:
   template:
     metadata:
       name: {{ include "seqr.fullname" . }}
+      labels:
+        {{- include "seqr.labels" . | nindent 8 }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      labels:
-        {{- include "seqr.labels" . | nindent 8 }}
     spec:
       {{- with .Values.volumes }}
       volumes:

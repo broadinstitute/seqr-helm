@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "hail-search.fullname" . }}
+  name: {{ .Chart.Name }}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
 data:

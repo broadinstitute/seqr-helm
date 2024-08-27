@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "seqr.fullname" . }}
+  name: {{ .Chart.Name }}
   labels:
     {{- include "seqr.labels" . | nindent 4 }}
   {{- with .Values.deploymentAnnotations }}
@@ -17,7 +17,7 @@ spec:
       {{- include "seqr.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      name: {{ include "seqr.fullname" . }}
+      name: {{ .Chart.Name }}
       labels:
         {{- include "seqr.labels" . | nindent 8 }}
       annotations:
@@ -35,10 +35,10 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "seqr.fullname" . }}
+      serviceAccountName: {{ .Chart.Name }}
       {{- end }}
       containers:
-      - name: {{ include "seqr.fullname" . }}
+      - name: {{ .Chart.Name }}
         ports:
         - containerPort: 8000
           protocol: TCP

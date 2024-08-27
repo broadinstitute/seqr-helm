@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
+  name: {{ $.Chart.Name }}-{{- $c.name }}
   labels:
     {{- include "seqr.labels" $ | nindent 4 }}
 spec:
@@ -18,7 +18,7 @@ spec:
       parallelism: 1
       template:
         metadata:
-          name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
+          name: {{ $.Chart.Name }}-{{- $c.name }}
           labels:
             {{- include "seqr.labels" $ | nindent 12 }}
           annotations:
@@ -39,10 +39,10 @@ spec:
             {{- toYaml . | nindent 10 }}
           {{- end }}
           {{- if $.Values.serviceAccount.create }}
-          serviceAccountName: {{ include "seqr.fullname" $ }}
+          serviceAccountName: {{ $.Chart.Name }}
           {{- end }}
           containers:
-          - name: {{ include "seqr.fullname" $ }}-{{- $c.name }}
+          - name: {{ $.Chart.Name }}-{{- $c.name }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}

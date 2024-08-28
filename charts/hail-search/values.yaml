@@ -85,8 +85,8 @@ affinity: |-
                 - seqr
           topologyKey: "kubernetes.io/hostname"
 
-nodeSelector:
-  {}
+nodeSelector: {}
+tolerations: []
 
 sourceCachedReferenceDatasetQueriesDir: 'gs://seqr-reference-data/v03'
 cachedReferenceDatasetQueries:

@@ -84,3 +84,6 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

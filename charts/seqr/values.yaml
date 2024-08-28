@@ -27,9 +27,6 @@ podAnnotations: {}
 # -- A dictionary of annotations to add to the seqr Deployment
 deploymentAnnotations: {}
 
-nodeSelector:
-  {}
-
 service:
   # -- The type for the seqr Service
   type: NodePort
@@ -85,6 +82,9 @@ affinity: |-
             matchLabels:
               {{- include "seqr.selectorLabels" . | nindent 12 }}
           topologyKey: "kubernetes.io/hostname"
+
+nodeSelector: {}
+tolerations: []
 
 # default environment variables
 environment:

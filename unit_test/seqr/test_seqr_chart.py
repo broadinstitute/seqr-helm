@@ -31,6 +31,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('serviceAccountName: seqr', p.stdout)
         self.assertIn('SEQR_ES_PASSWORD', p.stdout)
         self.assertIn('a/deployment', p.stdout)
+        self.assertIn('NoSchedule', p.stdout)
         self.assertEqual(p.stdout.count('kind: CronJob'), 2)
 
     def test_no_deployment_sidecars(self):

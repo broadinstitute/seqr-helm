@@ -82,7 +82,7 @@ affinity: |-
               - key: "app.kubernetes.io/part-of"
                 operator: In
                 values:
-                - "Seqr Platform"
+                - "seqr-platform"
           topologyKey: "kubernetes.io/hostname"
 
 nodeSelector: {}

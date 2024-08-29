@@ -65,24 +65,18 @@ initContainers: |-
   {{ end -}}
   {{ end }}
 
-# Prefer to be scheduled away from other hail-search pods and seqr application pods
+# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1.0
         podAffinityTerm:
           labelSelector:
-            matchLabels:
-              {{- include "hail-search.selectorLabels"  . | nindent 12 }}
-          topologyKey: "kubernetes.io/hostname"
-      - weight: 1.0
-        podAffinityTerm:
-          labelSelector:
             matchExpressions:
-              - key: "name"
+              - key: "app.kubernetes.io/part-of"
                 operator: In
                 values:
-                - seqr
+                - "seqr-platform"
           topologyKey: "kubernetes.io/hostname"
 
 nodeSelector: {}

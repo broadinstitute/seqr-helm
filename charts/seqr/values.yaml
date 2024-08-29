@@ -71,16 +71,18 @@ resources:
   #   memory: "4Gi"
   #   cpu: "8"
 
-# -- Adds affinity rules to the seqr Deployment
-# @default -- The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden.
+# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1.0
         podAffinityTerm:
           labelSelector:
-            matchLabels:
-              {{- include "seqr.selectorLabels" . | nindent 12 }}
+            matchExpressions:
+              - key: "app.kubernetes.io/part-of"
+                operator: In
+                values:
+                - "seqr-platform"
           topologyKey: "kubernetes.io/hostname"
 
 nodeSelector: {}

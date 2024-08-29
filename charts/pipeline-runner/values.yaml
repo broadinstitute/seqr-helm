@@ -1,0 +1,73 @@
+# Default values for hail-search.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: gcr.io/seqr-project/seqr-pipeline-runner
+  pullPolicy: Always
+  # -- The docker image tag to pull from the repository
+  # tag: "gcloud-dev"
+
+imagePullSecrets: []
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+deploymentAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 5000
+
+resources:
+  {}
+
+# default environment variables
+environment:
+  HAIL_TMPDIR: '/tmp'
+  HAIL_SEARCH_DATA: '/hail-search-data'
+  LOADING_DATASETS: '/seqr-loading-temp'
+  REFERENCE_DATASETS: '/seqr-reference-data'
+  ACCESS_PRIVATE_REFERENCE_DATASETS: '0'
+  CHECK_SEX_AND_RELATEDNESS: '0'
+  EXPECT_WES_FILTERS: '0'
+  SHOULD_REGISTER_ALLELES: '0'
+
+initContainers: |-
+  - name: rsync-reference-data
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+    imagePullPolicy: {{ .Values.image.pullPolicy }}
+    command: ['./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/rsync_reference_data.bash GRCh38']
+    volumeMounts:
+      - mountPath: {{ $.Values.environment.REFERENCE_DATASETS }}
+        name: seqr-reference-data
+  - name: download-vep-data
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+    imagePullPolicy: {{ .Values.image.pullPolicy }}
+    command: ['./v03_pipeline/bin/download_vep_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_data.bash GRCh38']
+    volumeMounts:
+      - mountPath: /vep_data
+        name: vep-data
+
+# Prefer to be scheduled away from other seqr platform pods
+affinity: |-
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1.0
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "app.kubernetes.io/part-of"
+                operator: In
+                values:
+                - "seqr-platform"
+          topologyKey: "kubernetes.io/hostname"
+
+nodeSelector: {}
+tolerations: []

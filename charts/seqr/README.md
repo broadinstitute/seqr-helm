@@ -55,7 +55,7 @@ After ensuring that the prerequisites are taken care of:
 
 ```bash
 helm repo add seqr https://broadinstitute.github.io/seqr-helm
-helm install seqr-institution-name seqr/seqr -f my-values.yaml
+helm install institution-name charts/seqr -f my-values.yaml
 ```
 
 ## Redis
@@ -91,13 +91,13 @@ If you need to upgrade the redis version made available by this chart, you can d
 | environment.REDIS_SERVICE_HOSTNAME | string | `"seqr-redis-master"` | The hostname of the redis cache that seqr should use |
 | environment.SEQR_SERVICE_PORT | string | `"8000"` | The port that the seqr server should listen on |
 | environment.STATIC_MEDIA_DIR | string | `nil` | If storing static media files in a local filesystem, the path to that filesystem |
-| fullnameOverride | string | `""` | Overrides the fully qualified name of the app, for use in templates |
 | image.pullPolicy | string | `"Always"` | The policy for pulling images |
 | image.repository | string | `"gcr.io/seqr-project/seqr"` | The docker image repository to pull images from |
 | imagePullSecrets | list | `[]` | If needed, you can provide secrets required to retrieve images |
 | ingress.enabled | bool | `false` | Enables or Disables the seqr Ingress object |
-| nameOverride | string | `""` | Overrides the name of the helm chart, for use in templates |
-| podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
+| nodeSelector | object | `{}` | A dictionary of node selection annotations.  Used to assign the seqr application pods to specific node types.
+| podAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Pod |
+| deploymentAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
 | required_secrets | object | `{"postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
@@ -107,6 +107,5 @@ If you need to upgrade the redis version made available by this chart, you can d
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |
 | service.port | int | `8000` | The port for the seqr Service |
 | service.type | string | `"NodePort"` | The type for the seqr Service |
-| tolerations | list | `[]` | Pod tolerations for the seqr Deployment |
 | volumeMounts | object | `{}` | Mountpoint information for additional data volumes on the seqr Deployment |
 | volumes | object | `{}` | Additional data volumes to use in the seqr Deployment |

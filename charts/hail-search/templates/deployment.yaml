@@ -1,9 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hail-search.fullname" . }}
+  name: {{ .Chart.Name }}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 5
@@ -12,14 +16,14 @@ spec:
       {{- include "hail-search.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      labels:
+        {{- include "hail-search.labels" . | nindent 8 }}
       annotations:
         checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      labels:
-        {{- include "hail-search.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
       - name: datasets
@@ -30,7 +34,7 @@ spec:
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
           readOnly: true
-          claimName: {{ include "hail-search.fullname" . }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
+          claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
       {{- else }}
         emptyDir: {}
       {{- end }}
@@ -39,15 +43,15 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "hail-search.fullname" . }}
+      serviceAccountName: {{ .Chart.Name }}
       {{- end }}
       containers:
-        - name: {{ include "hail-search.fullname" . }}-pod
+        - name: {{ .Chart.Name }}-pod
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "hail-search.fullname" . }}
+                name: {{ .Chart.Name }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -86,5 +90,9 @@ spec:
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

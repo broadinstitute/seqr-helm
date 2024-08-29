@@ -1,9 +1,17 @@
 replicaCount: 4
 podAnnotations:
   linkerd.io/inject: enabled
+deploymentAnnotations:
+  a/deployment: 'hello world'
 
 nodeSelector:
   cloud.google.com/gke-nodepool: "test-pool"
+
+tolerations:
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoSchedule"
 
 deployment_type: "test"
 cluster_hostname: &cluster_hostname "test-seqr.myinstitute.org"

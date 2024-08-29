@@ -2,14 +2,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: seqr
+  name: {{ .Chart.Name }}
   labels:
-    name: seqr
-    deployment: {{ .Release.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
-  {{- if .Values.deploymentAnnotations }}
+  {{- with .Values.deploymentAnnotations }}
   annotations:
-  {{- tpl (toYaml .Values.deploymentAnnotations) . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -19,15 +17,14 @@ spec:
       {{- include "seqr.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      name: {{ .Chart.Name }}
+      labels:
+        {{- include "seqr.labels" . | nindent 8 }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      labels:
-        name: seqr
-        deployment: {{ .Release.Name }}
-        {{- include "seqr.labels" . | nindent 8 }}
     spec:
       {{- with .Values.volumes }}
       volumes:
@@ -38,10 +35,10 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "seqr.fullname" . }}
+      serviceAccountName: {{ .Chart.Name }}
       {{- end }}
       containers:
-      - name: seqr-pod
+      - name: {{ .Chart.Name }}
         ports:
         - containerPort: 8000
           protocol: TCP

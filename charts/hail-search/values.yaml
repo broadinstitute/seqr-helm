@@ -11,8 +11,6 @@ image:
   # tag: "gcloud-dev"
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -21,6 +19,7 @@ serviceAccount:
   annotations: {}
 
 podAnnotations: {}
+deploymentAnnotations: {}
 
 service:
   type: ClusterIP
@@ -66,28 +65,22 @@ initContainers: |-
   {{ end -}}
   {{ end }}
 
-# Prefer to be scheduled away from other hail-search pods and seqr application pods
+# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1.0
         podAffinityTerm:
           labelSelector:
-            matchLabels:
-              {{- include "hail-search.selectorLabels"  . | nindent 12 }}
-          topologyKey: "kubernetes.io/hostname"
-      - weight: 1.0
-        podAffinityTerm:
-          labelSelector:
             matchExpressions:
-              - key: "name"
+              - key: "app.kubernetes.io/part-of"
                 operator: In
                 values:
-                - seqr
+                - "seqr-platform"
           topologyKey: "kubernetes.io/hostname"
 
-nodeSelector:
-  {}
+nodeSelector: {}
+tolerations: []
 
 sourceCachedReferenceDatasetQueriesDir: 'gs://seqr-reference-data/v03'
 cachedReferenceDatasetQueries:

@@ -1,4 +1,4 @@
 cronJobs:
-  - name: test/cron/1
+  - name: a/bad/cron/1
     schedule: "1 0 * * 0"
     command: "python /seqr/manage.py test_cron_1"

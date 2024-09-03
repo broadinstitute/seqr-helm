@@ -1,15 +1,19 @@
+{{- range $s := .Values.services }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pipeline-runner.fullname" . }}
+  name: {{ $.Chart.Name }}-{{ $s.name }}
   labels:
-    {{- include "pipeline-runner.labels" . | nindent 4 }}
+    {{- include "pipeline-runner.labels" $ | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $s.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ $s.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    {{- include "pipeline-runner.selectorLabels" . | nindent 4 }}
+    name: {{ $.Chart.Name }}-{{ $s.name }}
+    {{- include "pipeline-runner.selectorLabels" $ | nindent 4 }}
+{{ end }}

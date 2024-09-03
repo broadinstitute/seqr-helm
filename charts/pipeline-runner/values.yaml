@@ -21,9 +21,13 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
-service:
-  type: ClusterIP
-  port: 5000
+services:
+  - name: api
+    type: ClusterIP
+    port: 5000
+  - name: ui
+    type: ClusterIP
+    port: 8082
 
 resources:
   {}

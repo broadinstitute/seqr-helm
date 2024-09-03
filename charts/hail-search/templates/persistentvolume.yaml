@@ -1,8 +1,7 @@
-{{- if .Values.persistentVolume.enabled -}}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ .Chart.Name }}-pv-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
+  name: {{- include "hail-search.pv-name" . }}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
 spec:
@@ -10,34 +9,36 @@ spec:
   capacity:
     storage: {{ .Values.persistentVolume.storageCapacity }}
   accessModes:
-    - ReadOnlyMany
+    - {{ .Values.persistentVolume.accessMode }}
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Delete
   claimRef:
-    name: {{ .Chart.Name }}-pvc-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
+    name: {{- include "hail-search.pvc-name" . }}
     # namespace appears to default to '' here.
     # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
     # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
     namespace: default
+  {{- with .Values.persistentVolume.csi }}
   csi:
-    driver: {{ .Values.persistentVolume.driver }}
-    volumeHandle: {{ .Values.persistentVolume.volumeHandle }}
-    fsType: 'ext4'
-    readOnly: True
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if not .Values.persistentVolume.csi }}
+  local:
+    path: {{ .Values.global.environment.HAIL_SEARCH_DATA }}
+  {{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Chart.Name }}-pvc-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
+  name: {{- include "hail-search.pvc-name" . }}
   labels:
     {{- include "hail-search.labels" . | nindent 4 }}
 spec:
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: {{ .Chart.Name }}-pv-{{ print .Values.persistentVolume.volumeHandle | sha256sum | trunc 5}}
+  volumeName: {{- include "hail-search.pv-name" . }}
   accessModes:
-    - ReadOnlyMany
+    - {{ .Values.persistentVolume.accessMode }}
   resources:
     requests:
       storage: {{ .Values.persistentVolume.storageCapacity }}
-{{- end }}

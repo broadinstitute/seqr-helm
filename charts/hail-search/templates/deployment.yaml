@@ -19,8 +19,8 @@ spec:
       labels:
         {{- include "hail-search.labels" . | nindent 8 }}
       annotations:
-        checksum/datasetVersions: {{ print $.Values.datasetVersions | sha256sum }}
-        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
+        checksum/datasetVersions: {{ print .Values.global.hail_search.datasetVersions | sha256sum }}
+        checksum/config: {{ include (print .Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -31,11 +31,9 @@ spec:
           # Default sizeLimit is 1/2 the total RAM of the Node.
           medium: "Memory"
       - name: ssd-datasets
-      {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
           readOnly: true
-          claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
-      {{- else }}
+          claimName: {{- include "hail-search.pvc-name" . }}
         emptyDir: {}
       {{- end }}
       {{- with .Values.imagePullSecrets }}

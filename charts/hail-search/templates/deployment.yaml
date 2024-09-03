@@ -33,9 +33,8 @@ spec:
       - name: ssd-datasets
         persistentVolumeClaim:
           readOnly: true
-          claimName: {{- include "hail-search.pvc-name" . }}
+          claimName: {{ include "hail-search.pvc-name" . }}
         emptyDir: {}
-      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}

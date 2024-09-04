@@ -186,3 +186,7 @@ check_for_new_samples_job_enabled: false
 redis:
   # -- enables or disables redis deployment using this chart
   enabled: false
+
+global:
+  hail_search: 
+    datasetVersions: {}

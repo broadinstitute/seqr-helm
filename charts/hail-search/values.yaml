@@ -57,3 +57,7 @@ affinity: |-
 
 nodeSelector: {}
 tolerations: []
+
+global:
+  hail_search: 
+    datasetVersions: {}

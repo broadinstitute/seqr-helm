@@ -33,6 +33,7 @@ class TestHailSearchChart(unittest.TestCase):
         self.assertIn('claimName: hail-search-pvc-9ff0a', p.stdout)
         self.assertIn('volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk', p.stdout)
         self.assertIn('checksum/datasetVersions', p.stdout)
+        self.assertIn('cp -r /ssd-datasets/GRCh38/SV_WES/annotations.ht /datasets/GRCh38/SV_WES/annotations.ht'. p.stdout)
 
 if __name__ == '__main__':
     unittest.main()

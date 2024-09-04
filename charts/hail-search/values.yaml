@@ -38,7 +38,19 @@ persistentVolume:
   localNodeSelector: kind-control-plane
   csi: {}
 
-initContainers: {}
+initContainers: |-
+   {{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
+   {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
+   - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
+     image: busybox
+     command: ['/bin/sh', '-c', 'mkdir -p {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }} && [ -d {{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $localPath }}/annotations.ht ] && cp -r {{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $localPath }}/annotations.ht {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }}/annotations.ht']
+     volumeMounts:
+       - mountPath: {{ $.Values.environment.DATASETS_DIR }}
+         name: datasets
+       - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
+         name: ssd-datasets
+         readOnly: true
+   {{ end }}
 
 # Prefer to be scheduled away from other seqr platform pods
 affinity: |-

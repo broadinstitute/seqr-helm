@@ -58,5 +58,5 @@ nodeSelector: {}
 tolerations: []
 
 global:
-  hail_search: 
+  hail_search:
     datasetVersions: {}

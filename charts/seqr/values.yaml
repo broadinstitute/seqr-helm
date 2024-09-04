@@ -188,5 +188,5 @@ redis:
   enabled: false
 
 global:
-  hail_search: 
+  hail_search:
     datasetVersions: {}

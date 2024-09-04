@@ -13,9 +13,7 @@ image:
 imagePullSecrets: []
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
 
 podAnnotations: {}
@@ -36,7 +34,8 @@ environment:
 persistentVolume:
   storageCapacity: '100Gi'
   accessMode: ReadWriteOnce
-  localNodeSelector: minikube
+  # Default to a single node kind cluster, but of course overrideable!
+  localNodeSelector: kind-control-plane
   csi: {}
 
 initContainers: {}

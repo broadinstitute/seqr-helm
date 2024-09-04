@@ -64,3 +64,7 @@ jobs:
           # The extra variable is to allow kubernetes to ping our postgres running locally
           # From a container, the IP address of the host machine is 172.17.0.1
           ct install --charts charts/seqr --namespace default --helm-extra-set-args "--set=environment.POSTGRES_SERVICE_HOSTNAME=172.17.0.1"
+      - name: Test Hail Search Installation
+        run: |
+          ct install --charts charts/hail-search --namespace default
+

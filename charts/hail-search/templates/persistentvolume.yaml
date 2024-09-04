@@ -25,6 +25,14 @@ spec:
   {{- if not .Values.persistentVolume.csi }}
   local:
     path: {{ .Values.global.hail_search.environment.HAIL_SEARCH_DATA }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ .Values.persistantVolume.localNodeSelector }}
   {{- end }}
 ---
 apiVersion: v1

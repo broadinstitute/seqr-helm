@@ -34,8 +34,9 @@ environment:
   SSD_DATASETS_DIR: '/ssd-datasets'
 
 persistentVolume:
-  storageCapacity: '500Gi'
+  storageCapacity: '100Gi'
   accessMode: ReadWriteOnce
+  localNodeSelector: minikube
   csi: {}
 
 initContainers: |-

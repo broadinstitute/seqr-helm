@@ -32,7 +32,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ .Values.persistantVolume.localNodeSelector }}
+          - {{ .Values.persistentVolume.localNodeSelector }}
   {{- end }}
 ---
 apiVersion: v1

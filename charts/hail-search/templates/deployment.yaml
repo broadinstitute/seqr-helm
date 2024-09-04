@@ -34,7 +34,6 @@ spec:
         persistentVolumeClaim:
           readOnly: true
           claimName: {{ include "hail-search.pvc-name" . }}
-        emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}

@@ -24,7 +24,7 @@ spec:
   {{- end }}
   {{- if not .Values.persistentVolume.csi }}
   local:
-    path: {{ .Values.global.hail_search.environment.HAIL_SEARCH_DATA }}
+    path: /var
   nodeAffinity:
     required:
       nodeSelectorTerms:

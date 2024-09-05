@@ -1,0 +1,91 @@
+{{- range $s := .Values.services }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Chart.Name }}-{{ $s.name }}
+  labels:
+    {{- include "pipeline-runner.labels" $ | nindent 4 }}
+  {{- with $.Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ $.Values.replicaCount }}
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      {{- include "pipeline-runner.selectorLabels" $ | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pipeline-runner.labels" $ | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}
+      {{- with $.Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      volumes:
+      - name: ssd-datasets
+        persistentVolumeClaim:
+          readOnly: true
+          claimName: {{ include "hail-search.pvc-name" $ }}
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if $.Values.serviceAccount.create }}
+      serviceAccountName: {{ $.Chart.Name }}
+      {{- end }}
+      containers:
+        - name: {{ $.Chart.Name }}-{{ $s.name }}-pod
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args: {{ $c.command }}
+          envFrom:
+            - configMapRef:
+                name: {{ $.Chart.Name }}
+          ports:
+            - name: http
+              containerPort: {{ $s.port }}
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            failureThreshold: 5
+            httpGet:
+              path: {{ $s.healthCheckRoute }}
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            failureThreshold: 5
+            httpGet:
+              path: {{ $s.healthCheckRoute }}
+              port: http
+          resources:
+            {{- toYaml $.Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
+              name: ssd-datasets
+              readOnly: true
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      {{- with $.Values.initContainers}}
+      initContainers:
+        {{- tpl . $ | trim | nindent 8}}
+      {{- end }}
+      {{- with $.Values.affinity }}
+      affinity:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

@@ -16,3 +16,11 @@ Selector labels
 app.kubernetes.io/name: {{ .Chart.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{- define "hail-search.pvc-name" -}}
+{{- if .Values.global.hail_search.persistentVolume.csi.volumeHandle -}}
+hail-search-pvc-{{ print .Values.global.hail_search.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
+{{- else -}}
+{{ .Chart.Name }}-pvc
+{{- end }}
+{{- end }}

@@ -25,9 +25,13 @@ services:
   - name: api
     type: ClusterIP
     port: 5000
+    healthCheckRoute: /status
+    command: ["python3", "-m", "v03_pipeline.api"]
   - name: ui
     type: ClusterIP
     port: 8082
+    healthCheckRoute: /
+    command: ["luigid"]
 
 resources:
   {}

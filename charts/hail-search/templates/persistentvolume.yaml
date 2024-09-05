@@ -7,9 +7,9 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: {{ .Values.persistentVolume.storageCapacity }}
+    storage: {{ .Values.global.hail_search.persistentVolume.storageCapacity }}
   accessModes:
-    - {{ .Values.persistentVolume.accessMode }}
+    - {{ .Values.global.hail_search.persistentVolume.accessMode }}
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Delete
   claimRef:
@@ -18,11 +18,11 @@ spec:
     # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
     # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
     namespace: default
-  {{- with .Values.persistentVolume.csi }}
+  {{- with .Values.global.hail_search.persistentVolume.csi }}
   csi:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if not .Values.persistentVolume.csi }}
+  {{- if not .Values.global.hail_search.persistentVolume.csi }}
   local:
     path: /var
   nodeAffinity:
@@ -32,7 +32,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ .Values.persistentVolume.localNodeSelector }}
+          - {{ .Values.global.hail_search.persistentVolume.localNodeSelector }}
   {{- end }}
 ---
 apiVersion: v1
@@ -46,7 +46,7 @@ spec:
   volumeMode: Filesystem
   volumeName: {{ include "hail-search.pv-name" . }}
   accessModes:
-    - {{ .Values.persistentVolume.accessMode }}
+    - {{ .Values.global.hail_search.persistentVolume.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.storageCapacity }}
+      storage: {{ .Values.global.hail_search.persistentVolume.storageCapacity }}

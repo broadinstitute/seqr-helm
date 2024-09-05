@@ -21,16 +21,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Name the PV and PVC
 */}}
 {{- define "hail-search.pv-name" -}}
-{{- if .Values.persistentVolume.csi.volumeHandle -}}
-{{ .Chart.Name }}-pv-{{ print .Values.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
+{{- if .Values.global.hail_search.persistentVolume.csi.volumeHandle -}}
+{{ .Chart.Name }}-pv-{{ print .Values.global.hail_search.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
 {{- else -}}
 {{ .Chart.Name }}-pv
 {{- end }}
 {{- end }}
 
 {{- define "hail-search.pvc-name" -}}
-{{- if .Values.persistentVolume.csi.volumeHandle -}}
-{{ .Chart.Name }}-pvc-{{ print .Values.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
+{{- if .Values.global.hail_search.persistentVolume.csi.volumeHandle -}}
+{{ .Chart.Name }}-pvc-{{ print .Values.global.hail_search.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
 {{- else -}}
 {{ .Chart.Name }}-pvc
 {{- end }}

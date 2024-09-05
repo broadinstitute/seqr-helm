@@ -31,13 +31,6 @@ environment:
   DATASETS_DIR: '/datasets'
   SSD_DATASETS_DIR: '/ssd-datasets'
 
-persistentVolume:
-  storageCapacity: '100Gi'
-  accessMode: ReadWriteOnce
-  # Default to a single node kind cluster, but of course overrideable!
-  localNodeSelector: kind-control-plane
-  csi: {}
-
 initContainers: |-
    {{- range $path, $version := $.Values.global.hail_search.datasetVersions -}}
    {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
@@ -72,3 +65,9 @@ tolerations: []
 global:
   hail_search:
     datasetVersions: {}
+    persistentVolume:
+      storageCapacity: '100Gi'
+      accessMode: ReadWriteOnce
+      # Default to a single node kind cluster, but of course overrideable!
+      localNodeSelector: kind-control-plane
+      csi: {}

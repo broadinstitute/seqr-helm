@@ -65,9 +65,3 @@ tolerations: []
 global:
   hail_search:
     datasetVersions: {}
-    persistentVolume:
-      storageCapacity: '400Gi'
-      accessMode: ReadWriteOnce
-      # Default to a single node kind cluster, but of course overrideable!
-      localNodeSelector: kind-control-plane
-      csi: {}

@@ -25,3 +25,8 @@ version: 0.1.74
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "6bc7ac19c3a1bded0aa26cb54f6f77a449907f08"
+
+dependencies:
+  - name: lib-seqr-platform
+    version: 0.1.0
+    repository: "file://../lib-seqr-platform"

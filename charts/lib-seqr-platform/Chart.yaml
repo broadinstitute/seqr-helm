@@ -1,0 +1,5 @@
+apiVersion: v2
+name: lib-seqr-platform
+description: Library chart for seqr-helm
+type: library
+version: 0.1.0

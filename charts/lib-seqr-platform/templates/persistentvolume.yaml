@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ include "hail-search.pv-name" . }}
+  name: {{ include "seqr-platform.pv-name" . }}
   labels:
-    {{- include "hail-search.labels" . | nindent 4 }}
+    {{- include "seqr-platform.labels" . | nindent 4 }}
 spec:
   storageClassName: ""
   capacity:
-    storage: {{ .Values.global.hail_search.persistentVolume.storageCapacity }}
+    storage: {{ .Values.global.seqr_platform.persistentVolume.storageCapacity }}
   accessModes:
-    - {{ .Values.global.hail_search.persistentVolume.accessMode }}
+    - {{ .Values.global.seqr_platform.persistentVolume.accessMode }}
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Delete
   claimRef:
-    name: {{ include "hail-search.pvc-name" . }}
+    name: {{ include "seqr-platform.pvc-name" . }}
     # namespace appears to default to '' here.
     # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
     # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
     namespace: default
-  {{- with .Values.global.hail_search.persistentVolume.csi }}
+  {{- with .Values.global.seqr_platform.persistentVolume.csi }}
   csi:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if not .Values.global.hail_search.persistentVolume.csi }}
+  {{- if not .Values.global.seqr_platform.persistentVolume.csi }}
   local:
     path: /var
   nodeAffinity:
@@ -32,21 +32,21 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ .Values.global.hail_search.persistentVolume.localNodeSelector }}
+          - {{ .Values.global.seqr_platform.persistentVolume.localNodeSelector }}
   {{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "hail-search.pvc-name" . }}
+  name: {{ include "seqr-platform.pvc-name" . }}
   labels:
-    {{- include "hail-search.labels" . | nindent 4 }}
+    {{- include "seqr-platform.labels" . | nindent 4 }}
 spec:
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: {{ include "hail-search.pv-name" . }}
+  volumeName: {{ include "seqr-platform.pv-name" . }}
   accessModes:
-    - {{ .Values.global.hail_search.persistentVolume.accessMode }}
+    - {{ .Values.global.seqr_platform.persistentVolume.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.global.hail_search.persistentVolume.storageCapacity }}
+      storage: {{ .Values.global.seqr_platform.persistentVolume.storageCapacity }}

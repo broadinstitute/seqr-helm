@@ -28,4 +28,5 @@ dependencies:
     version: 0.1.0
     repository: "file://../lib-seqr-platform"
     import-values:
-      - defaults: global
+      - child: exports.global
+        parent: global

@@ -3,3 +3,8 @@ name: lib-seqr-platform
 description: Library chart for seqr-helm
 type: library
 version: 0.1.0
+sources:
+  - https://github.com/broadinstitute/seqr-helm
+maintainers:
+  - name: seqr
+    email: seqr@broadinstitute.org

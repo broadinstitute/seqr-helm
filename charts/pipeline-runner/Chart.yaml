@@ -1,6 +1,12 @@
 apiVersion: v2
 name: pipeline-runner
 description: A Helm chart for Kubernetes
+sources:
+  - https://github.com/broadinstitute/seqr-helm
+  - https://github.com/broadinstitute/seqr-loading-pipelines
+maintainers:
+  - name: seqr
+    email: seqr@broadinstitute.org
 
 # A chart can be either an 'application' or a 'library' chart.
 #

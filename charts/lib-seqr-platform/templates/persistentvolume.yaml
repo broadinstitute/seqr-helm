@@ -1,3 +1,4 @@
+{{- define "seqr-platform.persistentvolume" -}}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -50,3 +51,4 @@ spec:
   resources:
     requests:
       storage: {{ .Values.global.seqr_platform.persistentVolume.storageCapacity }}
+{{- end}}

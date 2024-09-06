@@ -30,3 +30,6 @@ dependencies:
   - name: lib-seqr-platform
     version: 0.1.0
     repository: "file://../lib-seqr-platform"
+    import-values:
+      - child: exports.global
+        parent: global

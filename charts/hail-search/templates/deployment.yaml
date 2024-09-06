@@ -35,7 +35,7 @@ spec:
       - name: ssd-datasets
         persistentVolumeClaim:
           readOnly: true
-          claimName: {{ include "hail-search.pvc-name" . }}
+          claimName: {{ include "seqr-platform.pvc-name" . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}

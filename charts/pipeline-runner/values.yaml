@@ -39,9 +39,9 @@ resources:
 # default environment variables
 environment:
   HAIL_TMPDIR: '/tmp'
-  HAIL_SEARCH_DATA: '/hail-search-data'
-  LOADING_DATASETS: '/seqr-loading-temp'
-  REFERENCE_DATASETS: '/seqr-reference-data'
+  HAIL_SEARCH_DATA: '/seqr/hail-search-data'
+  LOADING_DATASETS: '/seqr/seqr-loading-temp'
+  REFERENCE_DATASETS: '/seqr/seqr-reference-data'
   ACCESS_PRIVATE_REFERENCE_DATASETS: '0'
   CHECK_SEX_AND_RELATEDNESS: '0'
   EXPECT_WES_FILTERS: '0'
@@ -53,15 +53,15 @@ initContainers: |-
     imagePullPolicy: {{ .Values.image.pullPolicy }}
     command: ['./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/rsync_reference_data.bash GRCh38']
     volumeMounts:
-      - mountPath: {{ $.Values.environment.REFERENCE_DATASETS }}
-        name: seqr-reference-data
+      - mountPath: /seqr
+        name: seqr
   - name: download-vep-data
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
     command: ['./v03_pipeline/bin/download_vep_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_data.bash GRCh38']
     volumeMounts:
-      - mountPath: /vep_data
-        name: vep-data
+      - mountPath: /seqr
+        name: seqr
 
 # Prefer to be scheduled away from other seqr platform pods
 affinity: |-

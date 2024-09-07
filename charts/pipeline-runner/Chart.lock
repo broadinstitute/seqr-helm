@@ -1,0 +1,6 @@
+dependencies:
+- name: lib-seqr-platform
+  repository: file://../lib-seqr-platform
+  version: 0.1.0
+digest: sha256:78d624f2eb82abc5fac90e6b8808d88ea71777a91c454410abe63d2021312f9d
+generated: "2024-09-07T13:47:06.162729-04:00"

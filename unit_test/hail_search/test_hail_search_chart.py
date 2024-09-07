@@ -23,14 +23,14 @@ class TestHailSearchChart(unittest.TestCase):
         self.assertIn('checksum/config', p.stdout)
         self.assertIn('a/deployment', p.stdout)
         self.assertIn('checksum/datasetVersions: a3455105c5ed96d20f9422cbcf71ab28e9057ced7e048c8892ffaf721e5b7946', p.stdout)
-        self.assertIn('claimName: hail-search-pvc', p.stdout)
+        self.assertIn('claimName: seqr-platform-pvc', p.stdout)
         self.assertIn('local:', p.stdout)
         self.assertNotIn('9ff0a', p.stdout)
 
     def test_persistent_volume(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'persistentvolume.yaml')], capture_output=True, text=True)
         p.check_returncode()
-        self.assertIn('claimName: hail-search-pvc-9ff0a', p.stdout)
+        self.assertIn('claimName: seqr-platform-pvc-9ff0a', p.stdout)
         self.assertIn('volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk', p.stdout)
         self.assertIn('checksum/datasetVersions', p.stdout)
         self.assertIn('cp -r /ssd-datasets/GRCh38/SV_WES/annotations.ht /datasets/GRCh38/SV_WES/annotations.ht', p.stdout)

@@ -1,8 +1,8 @@
-{{- range $s := .Values.services }}
+{{- range $p := .Values.pods }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $.Chart.Name }}-{{ $s.name }}
+  name: {{ $.Chart.Name }}-{{ $p.name }}
   labels:
     {{- include "pipeline-runner.labels" $ | nindent 4 }}
   {{- with $.Values.deploymentAnnotations }}
@@ -37,39 +37,53 @@ spec:
       serviceAccountName: {{ $.Chart.Name }}
       {{- end }}
       containers:
-        - name: {{ $.Chart.Name }}-{{ $s.name }}-pod
+        - name: {{ $.Chart.Name }}-{{ $p.name }}-pod
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           command: ["/bin/bash", "-c"]
-          args: {{ $s.command }}
+          args: {{ $p.command }}
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
           ports:
             - name: http
-              containerPort: {{ $s.port }}
+              containerPort: {{ $p.service.port }}
               protocol: TCP
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 60
             failureThreshold: 5
             httpGet:
-              path: {{ $s.healthCheckRoute }}
+              path: {{ $p.healthCheckRoute }}
               port: http
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 60
             failureThreshold: 5
             httpGet:
-              path: {{ $s.healthCheckRoute }}
+              path: {{ $p.healthCheckRoute }}
               port: http
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /seqr
               name: seqr
+        {{- with $p.sidecar }}
+        - name: {{ $.Chart.Name }}-{{ $p.name }}-pod-sidecar
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          command: ["/bin/bash", "-c"]
+          args: {{ .command }}
+          envFrom:
+            - configMapRef:
+                name: {{ $.Chart.Name }}
+          resources:
+            {{- toYaml $.Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /seqr
+              name: seqr
+        {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
-      {{- with $.Values.initContainers}}
+      {{- with $p.initContainers}}
       initContainers:
         {{- tpl . $ | trim | nindent 8}}
       {{- end }}

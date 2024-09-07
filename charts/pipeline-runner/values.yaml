@@ -21,17 +21,37 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
-services:
+pods:
   - name: api
-    type: ClusterIP
-    port: 5000
+    service:
+      type: ClusterIP
+      port: 5000
     healthCheckRoute: /status
     command: ["python3", "-m", "v03_pipeline.api"]
+    initContainers: |-
+      - name: rsync-reference-data
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ['./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/rsync_reference_data.bash GRCh38']
+        volumeMounts:
+          - mountPath: /seqr
+            name: seqr
+      - name: download-vep-data
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ['./v03_pipeline/bin/download_vep_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_data.bash GRCh38']
+        volumeMounts:
+          - mountPath: /seqr
+            name: seqr
+    sidecar:
+      command: ["./v03_pipeline/bin/pipeline_worker.py"]
   - name: ui
-    type: ClusterIP
-    port: 8082
+    service:
+      type: ClusterIP
+      port: 5000
     healthCheckRoute: /
     command: ["luigid"]
+    initContainers: {}
 
 resources:
   {}
@@ -46,22 +66,6 @@ environment:
   CHECK_SEX_AND_RELATEDNESS: '0'
   EXPECT_WES_FILTERS: '0'
   SHOULD_REGISTER_ALLELES: '0'
-
-initContainers: |-
-  - name: rsync-reference-data
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-    imagePullPolicy: {{ .Values.image.pullPolicy }}
-    command: ['./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/rsync_reference_data.bash GRCh38']
-    volumeMounts:
-      - mountPath: /seqr
-        name: seqr
-  - name: download-vep-data
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-    imagePullPolicy: {{ .Values.image.pullPolicy }}
-    command: ['./v03_pipeline/bin/download_vep_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_data.bash GRCh38']
-    volumeMounts:
-      - mountPath: /seqr
-        name: seqr
 
 # Prefer to be scheduled away from other seqr platform pods
 affinity: |-

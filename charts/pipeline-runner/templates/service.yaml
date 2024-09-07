@@ -1,19 +1,19 @@
-{{- range $s := .Values.services }}
+{{- range $p := .Values.pods }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $.Chart.Name }}-{{ $s.name }}
+  name: {{ $.Chart.Name }}-{{ $p.name }}
   labels:
     {{- include "pipeline-runner.labels" $ | nindent 4 }}
 spec:
-  type: {{ $s.type }}
+  type: {{ $p.service.type }}
   ports:
-    - port: {{ $s.port }}
+    - port: {{ $p.service.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    name: {{ $.Chart.Name }}-{{ $s.name }}
+    name: {{ $.Chart.Name }}-{{ $p.name }}
     {{- include "pipeline-runner.selectorLabels" $ | nindent 4 }}
 {{ end }}

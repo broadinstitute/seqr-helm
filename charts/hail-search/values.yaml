@@ -1,14 +1,8 @@
-# Default values for hail-search.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
   repository: gcr.io/seqr-project/seqr-hail-search
   pullPolicy: Always
-  # -- The docker image tag to pull from the repository
-  # tag: "gcloud-dev"
 
 imagePullSecrets: []
 
@@ -26,7 +20,6 @@ service:
 resources:
   {}
 
-# default environment variables
 environment:
   DATASETS_DIR: '/datasets'
   SSD_DATASETS_DIR: '/ssd-datasets'
@@ -45,7 +38,6 @@ initContainers: |-
          readOnly: true
    {{ end }}
 
-# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

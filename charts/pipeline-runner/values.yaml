@@ -1,21 +1,13 @@
-# Default values for hail-search.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
   repository: gcr.io/seqr-project/seqr-pipeline-runner
   pullPolicy: Always
-  # -- The docker image tag to pull from the repository
-  # tag: "gcloud-dev"
 
 imagePullSecrets: []
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
 
 podAnnotations: {}
@@ -48,10 +40,10 @@ pods:
     initContainers: {}
     readOnlyVolume: false
     sidecar:
-      command: ["./v03_pipeline/bin/pipeline_worker.py"]
+      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
   - name: ui
     service:
-      type: ClusterIP
+      type: NodePort
       port: 8082
     healthCheckRoute: /
     command: ["luigid"]
@@ -61,7 +53,6 @@ pods:
 resources:
   {}
 
-# default environment variables
 environment:
   HAIL_TMPDIR: '/tmp'
   HAIL_SEARCH_DATA: '/seqr/hail-search-data'
@@ -72,7 +63,6 @@ environment:
   EXPECT_WES_FILTERS: '0'
   SHOULD_REGISTER_ALLELES: '0'
 
-# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

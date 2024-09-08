@@ -27,10 +27,13 @@ spec:
       {{- end }}
     spec:
       volumes:
-      - name: seqr
-        persistentVolumeClaim:
-          claimName: {{ include "seqr-platform.pvc-name" $ }}
-          readOnly: {{ $p.readOnlyVolume }}
+        - name: seqr
+          persistentVolumeClaim:
+            claimName: {{ include "seqr-platform.pvc-name" $ }}
+            readOnly: {{ $p.readOnlyVolume }}
+        - name: google-cloud-keys
+          secret:
+            secretName: google-cloud-keys
       {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
@@ -67,9 +70,12 @@ spec:
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /seqr
-              name: seqr
+            - name: seqr
+              mountPath: /seqr
               readOnly: {{ $p.readOnlyVolume }}
+            - name: google-cloud-keys
+              mountPath: /.config/gcloud/credentials.db
+              readOnly: true
         {{- with $p.sidecar }}
         - name: {{ $.Chart.Name }}-{{ $p.name }}-pod-sidecar
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"

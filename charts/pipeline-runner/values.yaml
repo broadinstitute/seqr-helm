@@ -24,16 +24,14 @@ pods:
       - name: rsync-reference-data
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/bin/bash", "-c"]
-        args: ["/v03_pipeline/bin/rsync_reference_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/rsync_reference_data.bash", "GRCh38"]
+        command: ["/v03_pipeline/bin/rsync_reference_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/rsync_reference_data.bash", "GRCh38"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr
       - name: download-vep-data
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/bin/bash", "-c"]
-        args: ["/v03_pipeline/bin/download_vep_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/download_vep_data.bash", "GRCh38"]
+        command: ["/v03_pipeline/bin/download_vep_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/download_vep_data.bash", "GRCh38"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr

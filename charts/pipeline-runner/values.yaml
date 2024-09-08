@@ -32,25 +32,30 @@ pods:
       - name: rsync-reference-data
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ['./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/rsync_reference_data.bash GRCh38']
+        command: ["/bin/bash", "-c"]
+        args: ["/v03_pipeline/bin/rsync_reference_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/rsync_reference_data.bash", "GRCh38"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr
       - name: download-vep-data
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ['./v03_pipeline/bin/download_vep_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_data.bash GRCh38']
+        command: ["/bin/bash", "-c"]
+        args: ["/v03_pipeline/bin/download_vep_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/download_vep_data.bash", "GRCh38"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr
+    initContainers: {}
+    readOnlyVolume: false
     sidecar:
       command: ["./v03_pipeline/bin/pipeline_worker.py"]
   - name: ui
     service:
       type: ClusterIP
-      port: 5000
+      port: 8082
     healthCheckRoute: /
     command: ["luigid"]
+    readOnlyVolume: true
     initContainers: {}
 
 resources:

@@ -30,6 +30,7 @@ spec:
       - name: seqr
         persistentVolumeClaim:
           claimName: {{ include "seqr-platform.pvc-name" $ }}
+          readOnly: {{ $p.readOnlyVolume }}
       {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
@@ -68,6 +69,7 @@ spec:
           volumeMounts:
             - mountPath: /seqr
               name: seqr
+              readOnly: {{ $p.readOnlyVolume }}
         {{- with $p.sidecar }}
         - name: {{ $.Chart.Name }}-{{ $p.name }}-pod-sidecar
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"

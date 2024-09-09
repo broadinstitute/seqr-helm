@@ -66,5 +66,5 @@ jobs:
           ct install --charts charts/seqr --namespace default --helm-extra-set-args "--set=environment.POSTGRES_SERVICE_HOSTNAME=172.17.0.1"
       - name: Test Hail Search Installation
         run: |
-          ct install --charts charts/hail-search --namespace default --helm-extra-set-args "--set=global.seqr_platform.persistentVolume.localNodeSelector=chart-testing-control-plane"
+          ct install --charts charts/hail-search --namespace default --helm-extra-set-args "--set=global.seqr_platform.persistentVolume.local.nodeSelector=chart-testing-control-plane"
 

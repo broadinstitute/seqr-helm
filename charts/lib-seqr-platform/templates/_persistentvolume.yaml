@@ -25,7 +25,7 @@ spec:
   {{- end }}
   {{- if not .Values.global.seqr_platform.persistentVolume.csi }}
   local:
-    path: /var/seqr
+    path: {{ .Values.global.seqr_platform.persistentVolume.local.path }}
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -33,7 +33,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ .Values.global.seqr_platform.persistentVolume.localNodeSelector }}
+          - {{ .Values.global.seqr_platform.persistentVolume.local.nodeSelector }}
   {{- end }}
 ---
 apiVersion: v1

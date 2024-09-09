@@ -81,8 +81,8 @@ spec:
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /seqr
-              name: seqr
+            - name: seqr
+              mountPath: /seqr
         {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst

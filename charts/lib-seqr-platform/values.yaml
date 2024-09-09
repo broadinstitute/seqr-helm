@@ -2,7 +2,7 @@ exports:
   global:
     seqr_platform:
       persistentVolume:
-        storageCapacity: '400Gi'
+        storageCapacity: '495Gi'
         accessMode: ReadWriteOnce
         local:
           nodeSelector: kind-control-plane

@@ -25,7 +25,7 @@ spec:
   {{- end }}
   {{- if not .Values.global.seqr_platform.persistentVolume.csi }}
   local:
-    path: /var
+    path: /var/seqr
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -50,5 +50,7 @@ spec:
     - {{ .Values.global.seqr_platform.persistentVolume.accessMode }}
   resources:
     requests:
+      storage: {{ .Values.global.seqr_platform.persistentVolume.storageCapacity }}
+    limits:
       storage: {{ .Values.global.seqr_platform.persistentVolume.storageCapacity }}
 {{- end}}

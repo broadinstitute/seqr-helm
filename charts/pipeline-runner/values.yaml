@@ -49,9 +49,10 @@ pods:
       port: 8082
     healthCheckRoute: /
     command: ["luigid"]
+    initContainers: {}
     resources: {}
     readOnlyVolume: true
-    initContainers: {}
+    sidecar: {}
 
 resources:
   {}

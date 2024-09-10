@@ -27,7 +27,7 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "4aa8689f61091fc6234694ed8c2240b700acbc63"
+appVersion: "6f70a53031291ca46b39f286c226f7e85e071540"
 
 dependencies:
   - name: lib-seqr-platform

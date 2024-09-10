@@ -38,7 +38,7 @@ pods:
     readOnlyVolume: false
     sidecar:
       command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
-      privileged: True
+      privileged: true
   - name: ui
     service:
       type: NodePort

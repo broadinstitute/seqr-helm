@@ -5,3 +5,4 @@ nodes:
     extraMounts:
     - hostPath: /var/seqr
       containerPath: /seqr
+      readOnly: false

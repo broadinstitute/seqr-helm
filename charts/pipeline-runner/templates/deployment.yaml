@@ -85,6 +85,7 @@ spec:
           volumeMounts:
             - name: seqr
               mountPath: /seqr
+              readOnly: {{ $p.readOnlyVolume }}
         {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst

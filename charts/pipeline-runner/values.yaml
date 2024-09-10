@@ -21,20 +21,22 @@ pods:
     healthCheckRoute: /status
     command: ["python3", "-m", "v03_pipeline.api"]
     initContainers: |-
-      - name: rsync-reference-data
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/v03_pipeline/bin/rsync_reference_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/rsync_reference_data.bash", "GRCh38"]
+      {{- range $r := list "GRCh37" "GRCh38" }}
+      - name: rsync-reference-data-{{ $r }}
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        command: ["/v03_pipeline/bin/rsync_reference_data.bash", "{{ $r }}"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr
-      - name: download-vep-data
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/v03_pipeline/bin/download_vep_data.bash", "GRCh37", "&&", "/v03_pipeline/bin/download_vep_data.bash", "GRCh38"]
+      - name: download-vep-data-{{ $r }}
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        command: ["/v03_pipeline/bin/download_vep_data.bash", "{{ $r }}"]
         volumeMounts:
           - mountPath: /seqr
             name: seqr
+      {{- end }}
     readOnlyVolume: false
     sidecar:
       command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]

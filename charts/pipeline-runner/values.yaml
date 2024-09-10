@@ -26,6 +26,9 @@ pods:
         image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         command: ["/v03_pipeline/bin/rsync_reference_data.bash", "{{ $r }}"]
+        resources:
+          requests:
+            memory: "8Gi"
         volumeMounts:
           - mountPath: /seqr
             name: seqr
@@ -33,20 +36,28 @@ pods:
         image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         command: ["/v03_pipeline/bin/download_vep_data.bash", "{{ $r }}"]
+        resources:
+          requests:
+            memory: "8Gi"
         volumeMounts:
           - mountPath: /seqr
             name: seqr
       {{- end }}
+    resources: {}
     readOnlyVolume: false
     sidecar:
       command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
       privileged: true
+      resources:
+        requests:
+          memory: "16Gi"
   - name: ui
     service:
       type: NodePort
       port: 8082
     healthCheckRoute: /
     command: ["luigid"]
+    resources: {}
     readOnlyVolume: true
     initContainers: {}
 

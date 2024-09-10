@@ -65,7 +65,7 @@ spec:
               path: {{ $p.healthCheckRoute }}
               port: http
           resources:
-            {{- toYaml $.Values.resources | nindent 12 }}
+            {{- toYaml $p.resources | nindent 12 }}
           volumeMounts:
             - name: seqr
               mountPath: /seqr
@@ -81,7 +81,7 @@ spec:
             - configMapRef:
                 name: {{ $.Chart.Name }}
           resources:
-            {{- toYaml $.Values.resources | nindent 12 }}
+            {{- toYaml .resources | nindent 12 }}
           volumeMounts:
             - name: seqr
               mountPath: /seqr

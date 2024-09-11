@@ -59,9 +59,9 @@ resources:
 
 environment:
   HAIL_TMPDIR: '/tmp'
-  HAIL_SEARCH_DATA: '/seqr/hail-search-data'
-  LOADING_DATASETS: '/seqr/seqr-loading-temp'
-  REFERENCE_DATASETS: '/seqr/seqr-reference-data'
+  HAIL_SEARCH_DATA_DIR: '/seqr/hail-search-data'
+  LOADING_DATASETS_DIR: '/seqr/seqr-loading-temp'
+  REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
   ACCESS_PRIVATE_REFERENCE_DATASETS: '0'
   CHECK_SEX_AND_RELATEDNESS: '0'
   EXPECT_WES_FILTERS: '0'

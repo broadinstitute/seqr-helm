@@ -35,7 +35,7 @@ env:
       secretKeyRef:
         name: {{ .Values.requiredSecrets.seqrSecretName }}
         key: django_key
-  {{- with .Values.additional_secrets }}
+  {{- with .Values.additionalSecrets }}
     {{- toYaml . | nindent 2}}
   {{- end }}
 {{- end }}

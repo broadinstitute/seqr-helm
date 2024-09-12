@@ -78,7 +78,7 @@ If you need to upgrade the redis version made available by this chart, you can d
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| additional_secrets | object | `{}` | If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file. |
+| additionalSecrets | object | `{}` | If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file. |
 | affinity | string | The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden. | Adds affinity rules to the seqr Deployment |
 | environment.GUNICORN_WORKER_THREADS | string | `"4"` | The number of threads to allocate to the gunicorn server |
 | environment.POSTGRES_SERVICE_HOSTNAME | string | `"postgres"` | The hostname to use for the postgres database connectsion |

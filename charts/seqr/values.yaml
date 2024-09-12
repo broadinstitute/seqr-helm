@@ -118,9 +118,9 @@ requiredSecrets:
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.
 # -- If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file.
-additional_secrets: {}
+additionalSecrets: {}
 # Examples
-# additional_secrets:
+# additionalSecrets:
 # - name: OMIM_KEY
 #   valueFrom:
 #     secretKeyRef:

@@ -103,7 +103,7 @@ ingress:
       hosts:
         - *cluster_hostname
 
-additional_secrets:
+additionalSecrets:
   - name: OMIM_KEY
     valueFrom:
       secretKeyRef:

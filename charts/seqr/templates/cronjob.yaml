@@ -60,7 +60,7 @@ spec:
                 trap "{{ $.Values.jobAfterHook }}" EXIT;
               {{- end }}
                 {{ $c.command }};
-          {{- with $.Values.deployment_sidecars }}
+          {{- with $.Values.deploymentSidecars }}
             {{- tpl . $ | nindent 10 }}
           {{- end }}
           {{- with $.Values.nodeSelector }}

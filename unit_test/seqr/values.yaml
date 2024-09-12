@@ -13,7 +13,7 @@ tolerations:
     value: "value1"
     effect: "NoSchedule"
 
-cluster_hostname: &cluster_hostname "test-seqr.myinstitute.org"
+clusterHostname: &clusterHostname "test-seqr.myinstitute.org"
 
 resources:
   requests:
@@ -44,7 +44,7 @@ redis:
         memory: "0.25Gi"
         cpu: "0.01"
 
-deployment_sidecars: |-
+deploymentSidecars: |-
   - name: cloud-sql-proxy
     image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:1.0.0
     command:
@@ -94,14 +94,14 @@ ingress:
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
   hosts:
-    - host: *cluster_hostname
+    - host: *clusterHostname
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: nginx-secrets-cert-manager
       hosts:
-        - *cluster_hostname
+        - *clusterHostname
 
 additionalSecrets:
   - name: OMIM_KEY

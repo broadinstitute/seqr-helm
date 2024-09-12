@@ -53,7 +53,7 @@ spec:
               trap "{{ $.Values.jobAfterHook }}" EXIT;
             {{- end }}
               python manage.py check_for_new_samples_from_pipeline {{ $path }} {{ $version }};
-      {{- with $.Values.deployment_sidecars }}
+      {{- with $.Values.deploymentSidecars }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}
       {{- with $.Values.nodeSelector }}

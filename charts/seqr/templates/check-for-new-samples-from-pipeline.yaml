@@ -1,5 +1,5 @@
 {{- range $path, $version := index $.Values.global "hail-search" "datasetVersions" -}}
-{{ if and $.Values.check_for_new_samples_job_enabled $version }}
+{{ if and $.Values.checkForNewSamplesJobEnabled $version }}
 ---
 apiVersion: batch/v1
 kind: Job

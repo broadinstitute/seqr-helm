@@ -165,7 +165,7 @@ cronJobs: {}
 #    schedule: "6-59/5 * * * *"
 #    command: "/bin/sleep 2 && exit $((RANDOM % 2))"
 
-check_for_new_samples_job_enabled: false
+checkForNewSamplesJobEnabled: false
 
 redis:
   # -- enables or disables redis deployment using this chart

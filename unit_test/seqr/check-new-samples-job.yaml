@@ -1,4 +1,4 @@
-check_for_new_samples_job_enabled: true
+checkForNewSamplesJobEnabled: true
 global:
   hail-search:
     datasetVersions:

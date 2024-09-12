@@ -24,7 +24,7 @@ Seqr needs the following services to function correctly, and they are expected t
 
 ### Secret Definition
 
-For minimal functiontionality, seqr requires a few secrets to be defined. You should create these secrets in your kubernetes cluster, and then, using the `required_secrets` variable in your Helm values, inform the chart what the names of the kubernetes secrets are which contain these required settings.
+For minimal functiontionality, seqr requires a few secrets to be defined. You should create these secrets in your kubernetes cluster, and then, using the `requiredSecrets` variable in your Helm values, inform the chart what the names of the kubernetes secrets are which contain these required settings.
 
 1. A secret containing a `password` field for the postgres database password.
 1. A secret containing a:
@@ -35,12 +35,12 @@ For minimal functiontionality, seqr requires a few secrets to be defined. You sh
 Here's how you might create some of the multi-field secrets described above:
 
 ```bash
-# provide the postgres password. After creating, the required_secrets.postgresSecretName variable in
+# provide the postgres password. After creating, the requiredSecrets.postgresSecretName variable in
 # values.yml should be set to 'postgres-secrets'
 kubectl create secret generic postgres-secrets \
   --from-literal=password='super-secure-password'
 
-# provide the seqr secrets. After creating, the required_secrets.seqrSecretName variable in
+# provide the seqr secrets. After creating, the requiredSecrets.seqrSecretName variable in
 # values.yml should be set to 'seqr-secrets'
 kubectl create secret generic seqr-secrets \
   --from-literal=django_key='securely-generated-key' \
@@ -80,10 +80,6 @@ If you need to upgrade the redis version made available by this chart, you can d
 |-----|------|---------|-------------|
 | additional_secrets | object | `{}` | If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file. |
 | affinity | string | The chart adds some antiAffinity rules to prevent multiple seqr pods on the same host, but these can be overridden. | Adds affinity rules to the seqr Deployment |
-| enable_elasticsearch_auth | bool | `false` | If seqr needs a password to connect to elasticsearch and kibana |
-| environment.ELASTICSEARCH_PROTOCOL | string | `"http"` | The URL protocol that seqr should use to connect to elasticsearch |
-| environment.ELASTICSEARCH_SERVICE_HOSTNAME | string | `"elasticsearch-es-http"` | The hostname that seqr should use to connect to elasticsearch |
-| environment.ELASTICSEARCH_SERVICE_PORT | string | `"9200"` | The port number that seqr should use to connect to elasticsearch |
 | environment.GUNICORN_WORKER_THREADS | string | `"4"` | The number of threads to allocate to the gunicorn server |
 | environment.POSTGRES_SERVICE_HOSTNAME | string | `"postgres"` | The hostname to use for the postgres database connectsion |
 | environment.POSTGRES_SERVICE_PORT | string | `"5432"` | The TCP port number to use for the postgres database connection |
@@ -100,9 +96,9 @@ If you need to upgrade the redis version made available by this chart, you can d
 | deploymentAnnotations | object | `{}` | A dictionary of annotations to add to the seqr Deployment |
 | redis.enabled | bool | `false` | enables or disables redis deployment using this chart |
 | replicaCount | int | `1` | The number of replicas of the seqr web service pod to run. Currenly only 1 is supported. |
-| required_secrets | object | `{"postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
-| required_secrets.postgresSecretName | string | `"postgres-secrets"` | The secret containing the postgres credentials. See the README for information on the format of this secret |
-| required_secrets.seqrSecretName | string | `"seqr-secrets"` | The secret containing the seqr required secrets. See the README for information on the format of this secret |
+| requiredSecrets | object | `{"postgresSecretName":"postgres-secrets","seqrSecretName":"seqr-secrets"}` | Secrets which are required for seqr's functionality |
+| requiredSecrets.postgresSecretName | string | `"postgres-secrets"` | The secret containing the postgres credentials. See the README for information on the format of this secret |
+| requiredSecrets.seqrSecretName | string | `"seqr-secrets"` | The secret containing the seqr required secrets. See the README for information on the format of this secret |
 | resources | object | `{}` | Sets the resource requests and limits for the seqr Deployment |
 | run_seqr_database_migration | bool | `false` | Enables or disables seqr database migration Jobs |
 | service.port | int | `8000` | The port for the seqr Service |

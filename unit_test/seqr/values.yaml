@@ -13,11 +13,7 @@ tolerations:
     value: "value1"
     effect: "NoSchedule"
 
-deployment_type: "test"
 cluster_hostname: &cluster_hostname "test-seqr.myinstitute.org"
-enable_elasticsearch_auth: true
-
-gunicorn_worker_threads: 20 # number of webserver threads
 
 resources:
   requests:

@@ -1,6 +1,5 @@
 check_for_new_samples_job_enabled: true
 global:
-  hail_search:
-    sourceDatasetsDir: 'gs://test-source'
+  hail-search:
     datasetVersions:
       GRCh38/MITO: 'manual_run_123'

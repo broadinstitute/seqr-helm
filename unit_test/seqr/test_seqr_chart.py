@@ -29,7 +29,6 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com', p.stdout)
         self.assertIn('cloud-sql-proxy', p.stdout)
         self.assertIn('serviceAccountName: seqr', p.stdout)
-        self.assertIn('SEQR_ES_PASSWORD', p.stdout)
         self.assertIn('a/deployment', p.stdout)
         self.assertIn('NoSchedule', p.stdout)
         self.assertEqual(p.stdout.count('kind: CronJob'), 2)

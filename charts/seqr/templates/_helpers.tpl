@@ -28,21 +28,14 @@ env:
   - name: POSTGRES_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.required_secrets.postgresSecretName }}
+        name: {{ .Values.requiredSecrets.postgresSecretName }}
         key: password
   - name: DJANGO_KEY
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.required_secrets.seqrSecretName }}
+        name: {{ .Values.requiredSecrets.seqrSecretName }}
         key: django_key
-  {{- if .Values.enable_elasticsearch_auth }}
-  - name: SEQR_ES_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.required_secrets.seqrSecretName }}
-        key: seqr_es_password
-  {{- end }}
-  {{- with .Values.additional_secrets }}
+  {{- with .Values.additionalSecrets }}
     {{- toYaml . | nindent 2}}
   {{- end }}
 {{- end }}

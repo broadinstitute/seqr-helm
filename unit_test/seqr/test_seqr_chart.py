@@ -56,7 +56,7 @@ class TestSeqrChart(unittest.TestCase):
     def test_redis(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'redis.yaml')], capture_output=True, text=True)
         p.check_returncode()
-        self.assertIn("REDIS_SERVICE_HOSTNAME: 'seqr-redis-master'", p.stdout)
+        self.assertIn("REDIS_SERVICE_HOSTNAME: seqr-redis-master", p.stdout)
         self.assertIn('app.kubernetes.io/name: redis', p.stdout)
 
 if __name__ == '__main__':

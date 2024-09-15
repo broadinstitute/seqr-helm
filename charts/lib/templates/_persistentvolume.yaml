@@ -1,0 +1,54 @@
+{{- define "seqr-platform.persistentvolume" -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "seqr-platform.pv-name" . }}
+  labels:
+    {{- include "seqr-platform.labels" . | nindent 4 }}
+spec:
+  storageClassName: ""
+  capacity:
+    storage: {{ index .Values.global "seqr-platform" "persistentVolume" "storageCapacity" }}
+  accessModes:
+    - {{ index .Values.global "seqr-platform" "persistentVolume" "accessMode" }}
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Delete
+  claimRef:
+    name: {{ include "seqr-platform.pvc-name" . }}
+    # namespace appears to default to '' here.
+    # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
+    # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
+    namespace: {{ .Release.Namespace }}
+  {{- with index .Values.global "seqr-platform" "persistentVolume" "csi" }}
+  csi:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if not (index .Values.global "seqr-platform" "persistentVolume" "csi") }}
+  local:
+    path: {{ index .Values.global "seqr-platform" "persistentVolume" "local" "path" }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ index .Values.global "seqr-platform" "persistentVolume" "local" "nodeSelector" }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "seqr-platform.pvc-name" . }}
+  labels:
+    {{- include "seqr-platform.labels" . | nindent 4 }}
+spec:
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ include "seqr-platform.pv-name" . }}
+  accessModes:
+    - {{ index .Values.global "seqr-platform" "persistentVolume" "accessMode"  }}
+  resources:
+    requests:
+      storage: {{ index .Values.global "seqr-platform" "persistentVolume" "storageCapacity" }}
+{{- end}}

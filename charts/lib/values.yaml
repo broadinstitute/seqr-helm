@@ -1,0 +1,10 @@
+exports:
+  global:
+    seqr-platform:
+      persistentVolume:
+        storageCapacity: '499Gi'
+        accessMode: ReadWriteOnce
+        local:
+          nodeSelector: kind-control-plane
+          path: '/seqr'
+        csi: {}

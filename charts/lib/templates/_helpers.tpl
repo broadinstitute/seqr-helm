@@ -1,9 +1,9 @@
 {{/*
 Common labels
 */}}
-{{- define "seqr-platform.labels" -}}
+{{- define "lib.labels" -}}
 helm.sh/chart: {{printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-{{ include "seqr-platform.selectorLabels" . }}
+{{ include "lib.selectorLabels" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/part-of: seqr-platform
@@ -12,7 +12,7 @@ app.kubernetes.io/part-of: seqr-platform
 {{/*
 Selector labels
 */}}
-{{- define "seqr-platform.selectorLabels" -}}
+{{- define "lib.selectorLabels" -}}
 app.kubernetes.io/name: {{ .Chart.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
@@ -21,17 +21,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Name the PV and PVC
 */}}
-{{- define "seqr-platform.pv-name" -}}
-{{- if (index .Values.global "seqr-platform" "persistentVolume" "csi" "volumeHandle") -}}
-seqr-platform-pv-{{ print (index .Values.global "seqr-platform" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
+{{- define "lib.pv-name" -}}
+{{- if (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") -}}
+seqr-platform-pv-{{ print (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
 {{- else -}}
 seqr-platform-pv
 {{- end }}
 {{- end }}
 
-{{- define "seqr-platform.pvc-name" -}}
-{{- if (index .Values.global "seqr-platform" "persistentVolume" "csi" "volumeHandle") -}}
-seqr-platform-pvc-{{ print (index .Values.global "seqr-platform" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
+{{- define "lib.pvc-name" -}}
+{{- if (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") -}}
+seqr-platform-pvc-{{ print (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
 {{- else -}}
 seqr-platform-pvc
 {{- end }}

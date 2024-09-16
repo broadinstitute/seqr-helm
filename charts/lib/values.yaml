@@ -2,7 +2,7 @@ exports:
   global:
     lib:
       persistentVolume:
-        storageCapacity: '500Gi'
+        storageCapacity: '575Gi'
         accessMode: ReadWriteOnce
         local:
           nodeSelector: kind-control-plane

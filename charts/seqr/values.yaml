@@ -199,8 +199,7 @@ postgresql:
         memory: 1Gi
     persistence:
       existingClaim: seqr-platform-pvc
-      size: 60Gi
-      mountPath: /seqr
+      mountPath: /seqr/postgresql
   postgresqlDataDir: /seqr/postgresql/data
   image:
     tag: '12.19.0-debian-12-r9'

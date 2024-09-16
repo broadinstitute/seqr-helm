@@ -1,1 +1,1 @@
-{{- include "seqr-platform.persistentvolume" . }}
+{{- include "lib.persistentvolume" . }}

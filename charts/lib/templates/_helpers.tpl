@@ -22,7 +22,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Name the PV and PVC
 */}}
 {{- define "lib.pv-name" -}}
-{{- if .Values.global.lib.persistentVolume.csi.volumeHandle) -}}
+{{- if .Values.global.lib.persistentVolume.csi.volumeHandle -}}
 seqr-platform-pv-{{ print .Values.global.lib.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
 {{- else -}}
 seqr-platform-pv

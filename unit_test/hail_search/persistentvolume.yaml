@@ -1,9 +1,9 @@
-persistentVolume:
-  enabled: true
-  driver: pd.csi.storage.gke.io
-  volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
-
 global:
+  lib:
+    persistentVolume:
+      csi:
+        driver: pd.csi.storage.gke.io
+        volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
   hail-search:
     datasetVersions:
       GRCh38/GCNV: 2023-11-03T22-31-23.149902+00-00

@@ -1,5 +1,5 @@
 global:
-  seqr-platform:
+  lib:
     persistentVolume:
       csi:
         driver: pd.csi.storage.gke.io

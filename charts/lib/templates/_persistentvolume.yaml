@@ -8,9 +8,9 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: {{ index .Values.global "lib" "persistentVolume" "storageCapacity" }}
+    storage: {{ .Values.global.lib.persistentVolume.storageCapacity }}
   accessModes:
-    - {{ index .Values.global "lib" "persistentVolume" "accessMode" }}
+    - {{ .Values.global.lib.persistentVolume.accessMode }}
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Delete
   claimRef:
@@ -19,13 +19,13 @@ spec:
     # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
     # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
     namespace: {{ .Release.Namespace }}
-  {{- with index .Values.global "lib" "persistentVolume" "csi" }}
+  {{- with .Values.global.lib.persistentVolume.csi }}
   csi:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if not (index .Values.global "lib" "persistentVolume" "csi") }}
+  {{- if not .Values.global.lib.persistentVolume.csi }}
   local:
-    path: {{ index .Values.global "lib" "persistentVolume" "local" "path" }}
+    path: {{ .Values.global.lib.persistentVolume.local.path }}
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -33,7 +33,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ index .Values.global "lib" "persistentVolume" "local" "nodeSelector" }}
+          - {{ .Values.global.lib.persistentVolume.local.nodeSelector }}
   {{- end }}
 ---
 apiVersion: v1
@@ -47,8 +47,8 @@ spec:
   volumeMode: Filesystem
   volumeName: {{ include "lib.pv-name" . }}
   accessModes:
-    - {{ index .Values.global "lib" "persistentVolume" "accessMode"  }}
+    - {{ .Values.global.lib.persistentVolume.accessMode  }}
   resources:
     requests:
-      storage: {{ index .Values.global "lib" "persistentVolume" "storageCapacity" }}
+      storage: {{ .Values.global.lib.persistentVolume.storageCapacity }}
 {{- end}}

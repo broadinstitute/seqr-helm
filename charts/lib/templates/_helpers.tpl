@@ -22,16 +22,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Name the PV and PVC
 */}}
 {{- define "lib.pv-name" -}}
-{{- if (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") -}}
-seqr-platform-pv-{{ print (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
+{{- if .Values.global.lib.persistentVolume.csi.volumeHandle) -}}
+seqr-platform-pv-{{ print .Values.global.lib.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
 {{- else -}}
 seqr-platform-pv
 {{- end }}
 {{- end }}
 
 {{- define "lib.pvc-name" -}}
-{{- if (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") -}}
-seqr-platform-pvc-{{ print (index .Values.global "lib" "persistentVolume" "csi" "volumeHandle") | sha256sum | trunc 5}}
+{{- if .Values.global.lib.persistentVolume.csi.volumeHandle -}}
+seqr-platform-pvc-{{ print .Values.global.lib.persistentVolume.csi.volumeHandle | sha256sum | trunc 5}}
 {{- else -}}
 seqr-platform-pvc
 {{- end }}

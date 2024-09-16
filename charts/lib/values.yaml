@@ -1,6 +1,6 @@
 exports:
   global:
-    seqr-platform:
+    lib:
       persistentVolume:
         storageCapacity: '499Gi'
         accessMode: ReadWriteOnce

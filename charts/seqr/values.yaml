@@ -171,6 +171,27 @@ redis:
   # -- enables or disables redis deployment using this chart
   enabled: false
 
+postgresql:
+  # -- enables or disables postgres deployment using this chart
+  enabled: true
+  fullnameOverride: seqr-postgresql
+  architecture: standalone
+  auth:
+    username: postgres
+    existingSecret: postgres-secrets
+    secretKeys:
+      # Keyword used to find the admin password inside the existingSecret
+      adminPasswordKey: password
+  containerPorts:
+    postgresql: 5432
+  primary:
+    resources:
+      requests:
+        cpu: 1
+        memory: 1Gi
+  image:
+    tag: '12.19'
+
 global:
   hail-search:
     datasetVersions:

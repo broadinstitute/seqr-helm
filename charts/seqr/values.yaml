@@ -176,8 +176,14 @@ redis:
   # -- default redis settings
   architecture: standalone
   auth:
-    enabled: no
+    enabled: false
   fullnameOverride: "seqr-redis"
+
+  master:
+    resources:
+      requests:
+        memory: "0.25Gi"
+        cpu: "0.01"
 
 global:
   hail-search:

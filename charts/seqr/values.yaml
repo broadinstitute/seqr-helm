@@ -171,7 +171,7 @@ checkForNewSamplesJobEnabled: false
 
 redis:
   # -- enables or disables redis deployment using this chart
-  enabled: true
+  enabled: false
 
   # -- default redis settings
   architecture: standalone

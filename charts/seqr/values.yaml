@@ -100,6 +100,8 @@ environment:
   POSTGRES_SERVICE_PORT: "5432"
   # -- The hostname of the redis cache that seqr should use
   REDIS_SERVICE_HOSTNAME: "seqr-redis-master"
+  # -- The port of the redis cache that seqr should use
+  REDIS_SERVICE_PORT: "6379"
   # -- The port that the seqr server should listen on
   SEQR_SERVICE_PORT: "8000"  # TODO: this should probably always match the service.port setting?
   # -- If storing static media files in a local filesystem, the path to that filesystem
@@ -170,6 +172,12 @@ checkForNewSamplesJobEnabled: false
 redis:
   # -- enables or disables redis deployment using this chart
   enabled: false
+
+  # -- default redis settings
+  architecture: standalone
+  auth:
+    enabled: false
+  fullnameOverride: "seqr-redis"
 
 global:
   hail-search:

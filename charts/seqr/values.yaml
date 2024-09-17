@@ -171,12 +171,12 @@ checkForNewSamplesJobEnabled: false
 
 redis:
   # -- enables or disables redis deployment using this chart
-  enabled: true
+  enabled: false
 
   # -- default redis settings
   architecture: standalone
   auth:
-    enabled: no
+    enabled: false
   fullnameOverride: "seqr-redis"
 
 global:

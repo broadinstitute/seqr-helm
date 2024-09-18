@@ -171,12 +171,12 @@ redis:
   # -- default redis settings
   architecture: standalone
   auth:
-    enabled: no
+    enabled: false
   fullnameOverride: "seqr-redis"
 
 postgresql:
   # -- enables or disables postgres deployment using this chart
-  enabled: true
+  enabled: false
   fullnameOverride: seqr-postgres
   architecture: standalone
   auth:
@@ -223,7 +223,7 @@ postgresql:
     persistence:
       existingClaim: seqr-platform-pvc
       mountPath: /seqr
-    # We ran into race condition issues with the liveness probe killing 
+    # We ran into race condition issues with the liveness probe killing
     # the postgres init and leaving partial state in the data dir.
     # Some details here: https://github.com/bitnami/charts/issues/14683
     startupProbe:

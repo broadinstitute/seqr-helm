@@ -143,11 +143,6 @@ additionalSecrets: {}
 #     secretKeyRef:
 #       name: seqr-secrets
 #       key: ga_token_id
-# - name: KIBANA_ES_PASSWORD
-#   valueFrom:
-#     secretKeyRef:
-#       name: kibana-secrets
-#       key: elasticsearch.password
 
 # -- Additional data volumes to use in the seqr Deployment
 volumes: {}
@@ -225,10 +220,6 @@ postgresql:
             mountPath: /seqr
           - name: dshm
             mountPath: /dev/shm
-    resources:
-      requests:
-        cpu: 1
-        memory: 1Gi
     persistence:
       existingClaim: seqr-platform-pvc
       mountPath: /seqr

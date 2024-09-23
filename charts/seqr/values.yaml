@@ -98,34 +98,20 @@ environment:
   POSTGRES_USERNAME: "postgres"
   # -- The TCP port number to use for the postgres database connection
   POSTGRES_SERVICE_PORT: "5432"
-  # -- The hostname that seqr should use to connect to elasticsearch
-  ELASTICSEARCH_SERVICE_HOSTNAME: "elasticsearch-es-http"
-  # -- The port number that seqr should use to connect to elasticsearch
-  ELASTICSEARCH_SERVICE_PORT: "9200"
-  # -- The URL protocol that seqr should use to connect to elasticsearch
-  ELASTICSEARCH_PROTOCOL: "http"
-  # ELASTICSEARCH_CA_PATH: "/elasticsearch-certs/ca.crt"
-  # KIBANA_SERVICE_HOSTNAME: "kibana-kb-http"
-  # KIBANA_SERVICE_PORT: "5601"
   # -- The hostname of the redis cache that seqr should use
   REDIS_SERVICE_HOSTNAME: "seqr-redis-master"
+  # -- The port of the redis cache that seqr should use
+  REDIS_SERVICE_PORT: "6379"
   # -- The port that the seqr server should listen on
   SEQR_SERVICE_PORT: "8000"  # TODO: this should probably always match the service.port setting?
   # -- If storing static media files in a local filesystem, the path to that filesystem
   STATIC_MEDIA_DIR: null
 
-# Secrets will need to be provided for setting the elasticsearch and kibana passwords. See the README for more details
-# -- If seqr needs a password to connect to elasticsearch and kibana
-enable_elasticsearch_auth: false
-
-# -- The name of the secret containing seqr's elasticsearch password
-# seqrSecretName: seqr-secrets
-
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
 
 # -- Secrets which are required for seqr's functionality
-required_secrets:
+requiredSecrets:
   # -- The secret containing the postgres credentials. See the README for information on the format of this secret
   postgresSecretName: postgres-secrets
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
@@ -134,9 +120,9 @@ required_secrets:
 # Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
 # directly as yaml.
 # -- If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file.
-additional_secrets: {}
+additionalSecrets: {}
 # Examples
-# additional_secrets:
+# additionalSecrets:
 # - name: OMIM_KEY
 #   valueFrom:
 #     secretKeyRef:
@@ -181,14 +167,20 @@ cronJobs: {}
 #    schedule: "6-59/5 * * * *"
 #    command: "/bin/sleep 2 && exit $((RANDOM % 2))"
 
-check_for_new_samples_job_enabled: false
+checkForNewSamplesJobEnabled: false
 
 redis:
   # -- enables or disables redis deployment using this chart
   enabled: false
 
+  # -- default redis settings
+  architecture: standalone
+  auth:
+    enabled: false
+  fullnameOverride: "seqr-redis"
+
 global:
-  hail_search:
+  hail-search:
     datasetVersions:
       GRCh37/SNV_INDEL: ''
       GRCh38/SNV_INDEL: ''

@@ -71,7 +71,7 @@ spec:
             - /readiness_probe
           failureThreshold: 6
           periodSeconds: 10
-      {{- with .Values.deployment_sidecars }}
+      {{- with .Values.deploymentSidecars }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}
       restartPolicy: Always

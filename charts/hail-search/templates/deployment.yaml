@@ -26,11 +26,13 @@ spec:
       {{- end }}
     spec:
       volumes:
-      - name: datasets
+      {{- if .Values.inMemoryVolumeEnabled }}
+      - name: in-memory-dir
         emptyDir:
           # Default sizeLimit is 1/2 the total RAM of the Node.
           medium: "Memory"
-      - name: ssd-datasets
+      {{- end }}
+      - name: hail-search-data-dir
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
           readOnly: true
@@ -73,11 +75,13 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: {{ .Values.environment.DATASETS_DIR }}
-              name: datasets
-            - mountPath: {{ .Values.environment.SSD_DATASETS_DIR }}
-              name: ssd-datasets
+            - mountPath: {{ .Values.environment.HAIL_SEARCH_DATA_DIR }}
+              name: hail-search-data-dir
               readOnly: true
+            {{- if .Values.inMemoryVolumeEnabled }}
+            - mountPath: {{ .Values.environment.IN_MEMORY_DIR }}
+              name: in-memory-dir
+            {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

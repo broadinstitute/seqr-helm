@@ -25,20 +25,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- with .Values.volumes }}
       volumes:
-      {{- if .Values.inMemoryVolumeEnabled }}
-      - name: in-memory-dir
-        emptyDir:
-          # Default sizeLimit is 1/2 the total RAM of the Node.
-          medium: "Memory"
-      {{- end }}
-      - name: hail-search-data-dir
-      {{- if .Values.persistentVolume.enabled }}
-        persistentVolumeClaim:
-          readOnly: true
-          claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
-      {{- else }}
-        emptyDir: {}
+        {{- tpl . $ | nindent 8 }}
       {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -74,14 +63,10 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            - mountPath: {{ .Values.environment.HAIL_SEARCH_DATA_DIR }}
-              name: hail-search-data-dir
-              readOnly: true
-            {{- if .Values.inMemoryVolumeEnabled }}
-            - mountPath: {{ .Values.environment.IN_MEMORY_DIR }}
-              name: in-memory-dir
-            {{- end }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

@@ -32,14 +32,21 @@ resources:
 environment:
   HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
   REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
-  IN_MEMORY_DIR: '/in-memory-datasets'
 
-inMemoryVolumeEnabled: false
 persistentVolume:
-  enabled: false
   storageCapacity: ''
   driver: ''
   volumeHandle: ''
+
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: true
+      claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /seqr
+    readOnly: true
 
 initContainers: {}
 

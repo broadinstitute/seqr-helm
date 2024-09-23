@@ -33,7 +33,7 @@ volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
       readOnly: true
-      claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
+      claimName: {{ include "lib.pvc-name" . }}
 volumeMounts: |-
   - name: seqr-datasets
     mountPath: /seqr

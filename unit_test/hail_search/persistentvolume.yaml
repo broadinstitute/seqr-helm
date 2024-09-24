@@ -1,7 +1,39 @@
+environment:
+  IN_MEMORY_DIR: '/in-memory-datasets'
+
 persistentVolume:
-  enabled: true
   driver: pd.csi.storage.gke.io
   volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
+
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: true
+      claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
+  - name: in-memory-dir
+    emptyDir:
+    # Default sizeLimit is 1/2 the total RAM of the Node.
+    medium: "Memory"
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /seqr
+    readOnly: true
+  - name: in-memory-dir
+    mountPath: {{ .Values.environment.IN_MEMORY_DIR }}
+
+initContainers: |-
+  {{- range $path, $version := index $.Values.global "hail-search" "datasetVersions" -}}
+  {{ if $version }}
+  {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
+  - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
+    image: busybox
+    command: ['/bin/sh', '-c', 'mkdir -p {{ $.Values.environment.IN_MEMORY_DIR }}/{{ $localPath }} && cp -r {{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}/{{ $localPath }}/annotations.ht {{ $.Values.environment.IN_MEMORY_DIR }}/{{ $localPath }}/annotations.ht']
+    {{- with $.Values.volumeMounts }}
+    volumeMounts:
+      {{- tpl . $ | nindent 4 }}
+    {{- end }}
+  {{ end -}}
+  {{ end }}
 
 global:
   hail-search:

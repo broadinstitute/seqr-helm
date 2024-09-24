@@ -12,8 +12,8 @@ volumes: |-
       claimName: {{ include "lib.pvc-name" . }}
   - name: in-memory-dir
     emptyDir:
-    # Default sizeLimit is 1/2 the total RAM of the Node.
-    medium: "Memory"
+      # Default sizeLimit is 1/2 the total RAM of the Node.
+      medium: "Memory"
 volumeMounts: |-
   - name: seqr-datasets
     mountPath: /seqr

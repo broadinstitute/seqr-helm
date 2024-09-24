@@ -1,10 +1,6 @@
 environment:
   IN_MEMORY_DIR: '/in-memory-datasets'
 
-persistentVolume:
-  driver: pd.csi.storage.gke.io
-  volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
-
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:

@@ -1,0 +1,76 @@
+replicaCount: 1
+image:
+  repository: gcr.io/seqr-project/seqr-pipeline-runner
+  pullPolicy: Always
+imagePullSecrets: []
+serviceAccount:
+  create: true
+  annotations: {}
+podAnnotations: {}
+deploymentAnnotations: {}
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: false
+      claimName: {{ include "lib.pvc-name" . }}
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /seqr
+    readOnly: false
+pods:
+  - name: api
+    service:
+      type: ClusterIP
+      port: 5000
+    healthCheckRoute: /status
+    command: ["python3", "-m", "v03_pipeline.api"]
+    initContainers: |-
+      {{- range $r := list "GRCh37" "GRCh38" }}
+      {{- range $s := list "rsync_reference_data" "download_vep_data"}}
+      - name: {{ $s | replace "_" "-" }}-{{ $r | lower}}
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        command: ["/v03_pipeline/bin/{{ $s }}.bash", "{{ $r }}"]
+        resources:
+          requests:
+            memory: "8Gi"
+        {{- with $.Values.volumeMounts }}
+        volumeMounts:
+          {{- tpl . $ | nindent 4 }}
+        {{- end }}
+      {{- end }}
+      {{- end }}
+    resources: {}
+    sidecar:
+      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      privileged: true
+      resources:
+        requests:
+          # Default memory request because the worker runs HAIL.
+          memory: "16Gi"
+  - name: ui
+    service:
+      type: NodePort
+      port: 8082
+    healthCheckRoute: /
+    command: ["luigid"]
+    initContainers: {}
+    resources: {}
+    sidecar: {}
+
+resources: {}
+environment: {}
+affinity: |-
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1.0
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "app.kubernetes.io/part-of"
+                operator: In
+                values:
+                - "seqr-platform"
+          topologyKey: "kubernetes.io/hostname"
+nodeSelector: {}
+tolerations: []

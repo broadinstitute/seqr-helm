@@ -1,6 +1,6 @@
 apiVersion: v2
 name: seqr
-description: A Helm chart for deploying Seqr, an open source software platform for rare disease genomics
+description: A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 home: https://seqr.broadinstitute.org
 sources:
   - https://github.com/broadinstitute/seqr

@@ -1,0 +1,22 @@
+apiVersion: v2
+name: seqr-platform
+description: A Helm chart for deploying all components of Seqr, an open source software platform for rare disease genomics
+sources:
+  - https://github.com/broadinstitute/seqr-helm
+  - https://github.com/broadinstitute/seqr
+  - https://github.com/broadinstitute/seqr-loading-pipelines
+maintainers:
+  - name: seqr
+    email: seqr@broadinstitute.org
+type: application
+version: 0.1.0
+dependencies:
+  - name: seqr
+    version: 1.1.2-dev
+    repository: "file://../seqr"
+  - name: pipeline-runner
+    version: 0.1.0
+    repository: "file://../pipeline-runner"
+  - name: hail-search
+    version: 0.2.2-dev
+    repository: "file://../hail-search"

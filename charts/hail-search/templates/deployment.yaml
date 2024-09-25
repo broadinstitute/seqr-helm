@@ -27,15 +27,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- with .Values.volumes }}
       volumes:
-      - name: datasets
-        emptyDir:
-          # Default sizeLimit is 1/2 the total RAM of the Node.
-          medium: "Memory"
-      - name: ssd-datasets
-        persistentVolumeClaim:
-          readOnly: true
-          claimName: {{ include "lib.pvc-name" . }}
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
@@ -70,12 +65,10 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            - mountPath: {{ .Values.environment.DATASETS_DIR }}
-              name: datasets
-            - mountPath: {{ .Values.environment.SSD_DATASETS_DIR }}
-              name: ssd-datasets
-              readOnly: true
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

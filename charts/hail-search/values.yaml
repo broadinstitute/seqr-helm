@@ -21,40 +21,25 @@ resources:
   {}
 
 environment:
-  DATASETS_DIR: '/datasets'
-  SSD_DATASETS_DIR: '/ssd-datasets'
+  HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
+  REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
 
 persistentVolume:
-  enabled: false
   storageCapacity: ''
   driver: ''
   volumeHandle: ''
 
-initContainers: |-
-  {{- range $path, $version := index $.Values.global "hail-search" "datasetVersions" -}}
-  {{ if $version }}
-  {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
-  - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
-    image: busybox
-    command: ['/bin/sh', '-c', 'mkdir -p {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }} && cp -r {{ $.Values.environment.SSD_DATASETS_DIR }}/{{ $localPath }}/annotations.ht {{ $.Values.environment.DATASETS_DIR }}/{{ $localPath }}/annotations.ht']
-    volumeMounts:
-      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
-        name: datasets
-      - mountPath: {{ $.Values.environment.SSD_DATASETS_DIR }}
-        name: ssd-datasets
-        readOnly: true
-  {{ end -}}
-  {{ end }}
-  {{- range $path, $queries := $.Values.cachedReferenceDatasetQueries -}}
-  {{- range $query := $queries -}}
-  - name: sync-crdq-{{ $path | replace "/" "-" | replace "_" "-" | lower}}-{{ $query | replace "_" "-" | lower}}
-    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
-    command: ['gsutil', '-qm', 'cp', '-r', '{{ $.Values.sourceCachedReferenceDatasetQueriesDir }}/{{ $path }}/cached_reference_dataset_queries/{{ $query }}.ht', '{{ $.Values.environment.DATASETS_DIR }}/{{ $path }}']
-    volumeMounts:
-      - mountPath: {{ $.Values.environment.DATASETS_DIR }}
-        name: datasets
-  {{ end -}}
-  {{ end }}
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: true
+      claimName: {{ include "lib.pvc-name" . }}
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /seqr
+    readOnly: true
+
+initContainers: {}
 
 # Prefer to be scheduled away from other seqr platform pods
 affinity: |-
@@ -72,17 +57,6 @@ affinity: |-
 
 nodeSelector: {}
 tolerations: []
-
-sourceCachedReferenceDatasetQueriesDir: 'gs://seqr-reference-data/v03'
-cachedReferenceDatasetQueries:
-  GRCh37/SNV_INDEL:
-    - 'clinvar_path_variants'
-    - 'high_af_variants'
-  GRCh38/SNV_INDEL:
-    - 'clinvar_path_variants'
-    - 'high_af_variants'
-  GRCh38/MITO:
-    - 'clinvar_path_variants'
 
 global:
   hail-search:

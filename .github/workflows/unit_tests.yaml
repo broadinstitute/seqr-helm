@@ -44,7 +44,6 @@ jobs:
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
-          # This hack lets us skip some expensive setup within the seqr startup
           ct install --charts charts/seqr --namespace default \
             --helm-extra-set-args "--set=postgresql.enabled=true"
 

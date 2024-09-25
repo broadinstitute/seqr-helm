@@ -10,8 +10,6 @@ DEFAULT_ARGS = [
     'charts/pipeline-runner', 
     '--dry-run',
     '--debug', 
-    '-f',
-    os.path.join(WORK_DIR, 'values.yaml')
 ]
 
 class TestPipelineRunnerChart(unittest.TestCase):
@@ -23,6 +21,13 @@ class TestPipelineRunnerChart(unittest.TestCase):
         self.assertIn('checksum/config', p.stdout)
         self.assertIn('pipeline-runner-ui', p.stdout)
         self.assertIn('pipeline-runner-api-sidecar', p.stdout)
+        for job in [
+            'rsync-reference-data-grch37',
+            'rsync-reference-data-grch38',
+            'download-vep-data-grch37',
+            'download-vep-data-grch38',
+        ]:
+            self.assertIn(job, p.stdout)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,24 @@
+pods:
+  - name: api
+    service:
+      type: ClusterIP
+      port: 5000
+    healthCheckRoute: /status
+    command: ["python3", "-m", "v03_pipeline.api"]
+    initContainers: {}
+    resources: {}
+    sidecar:
+      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      privileged: true
+      resources:
+        requests:
+          memory: "1Gi" #
+  - name: ui
+    service:
+      type: NodePort
+      port: 8082
+    healthCheckRoute: /
+    command: ["luigid"]
+    initContainers: {}
+    resources: {}
+    sidecar: {}

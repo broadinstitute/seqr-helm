@@ -38,7 +38,7 @@ spec:
       serviceAccountName: {{ $.Chart.Name }}
       {{- end }}
       containers:
-        - name: {{ $.Chart.Name }}-{{ $p.name }}-pod
+        - name: {{ $.Chart.Name }}-{{ $p.name }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           command: ["/bin/bash", "-c"]
           args: {{ $p.command }}
@@ -64,7 +64,7 @@ spec:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
         {{- with $p.sidecar }}
-        - name: {{ $.Chart.Name }}-{{ $p.name }}-pod-sidecar
+        - name: {{ $.Chart.Name }}-{{ $p.name }}-sidecar
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           command: ["/bin/bash", "-c"]
           args: {{ .command }}

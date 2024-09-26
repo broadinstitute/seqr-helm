@@ -1,0 +1,54 @@
+{{- define "lib.persistentvolume" -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "lib.pv-name" . }}
+  labels:
+    {{- include "lib.labels" . | nindent 4 }}
+spec:
+  storageClassName: ""
+  capacity:
+    storage: {{ .Values.global.lib.persistentVolume.storageCapacity }}
+  accessModes:
+    - {{ .Values.global.lib.persistentVolume.accessMode }}
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Delete
+  claimRef:
+    name: {{ include "lib.pvc-name" . }}
+    # namespace appears to default to '' here.
+    # https://stackoverflow.com/questions/68289505/is-namespace-mandatory-while-defining-claimref-under-k8s-persistentvolume-manife
+    # https://github.com/kubernetes/kubernetes/issues/48609 (loosely related)
+    namespace: {{ .Release.Namespace }}
+  {{- with .Values.global.lib.persistentVolume.csi }}
+  csi:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if not .Values.global.lib.persistentVolume.csi }}
+  local:
+    path: {{ .Values.global.lib.persistentVolume.local.path }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ .Values.global.lib.persistentVolume.local.nodeSelector }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "lib.pvc-name" . }}
+  labels:
+    {{- include "lib.labels" . | nindent 4 }}
+spec:
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ include "lib.pv-name" . }}
+  accessModes:
+    - {{ .Values.global.lib.persistentVolume.accessMode  }}
+  resources:
+    requests:
+      storage: {{ .Values.global.lib.persistentVolume.storageCapacity }}
+{{- end}}

@@ -1,19 +1,15 @@
 environment:
   IN_MEMORY_DIR: '/in-memory-datasets'
 
-persistentVolume:
-  driver: pd.csi.storage.gke.io
-  volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
-
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
       readOnly: true
-      claimName: {{ .Chart.Name }}-pvc-{{ .Values.persistentVolume.volumeHandle | sha256sum | trunc 5 }}
+      claimName: {{ include "lib.pvc-name" . }}
   - name: in-memory-dir
     emptyDir:
-    # Default sizeLimit is 1/2 the total RAM of the Node.
-    medium: "Memory"
+      # Default sizeLimit is 1/2 the total RAM of the Node.
+      medium: "Memory"
 volumeMounts: |-
   - name: seqr-datasets
     mountPath: /seqr
@@ -36,6 +32,14 @@ initContainers: |-
   {{ end }}
 
 global:
+  lib:
+    persistentVolume:
+      accessMode: ReadOnlyMany
+      csi:
+        driver: pd.csi.storage.gke.io
+        volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
+        fsType: 'ext4'
+        readOnly: True
   hail-search:
     datasetVersions:
       GRCh38/GCNV: 2023-11-03T22-31-23.149902+00-00

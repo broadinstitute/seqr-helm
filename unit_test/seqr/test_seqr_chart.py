@@ -60,7 +60,7 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('app.kubernetes.io/name: redis', p.stdout)
 
     def test_postgres(self):
-        p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'redis.yaml')], capture_output=True, text=True)
+        p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'postgresql.yaml')], capture_output=True, text=True)
         p.check_returncode()
         self.assertRegex(p.stdout, r'secretKeyRef:\s*name: postgres-secrets\s*key: password')
         self.assertRegex(p.stdout, r'kind: Service\s*metadata:\s*name: seqr-postgresql')

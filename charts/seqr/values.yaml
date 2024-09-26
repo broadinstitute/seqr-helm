@@ -175,7 +175,7 @@ redis:
   fullnameOverride: "seqr-redis"
 
 postgresql:
-  enabled: true
+  enabled: false
   architecture: standalone
   auth:
     username: postgres

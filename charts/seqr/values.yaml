@@ -212,8 +212,9 @@ postgresql:
           - /bin/sh
           - -ec
           - |
-            mkdir -p $PGDATA
-            chown -R `id -u`:`id -G | cut -d " " -f2` $PGDATA
+            mkdir -p {{ .Values.postgresqlDataDir }}
+            chown -R `id -u`:`id -G | cut -d " " -f2` {{ .Values.postgresqlDataDir }}
+        # In theory this block is template-able but is getting wrapped in single quotes.
         securityContext:
           runAsGroup: 0
           runAsNonRoot: false

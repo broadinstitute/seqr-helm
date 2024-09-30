@@ -166,7 +166,7 @@ checkForNewSamplesJobEnabled: false
 
 redis:
   # -- enables or disables redis deployment using this chart
-  enabled: false
+  enabled: true
 
   # -- default redis settings
   architecture: standalone
@@ -175,7 +175,7 @@ redis:
   fullnameOverride: "seqr-redis"
 
 postgresql:
-  enabled: false
+  enabled: true
   architecture: standalone
   auth:
     username: postgres

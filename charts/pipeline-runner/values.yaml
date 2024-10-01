@@ -33,7 +33,7 @@ pods:
         command: ["/v03_pipeline/bin/{{ $s }}.bash", "{{ $r }}"]
         resources:
           requests:
-            memory: "8Gi"
+            memory: "16Gi"
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}

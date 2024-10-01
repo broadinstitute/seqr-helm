@@ -59,7 +59,9 @@ pods:
     sidecar: {}
 
 resources: {}
-environment: {}
+environment:
+  SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
+
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

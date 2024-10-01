@@ -21,7 +21,7 @@ pods:
   - name: api
     service:
       type: ClusterIP
-      port: 5000
+      port: 6000
     healthCheckRoute: /status
     command: ["python3", "-m", "v03_pipeline.api"]
     initContainers: |-

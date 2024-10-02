@@ -151,8 +151,10 @@ volumeMounts: {}
 
 jobAfterHook: ""
 jobBeforeHook: ""
-cronJobs: 
-
+cronJobs:
+  - name: check-new-samples-job
+    schedule: "*/10 * * * *"
+    command: "python manage.py check_for_new_samples_from_pipeline"
 
 redis:
   # -- enables or disables redis deployment using this chart

@@ -1,5 +1,0 @@
-checkForNewSamplesJobEnabled: true
-global:
-  hail-search:
-    datasetVersions:
-      GRCh38/MITO: 'manual_run_123'

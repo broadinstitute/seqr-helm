@@ -21,7 +21,7 @@ pods:
   - name: api
     service:
       type: ClusterIP
-      port: 5000
+      port: 6000
     healthCheckRoute: /status
     command: ["python3", "-m", "v03_pipeline.api"]
     initContainers: |-
@@ -33,7 +33,7 @@ pods:
         command: ["/v03_pipeline/bin/{{ $s }}.bash", "{{ $r }}"]
         resources:
           requests:
-            memory: "8Gi"
+            memory: "16Gi"
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}
@@ -54,12 +54,22 @@ pods:
       port: 8082
     healthCheckRoute: /
     command: ["luigid"]
-    initContainers: {}
+    initContainers: |-
+      - name: mkdir-luigi-state
+        image: busybox:1.35
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        command: ['/bin/mkdir', '-p', '/seqr/luigi-state']
+        {{- with $.Values.volumeMounts }}
+        volumeMounts:
+          {{- tpl . $ | nindent 4 }}
+        {{- end }}
     resources: {}
     sidecar: {}
 
 resources: {}
-environment: {}
+environment:
+  SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
+
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

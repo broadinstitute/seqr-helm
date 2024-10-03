@@ -1,0 +1,101 @@
+{{- range $p := .Values.pods }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Chart.Name }}-{{ $p.name }}
+  labels:
+    {{- include "pipeline-runner.labels" $ | nindent 4 }}
+  {{- with $.Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ $.Values.replicaCount }}
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      {{- include "pipeline-runner.selectorLabels" $ | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pipeline-runner.labels" $ | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
+      {{- with $.Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with $.Values.volumes }}
+      volumes:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if $.Values.serviceAccount.create }}
+      serviceAccountName: {{ $.Chart.Name }}
+      {{- end }}
+      containers:
+        - name: {{ $.Chart.Name }}-{{ $p.name }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          command: ["/bin/bash", "-c"]
+          args: {{ $p.command }}
+          envFrom:
+            - configMapRef:
+                name: {{ $.Chart.Name }}
+          ports:
+            - name: http
+              containerPort: {{ $p.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ $p.healthCheckRoute }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ $p.healthCheckRoute }}
+              port: http
+          resources:
+            {{- toYaml $p.resources | nindent 12 }}
+          {{- with $.Values.volumeMounts }}
+          volumeMounts:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+        {{- with $p.sidecar }}
+        - name: {{ $.Chart.Name }}-{{ $p.name }}-sidecar
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          command: ["/bin/bash", "-c"]
+          args: {{ .command }}
+          securityContext:
+            privileged: {{ .privileged }}
+          envFrom:
+            - configMapRef:
+                name: {{ $.Chart.Name }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          {{- with $.Values.volumeMounts }}
+          volumeMounts:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+        {{- end }}
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      {{- with $p.initContainers}}
+      initContainers:
+        {{- tpl . $ | trim | nindent 8}}
+      {{- end }}
+      {{- with $.Values.affinity }}
+      affinity:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

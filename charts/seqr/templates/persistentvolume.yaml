@@ -1,0 +1,3 @@
+{{ if .Values.postgresql.enabled }}
+{{- include "lib.persistentvolume" . }}
+{{- end}}

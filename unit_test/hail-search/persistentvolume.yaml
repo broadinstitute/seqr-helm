@@ -23,20 +23,19 @@ initContainers: |-
     command: [
       '/bin/sh', 
       '-c',
-      'mkdir -p {{ $.Values.environment.IN_MEMORY_DIR }}'
-      '&&'
-      'rsync'
-      '--recursive'
-      '--include="*/*/annotations.ht/***"'
-      '--exclude="*/*/*"'
-      '{{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}'
-      '{{ $.Values.environment.IN_MEMORY_DIR }}'
+      'mkdir -p {{ $.Values.environment.IN_MEMORY_DIR }}',
+      '&&',
+      'rsync',
+      '--recursive',
+      '--include="*/*/annotations.ht/***"',
+      '--exclude="*/*/*"',
+      '{{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}',
+      '{{ $.Values.environment.IN_MEMORY_DIR }}',
     ]
     {{- with $.Values.volumeMounts }}
     volumeMounts:
       {{- tpl . $ | nindent 4 }}
     {{- end }}
-  {{- end }}
 
 global:
   lib:

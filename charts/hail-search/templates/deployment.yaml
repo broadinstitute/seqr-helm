@@ -19,9 +19,6 @@ spec:
       labels:
         {{- include "hail-search.labels" . | nindent 8 }}
       annotations:
-        {{- with index .Values.global "hail-search" "datasetVersions" }}
-        checksum/datasetVersions: {{ print . | sha256sum }}
-        {{- end }}
         checksum/config: {{ include (print .Template.BasePath "/environment.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}

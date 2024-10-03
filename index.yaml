@@ -1492,6 +1492,30 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/lib-0.1.0/lib-0.1.0.tgz
     version: 0.1.0
+  pipeline-runner:
+  - apiVersion: v2
+    appVersion: 26c67e4d07ed2ed634bdc29efb2ac130abcf10d3
+    created: "2024-10-03T20:11:57.847085719Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: f4eb3984033d978ea004da09163909597867bdf79268aa36007a12a42dde6928
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: pipeline-runner
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-0.1.0/pipeline-runner-0.1.0.tgz
+    version: 0.1.0
   seqr:
   - apiVersion: v2
     appVersion: 1f0abb24d0f352f59085052806521485dd6762d6
@@ -4157,4 +4181,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.1/seqr-0.0.1.tgz
     version: 0.0.1
-generated: "2024-09-27T17:23:31.519040541Z"
+generated: "2024-10-03T20:11:57.97142072Z"

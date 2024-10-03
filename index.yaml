@@ -26,6 +26,30 @@ entries:
     - https://github.com/broadinstitute/seqr-helm/releases/download/hail-search-0.2.6/hail-search-0.2.6.tgz
     version: 0.2.6
   - apiVersion: v2
+    appVersion: 6e1be20414826c2743561b5747030b0c295d86ea
+    created: "2024-10-03T21:00:23.03798052Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 0.1.0
+    description: A Helm chart for deploying the hail backend of Seqr, an open source
+      software platform for rare disease genomics
+    digest: 34c09a2a030ea6f10769cb5b1c8f4ab5bd53a23e4f5fc73c1652b29bdc10285c
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: hail-search
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/hail-search-0.2.6-dev/hail-search-0.2.6-dev.tgz
+    version: 0.2.6-dev
+  - apiVersion: v2
     appVersion: 1f0abb24d0f352f59085052806521485dd6762d6
     created: "2024-09-26T19:58:22.663528857Z"
     dependencies:
@@ -1516,6 +1540,29 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-0.1.0/pipeline-runner-0.1.0.tgz
     version: 0.1.0
+  - apiVersion: v2
+    appVersion: 26c67e4d07ed2ed634bdc29efb2ac130abcf10d3
+    created: "2024-10-03T21:00:23.255443289Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 1ea4398843ec561d670684b6f7d49ef0b8113bd9f217c492014418f9904add8c
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: pipeline-runner
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-0.1.0-dev/pipeline-runner-0.1.0-dev.tgz
+    version: 0.1.0-dev
   seqr:
   - apiVersion: v2
     appVersion: 1f0abb24d0f352f59085052806521485dd6762d6
@@ -1540,6 +1587,40 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-1.1.4/seqr-1.1.4.tgz
     version: 1.1.4
+  - apiVersion: v2
+    appVersion: 1f0abb24d0f352f59085052806521485dd6762d6
+    created: "2024-10-03T21:00:23.667358127Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.31
+    - condition: postgresql.enabled
+      import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 0.1.0
+    description: A Helm chart for deploying Seqr, an open source software platform
+      for rare disease genomics
+    digest: a317c8db464bcc04f4c41fa2ca1eef6604765176411e123ba7419fb492c614d7
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-1.1.4-dev/seqr-1.1.4-dev.tgz
+    version: 1.1.4-dev
   - apiVersion: v2
     appVersion: 8d474f75af06a9e3beed052c7d8068dbfb79b66b
     created: "2024-09-26T18:49:48.13499468Z"
@@ -4181,4 +4262,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-0.0.1/seqr-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-03T20:11:57.97142072Z"
+generated: "2024-10-03T21:00:23.667909348Z"

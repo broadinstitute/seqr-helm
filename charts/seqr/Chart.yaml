@@ -32,3 +32,14 @@ dependencies:
     version: 19.0.2
     repository: "https://charts.bitnami.com/bitnami"
     condition: redis.enabled
+  - name: postgresql
+    version: 15.5.31
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: lib
+    version: 0.1.0
+    repository: "file://../lib"
+    condition: postgresql.enabled
+    import-values:
+      - child: exports.global
+        parent: global

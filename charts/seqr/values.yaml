@@ -156,18 +156,10 @@ volumeMounts: {}
 
 jobAfterHook: ""
 jobBeforeHook: ""
-cronJobs: {}
-# Examples
-# cronJobs:
-#  - name: sleep
-#    schedule: "5-59/5 * * * *"
-#    command: "/bin/sleep 2"
-#    timeout_s: 3600
-#  - name: fail_50
-#    schedule: "6-59/5 * * * *"
-#    command: "/bin/sleep 2 && exit $((RANDOM % 2))"
-
-checkForNewSamplesJobEnabled: false
+cronJobs:
+  - name: check-new-samples-job
+    schedule: "*/10 * * * *"
+    command: "python manage.py check_for_new_samples_from_pipeline"
 
 redis:
   # -- enables or disables redis deployment using this chart
@@ -179,8 +171,53 @@ redis:
     enabled: false
   fullnameOverride: "seqr-redis"
 
-global:
-  hail-search:
-    datasetVersions:
-      GRCh37/SNV_INDEL: ''
-      GRCh38/SNV_INDEL: ''
+postgresql:
+  enabled: true
+  architecture: standalone
+  auth:
+    username: postgres
+    existingSecret: *postgresSecretName
+    secretKeys:
+      # Keyword used to find the admin password inside the existingSecret
+      adminPasswordKey: password
+  fullnameOverride: seqr-postgresql
+  image:
+    tag: '12.19.0-debian-12-r9'
+  postgresqlDataDir: /seqr/postgresql-data
+  primary:
+    persistence:
+      existingClaim: |-
+        {{ include "lib.pvc-name" . }}
+      mountPath: /seqr
+    # We ran into race condition issues with the liveness probe killing
+    # the postgres init and leaving partial state in the data dir.
+    # Some details here: https://github.com/bitnami/charts/issues/14683
+    startupProbe:
+      enabled: true
+
+    # This is a reduced initContainers intended to replace the default
+    # provided with volumePermissions.enabled set to True.  The default
+    # uses the /data subdirectory and ignores postgresqlDataDir
+    # leading to an incorrectly permissioned data directory.
+    # See here: https://github.com/bitnami/charts/blob/aa038e9953df2ba74d481cb7ba1cccb3dc32c5fc/bitnami/postgresql/templates/primary/statefulset.yaml#L117-L157
+    initContainers:
+      - name: seqr-postgresql-init-chmod-data
+        image: |-
+          {{- include "postgresql.v1.volumePermissions.image" . }}
+        imagePullPolicy: "IfNotPresent"
+        command:
+          - /bin/sh
+          - -ec
+          - |
+            mkdir -p {{ .Values.postgresqlDataDir }}
+            chown -R `id -u`:`id -G | cut -d " " -f2` {{ .Values.postgresqlDataDir }}
+        # In theory this block is template-able but is getting wrapped in single quotes.
+        securityContext:
+          runAsGroup: 0
+          runAsNonRoot: false
+          seLinuxOptions: {}
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+          - name: data
+            mountPath: /seqr

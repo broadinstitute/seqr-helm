@@ -19,7 +19,7 @@ class TestSeqrChart(unittest.TestCase):
     def test_open_source_values(self):
         p = subprocess.run(DEFAULT_ARGS[:-2], capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
         p.check_returncode()
-        self.assertEqual(p.stdout.count('kind: CronJob'), 0)
+        self.assertEqual(p.stdout.count('kind: CronJob'), 1)
 
     def test_values(self):
         p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True)

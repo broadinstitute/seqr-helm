@@ -223,3 +223,6 @@ postgresql:
         volumeMounts:
           - name: data
             mountPath: /seqr
+
+globals:
+  seqrPlatformDeploy: false

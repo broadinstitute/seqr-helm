@@ -84,3 +84,6 @@ affinity: |-
           topologyKey: "kubernetes.io/hostname"
 nodeSelector: {}
 tolerations: []
+
+globals:
+  seqrPlatformDeploy: false

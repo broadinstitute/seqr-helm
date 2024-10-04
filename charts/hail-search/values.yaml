@@ -24,11 +24,6 @@ environment:
   HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
   REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
 
-persistentVolume:
-  storageCapacity: ''
-  driver: ''
-  volumeHandle: ''
-
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:

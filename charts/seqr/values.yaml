@@ -16,6 +16,7 @@ deploymentAnnotations: {}
 service:
   type: NodePort
   port: 8000
+  nodePort: 30950
 
 ingress:
   enabled: false

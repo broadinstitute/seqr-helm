@@ -10,9 +10,11 @@ spec:
   type: {{ $p.service.type }}
   ports:
     - port: {{ $p.service.port }}
-      targetPort: http
       protocol: TCP
       name: http
+      {{- with $p.service.nodePort }}
+      nodePort: {{ $p.service.nodePort }}
+      {{- end }}
   selector:
     name: {{ $.Chart.Name }}-{{ $p.name }}
     {{- include "pipeline-runner.selectorLabels" $ | nindent 4 }}

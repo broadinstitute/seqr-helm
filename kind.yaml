@@ -5,3 +5,8 @@ nodes:
     extraMounts:
     - hostPath: /var/seqr
       containerPath: /seqr
+    extraPortMappings:
+    - containerPort: 30900
+      hostPort: 80
+    - containerPort: 30901
+      hostPort: 8082

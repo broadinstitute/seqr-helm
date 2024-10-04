@@ -1,4 +1,4 @@
-1. Get the application URL by running these commands:
+1. Get the seqr user interface URL by running these commands:
 {{- if .Values.seqr.ingress.enabled }}
 {{- range $host := .Values.seqr.ingress.hosts }}
   {{- range .paths }}
@@ -6,9 +6,8 @@
   {{- end }}
 {{- end }}
 {{- else if contains "NodePort" .Values.seqr.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services seqr)
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT
+  echo http://$NODE_IP
 {{- else if contains "LoadBalancer" .Values.seqr.service.type }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
            You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w seqr'

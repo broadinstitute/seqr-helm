@@ -10,6 +10,6 @@ dependencies:
   version: 0.2.8-dev
 - name: lib
   repository: file://../lib
-  version: 0.1.0
-digest: sha256:0be913de318f2db097fe2e1e9b53e20aa60bff5cd98ac84d3d4f85811f279050
-generated: "2024-10-04T00:54:18.719274-04:00"
+  version: 0.1.1
+digest: sha256:4bdbc9314194f5fe04422e452f95bce65eaa2a5684c693d5f05b1afcea98672d
+generated: "2024-10-04T01:13:46.6983-04:00"

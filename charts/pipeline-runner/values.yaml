@@ -85,5 +85,5 @@ affinity: |-
 nodeSelector: {}
 tolerations: []
 
-globals:
+global:
   seqrPlatformDeploy: false

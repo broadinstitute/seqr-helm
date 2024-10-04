@@ -224,5 +224,5 @@ postgresql:
           - name: data
             mountPath: /seqr
 
-globals:
+global:
   seqrPlatformDeploy: false

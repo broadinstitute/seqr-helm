@@ -8,8 +8,15 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.2.6-dev
-appVersion: "6e1be20414826c2743561b5747030b0c295d86ea"
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.2.7-dev
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "f7c9a85e5de3064e65766915a440f298332bf745"
 dependencies:
   - name: lib
     version: 0.1.0

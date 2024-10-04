@@ -107,6 +107,11 @@ environment:
   # -- If storing static media files in a local filesystem, the path to that filesystem
   STATIC_MEDIA_DIR: null
 
+  HAIL_BACKEND_SERVICE_HOSTNAME: "hail-search"
+  HAIL_BACKEND_SERVICE_PORT: "5000"
+  PIPELINE_RUNNER_HOSTNAME: "pipeline-runner"
+  PIPELINE_RUNNER_PORT: "5000"
+
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.
 

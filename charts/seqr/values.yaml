@@ -111,6 +111,8 @@ environment:
   HAIL_BACKEND_SERVICE_PORT: "5000"
   PIPELINE_RUNNER_HOSTNAME: "pipeline-runner"
   PIPELINE_RUNNER_PORT: "5000"
+  LOADING_DATASETS_DIR: '/seqr/seqr-loading-temp'
+  HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
 
 # Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
 # have named them differently than the defaults. See the README for information on the format of these secrets.

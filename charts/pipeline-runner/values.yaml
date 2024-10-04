@@ -1,13 +1,17 @@
 replicaCount: 1
+
 image:
   repository: gcr.io/seqr-project/seqr-pipeline-runner
   pullPolicy: Always
 imagePullSecrets: []
+
 serviceAccount:
   create: true
   annotations: {}
+
 podAnnotations: {}
 deploymentAnnotations: {}
+
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
@@ -17,6 +21,7 @@ volumeMounts: |-
   - name: seqr-datasets
     mountPath: /seqr
     readOnly: false
+
 pods:
   - name: api
     service:

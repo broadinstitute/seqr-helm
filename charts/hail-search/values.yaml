@@ -36,7 +36,6 @@ volumeMounts: |-
 
 initContainers: {}
 
-# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

@@ -1,0 +1,3 @@
+{{- if not (lookup "v1" "PersistentVolume" .Release.Namespace (include "lib.pv-name" .)) }}
+{{- include "lib.persistentvolume" . }}
+{{- end }}

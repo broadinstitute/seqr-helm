@@ -12,11 +12,11 @@ type: application
 version: 0.1.0
 dependencies:
   - name: seqr
-    version: 1.1.2-dev
+    version: 1.1.5-dev
     repository: "file://../seqr"
   - name: pipeline-runner
-    version: 0.1.0
+    version: 0.1.1-dev
     repository: "file://../pipeline-runner"
   - name: hail-search
-    version: 0.2.2-dev
+    version: 0.2.7-dev
     repository: "file://../hail-search"

@@ -1,0 +1,12 @@
+dependencies:
+- name: seqr
+  repository: file://../seqr
+  version: 1.1.5-dev
+- name: pipeline-runner
+  repository: file://../pipeline-runner
+  version: 0.1.1-dev
+- name: hail-search
+  repository: file://../hail-search
+  version: 0.2.7-dev
+digest: sha256:ff4ae0621a6dc3eb142df42a8e81415f00c042a8eeda310bd93ac42b0f42f801
+generated: "2024-10-03T20:01:39.896627-04:00"

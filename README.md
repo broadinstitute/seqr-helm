@@ -39,6 +39,15 @@ helm repo add seqr https://broadinstitute.github.io/seqr-helm
 helm install institution-name charts/seqr-platform -f my-values.yaml
 ```
 
+## Migrating from `docker-compose.yaml`
+
+If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
+
+```
+cat /var/seqr/postgresql-data/PG_VERSION
+12
+```
+
 ## Required Secrets
 
 The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
@@ -57,3 +66,7 @@ kubectl create secret generic seqr-secrets \
 ```
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
+
+## Values overrides.
+
+All default values in the `seqr-platform` chart may be overrided with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  An example of what this may look like, and how the different values are formated in practice, is found in the [unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  

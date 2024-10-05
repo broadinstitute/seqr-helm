@@ -23,53 +23,421 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 
 ## Values
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| global.seqrPlatformDeploy | bool | `false` |  |
-| affinity | string | `"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""` |  |
-| deploymentAnnotations | object | `{}` |  |
-| environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD | string | `"1"` |  |
-| image.pullPolicy | string | `"Always"` |  |
-| image.repository | string | `"gcr.io/seqr-project/seqr-pipeline-runner"` |  |
-| imagePullSecrets | list | `[]` |  |
-| nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` |  |
-| pods[0].command[0] | string | `"python3"` |  |
-| pods[0].command[1] | string | `"-m"` |  |
-| pods[0].command[2] | string | `"v03_pipeline.api"` |  |
-| pods[0].healthCheckRoute | string | `"/status"` |  |
-| pods[0].initContainers | string | `"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  resources:\n    requests:\n      memory: \"16Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"` |  |
-| pods[0].name | string | `"api"` |  |
-| pods[0].resources | object | `{}` |  |
-| pods[0].service.port | int | `6000` |  |
-| pods[0].service.type | string | `"ClusterIP"` |  |
-| pods[0].sidecar.command[0] | string | `"python3"` |  |
-| pods[0].sidecar.command[1] | string | `"-m"` |  |
-| pods[0].sidecar.command[2] | string | `"v03_pipeline.bin.pipeline_worker"` |  |
-| pods[0].sidecar.privileged | bool | `true` |  |
-| pods[0].sidecar.resources.requests.memory | string | `"16Gi"` |  |
-| pods[1].command[0] | string | `"luigid"` |  |
-| pods[1].healthCheckRoute | string | `"/"` |  |
-| pods[1].initContainers | string | `"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', '/seqr/luigi-state']\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"` |  |
-| pods[1].name | string | `"ui"` |  |
-| pods[1].resources | object | `{}` |  |
-| pods[1].service.nodePort | int | `30901` |  |
-| pods[1].service.port | int | `8082` |  |
-| pods[1].service.type | string | `"NodePort"` |  |
-| pods[1].sidecar | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| tolerations | list | `[]` |  |
-| volumeMounts | string | `"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: false"` |  |
-| volumes | string | `"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"` |  |
-| lib.exports.global.lib.persistentVolume.accessMode | string | `"ReadWriteOnce"` |  |
-| lib.exports.global.lib.persistentVolume.csi | object | `{}` |  |
-| lib.exports.global.lib.persistentVolume.local.nodeSelector | string | `"kind-control-plane"` |  |
-| lib.exports.global.lib.persistentVolume.local.path | string | `"/seqr"` |  |
-| lib.exports.global.lib.persistentVolume.storageCapacity | string | `"750Gi"` |  |
-| lib.exports.global.seqrPlatformDeploy | bool | `false` |  |
+<table>
+	<thead>
+		<th>Key</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>affinity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>deploymentAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD</td>
+			<td>string</td>
+			<td><pre lang="json">
+"1"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.pullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Always"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"gcr.io/seqr-project/seqr-pipeline-runner"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>imagePullSecrets</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>nodeSelector</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>podAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-m"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"v03_pipeline.api"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].healthCheckRoute</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/status"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].initContainers</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  resources:\n    requests:\n      memory: \"16Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"api"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].service.port</td>
+			<td>int</td>
+			<td><pre lang="json">
+6000
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].service.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ClusterIP"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-m"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"v03_pipeline.bin.pipeline_worker"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.privileged</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.resources.requests.memory</td>
+			<td>string</td>
+			<td><pre lang="json">
+"16Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"luigid"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].healthCheckRoute</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].initContainers</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', '/seqr/luigi-state']\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ui"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].service.nodePort</td>
+			<td>int</td>
+			<td><pre lang="json">
+30901
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].service.port</td>
+			<td>int</td>
+			<td><pre lang="json">
+8082
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].service.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"NodePort"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].sidecar</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>replicaCount</td>
+			<td>int</td>
+			<td><pre lang="json">
+1
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.create</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>tolerations</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumeMounts</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: false"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumes</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.csi</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
+			<td>string</td>
+			<td><pre lang="json">
+"kind-control-plane"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/seqr"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"750Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

@@ -23,34 +23,250 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 
 ## Values
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| global.seqrPlatformDeploy | bool | `false` |  |
-| affinity | string | `"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""` |  |
-| deploymentAnnotations | object | `{}` |  |
-| environment.HAIL_SEARCH_DATA_DIR | string | `"/seqr/seqr-hail-search-data"` |  |
-| environment.REFERENCE_DATASETS_DIR | string | `"/seqr/seqr-reference-data"` |  |
-| image.pullPolicy | string | `"Always"` |  |
-| image.repository | string | `"gcr.io/seqr-project/seqr-hail-search"` |  |
-| imagePullSecrets | list | `[]` |  |
-| initContainers | object | `{}` |  |
-| nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| service.port | int | `5000` |  |
-| service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| tolerations | list | `[]` |  |
-| volumeMounts | string | `"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: true"` |  |
-| volumes | string | `"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"` |  |
-| lib.exports.global.lib.persistentVolume.accessMode | string | `"ReadWriteOnce"` |  |
-| lib.exports.global.lib.persistentVolume.csi | object | `{}` |  |
-| lib.exports.global.lib.persistentVolume.local.nodeSelector | string | `"kind-control-plane"` |  |
-| lib.exports.global.lib.persistentVolume.local.path | string | `"/seqr"` |  |
-| lib.exports.global.lib.persistentVolume.storageCapacity | string | `"750Gi"` |  |
-| lib.exports.global.seqrPlatformDeploy | bool | `false` |  |
+<table>
+	<thead>
+		<th>Key</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>affinity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>deploymentAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.HAIL_SEARCH_DATA_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/seqr/seqr-hail-search-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.REFERENCE_DATASETS_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/seqr/seqr-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.pullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Always"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"gcr.io/seqr-project/seqr-hail-search"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>imagePullSecrets</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>initContainers</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>nodeSelector</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>podAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>replicaCount</td>
+			<td>int</td>
+			<td><pre lang="json">
+1
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>service.port</td>
+			<td>int</td>
+			<td><pre lang="json">
+5000
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>service.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ClusterIP"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.create</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>tolerations</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumeMounts</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: true"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumes</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.csi</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
+			<td>string</td>
+			<td><pre lang="json">
+"kind-control-plane"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/seqr"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"750Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

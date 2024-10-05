@@ -69,4 +69,4 @@ Alternatively, you can use your preferred method for defining secrets in kuberne
 
 ## Values overrides.
 
-All default values in the `seqr-platform` chart may be overrided with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  An example of what this may look like, and how the different values are formated in practice, is found in the [unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  
+All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  An example of what this may look like, and how the different values are formated in practice, is found in the [unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  

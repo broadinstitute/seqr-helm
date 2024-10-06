@@ -3,7 +3,6 @@ replicaCount: 1
 image:
   repository: gcr.io/seqr-project/seqr
   pullPolicy: Always
-  tag: ''
 imagePullSecrets: []
 
 serviceAccount:
@@ -72,7 +71,6 @@ requiredSecrets:
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
 
-# -- Additional Secrets (defined directly as yaml)
 additionalSecrets: {}
 volumes: {}
 volumeMounts: {}
@@ -85,6 +83,7 @@ cronJobs:
     command: "python manage.py check_for_new_samples_from_pipeline"
 
 redis:
+  # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true
   architecture: standalone
   auth:
@@ -92,6 +91,7 @@ redis:
   fullnameOverride: "seqr-redis"
 
 postgresql:
+  # -- Set to "false" to disable the postgresql deployent (if you're using a managed cloud database).
   enabled: true
   architecture: standalone
   auth:

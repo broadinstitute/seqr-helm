@@ -726,7 +726,7 @@ false
 {}
 </pre>
 </td>
-			<td>Additional Secrets (defined directly as yaml)</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>seqr.affinity</td>
@@ -918,15 +918,6 @@ null
 			<td></td>
 		</tr>
 		<tr>
-			<td>seqr.image.tag</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>seqr.imagePullSecrets</td>
 			<td>list</td>
 			<td><pre lang="json">
@@ -1023,7 +1014,7 @@ false
 true
 </pre>
 </td>
-			<td></td>
+			<td>Set to "false" to disable the postgresql deployent (if you're using a managed cloud database).</td>
 		</tr>
 		<tr>
 			<td>seqr.postgresql.fullnameOverride</td>
@@ -1212,7 +1203,7 @@ false
 true
 </pre>
 </td>
-			<td></td>
+			<td>Set to "false" to disable the redis cache (if you're using a managed cache service).</td>
 		</tr>
 		<tr>
 			<td>seqr.redis.fullnameOverride</td>

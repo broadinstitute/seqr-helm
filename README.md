@@ -15,25 +15,24 @@ amongst the other charts.
 
 The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and bare metal environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space.
 
-Install the three required kubernetes infrastructure components:
-1. [Docker](https://docs.docker.com/engine/install/).
+Install the four required kubernetes infrastructure components:
+1. [docker](https://docs.docker.com/engine/install/).
 1. The [`kubectl` client](https://kubernetes.io/docs/tasks/tools/).
-1. The [`kind` local cluster manager](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
-
-Additionally, you must install the `helm` package manager itself:
-1. [helm](https://helm.sh/docs/intro/install/)
+1. The [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) local cluster manager.
+1. The [helm](https://helm.sh/docs/intro/install/) package manager.
 
 Then:
 1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster:
 ```
 mkdir -p /var/seqr
 ```
-1. Start a `kind` cluster:
+2. Start a `kind` cluster:
 ```
+curl https://raw.githubusercontent.com/broadinstitute/seqr-helm/refs/heads/main/kind.yaml > kind.yaml
 kind create cluster --config kind.yaml
 ```
-1. [Create the Required Secrets](#required-secrets) in your cluster using `kubectl`.
-1.  Install the `seqr-platform` chart with any override values:
+3. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
+4.  Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
 helm install institution-name seqr-helm/seqr-platform

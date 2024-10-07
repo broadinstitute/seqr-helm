@@ -35,8 +35,8 @@ kind create cluster --config kind.yaml
 1. [Create the Required Secrets](#required-secrets) in your cluster using `kubectl`.
 1.  Install the `seqr-platform` chart with any override values:
 ```
-helm repo add seqr https://broadinstitute.github.io/seqr-helm
-helm install institution-name charts/seqr-platform
+helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
+helm install institution-name seqr-helm/seqr-platform
 ```
 
 ## Migrating from `docker-compose.yaml`

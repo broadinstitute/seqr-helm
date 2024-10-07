@@ -1,8 +1,3 @@
-seqr:
-  postgresql:
-    enabled: true
-  redis:
-    enabled: true
 pipeline-runner:
   enabled: true
 global:

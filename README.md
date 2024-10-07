@@ -36,7 +36,7 @@ kind create cluster --config kind.yaml
 1.  Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr https://broadinstitute.github.io/seqr-helm
-helm install institution-name charts/seqr-platform -f my-values.yaml
+helm install institution-name charts/seqr-platform
 ```
 
 ## Migrating from `docker-compose.yaml`
@@ -69,4 +69,12 @@ Alternatively, you can use your preferred method for defining secrets in kuberne
 
 ## Values overrides.
 
-All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  An example of what this may look like, and how the different values are formated in practice, is found in the [unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  
+All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might
+create a file `my-values.yaml` with the contents:
+```
+seqr:
+  postgresql:
+    enabled: false
+```
+
+A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  

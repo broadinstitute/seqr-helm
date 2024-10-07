@@ -1,2 +1,4 @@
+pipeline-runner:
+  enabled: true
 global:
   seqrPlatformDeploy: true

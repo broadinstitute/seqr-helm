@@ -16,7 +16,7 @@ amongst the other charts.
 The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and bare metal environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least 32GB of memory and 750GB of disk space.  
 
 Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/) to install the three required kubernetes infrastructure components.  
-1. [Docker](https://www.docker.com).
+1. [Docker](https://docs.docker.com/engine/install/).
 1. [the `kubectl` client](https://kubernetes.io/docs/tasks/tools/#kubectl)
 1. [the `kind` local cluster manager](https://kubernetes.io/docs/tasks/tools/#kind).
 

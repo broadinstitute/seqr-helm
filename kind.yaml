@@ -5,3 +5,8 @@ nodes:
     extraMounts:
     - hostPath: /var/seqr
       containerPath: /seqr
+    extraPortMappings:
+    - containerPort: 30900 # the seqr app exposes a NodePort on this port
+      hostPort: 80
+    - containerPort: 30901 # the luigi scheduler exposes a NodePort on this port
+      hostPort: 8082

@@ -9,5 +9,6 @@ spec:
   type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.port }}
+    nodePort: {{ .Values.service.nodePort }}
   selector:
     {{- include "seqr.selectorLabels" . | nindent 4 }}

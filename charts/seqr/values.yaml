@@ -1,77 +1,28 @@
-# Default values for seqr.
-# This is a YAML-formatted file.
-
-# -- The number of replicas of the seqr web service pod to run. Currenly only 1 is supported.
 replicaCount: 1
 
 image:
-  # -- The docker image repository to pull images from
   repository: gcr.io/seqr-project/seqr
-  # -- The policy for pulling images
   pullPolicy: Always
-  # -- The docker image tag to pull from the repository
-  # tag: "gcloud-dev"
-
-# -- If needed, you can provide secrets required to retrieve images
 imagePullSecrets: []
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
 
-# -- A dictionary of annotations to add to the seqr Pod
 podAnnotations: {}
-
-# -- A dictionary of annotations to add to the seqr Deployment
 deploymentAnnotations: {}
 
 service:
-  # -- The type for the seqr Service
   type: NodePort
-  # -- The port for the seqr Service
   port: 8000
+  nodePort: 30950
 
 ingress:
-  # -- Enables or Disables the seqr Ingress object
   enabled: false
-# Ingress example
-# ingress:
-#   enabled: true
-#   className: "nginx"
-#   annotations:
-#     nginx.ingress.kubernetes.io/configuration-snippet: |
-#       proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-#       grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-#     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
-#     nginx.ingress.kubernetes.io/modsecurity-snippet: |
-#       SecRuleEngine On
-#   hosts:
-#     - host: seqr-dev.broadinstitute.org
-#       paths:
-#         - path: /
-#           pathType: ImplementationSpecific
-#   tls:
-#    - secretName: nginx-secrets
-#      hosts:
-#        - seqr-dev.broadinstitute.org
 
-# -- Sets the resource requests and limits for the seqr Deployment
 resources:
   {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # requests:
-  #   memory: "0.5Gi"
-  #   cpu: "0.05"
-  # limits:
-  #   memory: "4Gi"
-  #   cpu: "8"
 
-# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -88,7 +39,6 @@ affinity: |-
 nodeSelector: {}
 tolerations: []
 
-# default environment variables
 environment:
   # -- The number of threads to allocate to the gunicorn server
   GUNICORN_WORKER_THREADS: "4"
@@ -111,9 +61,8 @@ environment:
   HAIL_BACKEND_SERVICE_PORT: "5000"
   PIPELINE_RUNNER_HOSTNAME: "pipeline-runner"
   PIPELINE_RUNNER_PORT: "5000"
-
-# Seqr requires a few secrets to be defined. Here you can specify the names of the kubernetes secrets if you
-# have named them differently than the defaults. See the README for information on the format of these secrets.
+  LOADING_DATASETS_DIR: '/seqr/seqr-loading-temp'
+  HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
 
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:
@@ -122,36 +71,8 @@ requiredSecrets:
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
 
-# Define any additional secrets that are needed in your environment here. These will be interpolated into the seqr deployment
-# directly as yaml.
-# -- If you have additional secrets to provide to the seqr Deployment, provide them in this dictionary. Examples can be found in the default values.yaml file.
 additionalSecrets: {}
-# Examples
-# additionalSecrets:
-# - name: OMIM_KEY
-#   valueFrom:
-#     secretKeyRef:
-#       name: seqr-secrets
-#       key: omim_key
-# - name: POSTMARK_SERVER_TOKEN  # postmark email service integration
-#   valueFrom:
-#     secretKeyRef:
-#       name: seqr-secrets
-#       key: postmark_server_token
-# - name: SLACK_TOKEN  # slack notification integration
-#   valueFrom:
-#     secretKeyRef:
-#       name: seqr-secrets
-#       key: slack_token
-# - name: GA_TOKEN_ID  # token for google analytics integration
-#   valueFrom:
-#     secretKeyRef:
-#       name: seqr-secrets
-#       key: ga_token_id
-
-# -- Additional data volumes to use in the seqr Deployment
 volumes: {}
-# -- Mountpoint information for additional data volumes on the seqr Deployment
 volumeMounts: {}
 
 jobAfterHook: ""
@@ -162,16 +83,15 @@ cronJobs:
     command: "python manage.py check_for_new_samples_from_pipeline"
 
 redis:
-  # -- enables or disables redis deployment using this chart
+  # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true
-
-  # -- default redis settings
   architecture: standalone
   auth:
     enabled: false
   fullnameOverride: "seqr-redis"
 
 postgresql:
+  # -- Set to "false" to disable the postgresql deployent (if you're using a managed cloud database).
   enabled: true
   architecture: standalone
   auth:
@@ -221,3 +141,6 @@ postgresql:
         volumeMounts:
           - name: data
             mountPath: /seqr
+
+global:
+  seqrPlatformDeploy: false

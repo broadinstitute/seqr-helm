@@ -35,7 +35,7 @@ kind create cluster --config kind.yaml
 4.  Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
-helm install institution-name seqr-helm/seqr-platform
+helm install your-institution-name-seqr seqr-helm/seqr-platform
 ```
 
 ## Migrating from `docker-compose.yaml`
@@ -49,7 +49,7 @@ cat /var/seqr/postgresql-data/PG_VERSION
 
 ## Required Secrets
 
-The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
+The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml#L68) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
 
 1. A secret containing a `password` field for the postgres database password.  By default this secret is named `postgres-secrets`.
 1. A secret containing a `django_key` field for the django security key.  By default this secret is named `seqr-secrets`.
@@ -76,4 +76,4 @@ seqr:
     enabled: false
 ```
 
-A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](https://github.com/broadinstitute/seqr-helm/blob/main/unit_test/seqr/values.yaml).  
+A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).  

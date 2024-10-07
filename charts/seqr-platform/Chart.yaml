@@ -9,7 +9,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.1.0-dev
+version: 0.1.2-dev
 dependencies:
   - name: seqr
     version: 1.1.7-dev
@@ -27,3 +27,11 @@ dependencies:
     import-values:
       - child: exports.global
         parent: global
+  - name: redis
+    version: 19.0.2
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: seqr.redis.enabled
+  - name: postgresql
+    version: 15.5.31
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: seqr.postgresql.enabled

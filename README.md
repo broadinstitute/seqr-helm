@@ -22,7 +22,7 @@ Install the four required kubernetes infrastructure components:
 1. The [helm](https://helm.sh/docs/intro/install/) package manager.
 
 Then:
-1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster:
+1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster.  This will host all seqr application data:
 ```
 mkdir -p /var/seqr
 ```
@@ -31,8 +31,12 @@ mkdir -p /var/seqr
 curl https://raw.githubusercontent.com/broadinstitute/seqr-helm/refs/heads/main/kind.yaml > kind.yaml
 kind create cluster --config kind.yaml
 ```
-3. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
-4.  Install the `seqr-platform` chart with any override values:
+3. Create a `~/.kube/config` file:
+```
+mkdir -p ~/.kube; && chown -R $(id -u):$(id -g) .kube; kubectl config view --raw >~/.kube/config
+```
+4. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
+5.  Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
 helm install your-institution-name-seqr seqr-helm/seqr-platform

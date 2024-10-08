@@ -8,18 +8,18 @@ This repo consists of helm charts defining the seqr platform.  [Helm](https://he
 1. The [hail-search](charts/hail-search) application chart contains a deployment of the service powering variant search within *seqr*.
 1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also exposes the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
 1. A [lib](charts/lib) library chart for resources shared
-amongst the other charts.
-1. The [seqr-platform](charts/seqr-platform) umbrella chart that bundles the composing charts into a single installable.
+between the other charts.
+1. The [*seqr-platform*](charts/seqr-platform) umbrella chart that bundles the composing charts into a single installable.
 
-## Instructions for Initial Deployment.
+## Instructions for Initial Deployment
 
 The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and bare metal environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space.
 
 Install the four required kubernetes infrastructure components:
-1. [docker](https://docs.docker.com/engine/install/).
-1. The [`kubectl` client](https://kubernetes.io/docs/tasks/tools/).
+1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
+1. The [`kubectl`](https://kubernetes.io/docs/tasks/tools/) command line client.
 1. The [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) local cluster manager.
-1. The [helm](https://helm.sh/docs/intro/install/) package manager.
+1. The [`helm`](https://helm.sh/docs/intro/install/) package manager.
 
 Then:
 1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster.  This will host all seqr application data:
@@ -33,7 +33,7 @@ kind create cluster --config kind.yaml
 ```
 3. Create a `~/.kube/config` file:
 ```
-mkdir -p ~/.kube; && chown -R $(id -u):$(id -g) .kube; kubectl config view --raw >~/.kube/config
+mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube/config
 ```
 4. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
 5.  Install the `seqr-platform` chart with any override values:
@@ -70,7 +70,7 @@ kubectl create secret generic seqr-secrets \
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
 
-## Values overrides.
+## Values Overrides
 
 All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might
 create a file `my-values.yaml` with the contents:

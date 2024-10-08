@@ -24,3 +24,6 @@ dependencies:
   - name: lib
     version: 0.1.3
     repository: "file://../lib"
+    import-values:
+      - child: exports.global
+        parent: global

@@ -24,8 +24,8 @@ class TestPipelineRunnerChart(unittest.TestCase):
         for job in [
             'rsync-reference-data-grch37',
             'rsync-reference-data-grch38',
-            'download-vep-data-grch37',
-            'download-vep-data-grch38',
+            'download-vep-reference-data-grch37',
+            'download-vep-reference-data-grch38',
         ]:
             self.assertIn(job, p.stdout)
 

@@ -21,3 +21,6 @@ dependencies:
   - name: hail-search
     version: 0.2.8-dev
     repository: "file://../hail-search"
+  - name: lib
+    version: 0.1.3
+    repository: "file://../hail-search"

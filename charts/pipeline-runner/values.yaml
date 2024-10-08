@@ -31,7 +31,7 @@ pods:
     command: ["python3", "-m", "v03_pipeline.api"]
     initContainers: |-
       {{- range $r := list "GRCh37" "GRCh38" }}
-      {{- range $s := list "rsync_reference_data" "download_vep_data"}}
+      {{- range $s := list "rsync_reference_data" "download_vep_reference_data"}}
       - name: {{ $s | replace "_" "-" }}-{{ $r | lower}}
         image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ $.Values.image.pullPolicy }}

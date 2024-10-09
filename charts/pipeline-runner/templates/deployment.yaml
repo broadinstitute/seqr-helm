@@ -5,6 +5,8 @@ kind: Deployment
 metadata:
   name: {{ $.Chart.Name }}-{{ $p.name }}
   labels:
+    # The selector requires "name" be present under metadata.labels
+    name: {{ $.Chart.Name }}-{{ $p.name }}
     {{- include "pipeline-runner.labels" $ | nindent 4 }}
   {{- with $.Values.deploymentAnnotations }}
   annotations:

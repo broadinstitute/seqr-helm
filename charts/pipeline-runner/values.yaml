@@ -17,10 +17,19 @@ volumes: |-
     persistentVolumeClaim:
       readOnly: false
       claimName: {{ include "lib.pvc-name" . }}
+  - name: luigi-config
+    configMap:
+      name: luigi-config
+      items:
+        - key: luigi.cfg
+          path: luigi.cfg
 volumeMounts: |-
   - name: seqr-datasets
     mountPath: /var/seqr
     readOnly: false
+  - name: luigi-config
+    mountPath: /etc/luigi/luigi.cfg
+    subPath: luigi.cfg
 
 pods:
   - name: api
@@ -63,8 +72,8 @@ pods:
     initContainers: |-
       - name: mkdir-luigi-state
         image: busybox:1.35
-        imagePullPolicy: {{ $.Values.image.pullPolicy }}
-        command: ['/bin/mkdir', '-p', '/var/seqr/luigi-state']
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ['/bin/mkdir', '-p', {{ .Values.environment.LUIGI_STATE_DIR }}]
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}
@@ -75,6 +84,7 @@ pods:
 resources: {}
 environment:
   SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
+  LUIGI_STATE_DIR: "/var/seqr/luigi-state"
 
 affinity: |-
   podAntiAffinity:

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: luigi-config
+  labels:
+    {{- include "pipeline-runner.labels" . | nindent 4 }}
+data:
+  luigi.cfg: |-
+    [core]
+    default_scheduler_url=http://{{ .Chart.Name }}-ui:8082/
+
+    [scheduler]
+    record_task_history = True
+    state_path = {{ .Values.environment.LUIGI_STATE_DIR }}/luigi-state.pickle
+
+    [task_history]
+    db_connection = sqlite://{{ .Values.environment.LUIGI_STATE_DIR }}/luigi-task-hist.db

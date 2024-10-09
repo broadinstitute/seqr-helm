@@ -28,6 +28,10 @@ class TestPipelineRunnerChart(unittest.TestCase):
             'download-vep-reference-data-grch38',
         ]:
             self.assertIn(job, p.stdout)
+        self.assertIn(
+            'sqlite:///var/seqr/luigi-state/luigi-task-hist.db'
+            p.stdout
+        )
 
 if __name__ == '__main__':
     unittest.main()

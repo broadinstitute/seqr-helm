@@ -17,10 +17,12 @@ spec:
   revisionHistoryLimit: 5
   selector:
     matchLabels:
+      name: {{ $.Chart.Name }}-{{ $p.name }}
       {{- include "pipeline-runner.selectorLabels" $ | nindent 6 }}
   template:
     metadata:
       labels:
+        name: {{ $.Chart.Name }}-{{ $p.name }} 
         {{- include "pipeline-runner.labels" $ | nindent 8 }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}

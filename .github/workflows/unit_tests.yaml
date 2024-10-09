@@ -46,5 +46,6 @@ jobs:
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
+          mkdir -p /var/seqr
           ct install --charts charts/seqr --namespace default
 

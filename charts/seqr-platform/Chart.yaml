@@ -12,17 +12,17 @@ type: application
 version: 0.1.10-dev
 dependencies:
   - name: seqr
-    version: 1.1.11-dev
+    version: 1.1.10-dev
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
-    version: 0.1.4-dev
+    version: 0.1.3-dev
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: pipeline-runner.enabled
   - name: hail-search
-    version: 0.2.9-dev
+    version: 0.2.8-dev
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: lib
-    version: 0.1.4
+    version: 0.1.3
     repository: "https://broadinstitute.github.io/seqr-helm"
     import-values:
       - child: exports.global

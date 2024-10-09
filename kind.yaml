@@ -4,7 +4,7 @@ nodes:
   - role: control-plane 
     extraMounts:
     - hostPath: /var/seqr
-      containerPath: /seqr
+      containerPath: /var/seqr
     extraPortMappings:
     - containerPort: 30900 # the seqr app exposes a NodePort on this port
       hostPort: 80

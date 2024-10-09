@@ -21,8 +21,8 @@ resources:
   {}
 
 environment:
-  HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
-  REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
+  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
 
 volumes: |-
   - name: seqr-datasets
@@ -31,7 +31,7 @@ volumes: |-
       claimName: {{ include "lib.pvc-name" . }}
 volumeMounts: |-
   - name: seqr-datasets
-    mountPath: /seqr
+    mountPath: /var/seqr
     readOnly: true
 
 initContainers: {}

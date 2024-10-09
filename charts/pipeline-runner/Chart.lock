@@ -1,6 +1,6 @@
 dependencies:
 - name: lib
   repository: file://../lib
-  version: 0.1.3
-digest: sha256:53791c3da97e58966feaf6bbcc4f0bc760e71f565065b624c7d287259235a3a3
-generated: "2024-10-04T09:21:51.64768-04:00"
+  version: 0.1.4
+digest: sha256:de7b5da1cb54e6de2e4cb3132349710500dd817989cfca0a419974da9a62a1a8
+generated: "2024-10-08T23:32:32.232244-04:00"

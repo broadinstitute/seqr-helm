@@ -7,6 +7,6 @@ dependencies:
   version: 15.5.31
 - name: lib
   repository: file://../lib
-  version: 0.1.3
-digest: sha256:e935c5bb0db8d538b7501de804cf142452650563895d93f2d4351414a3175796
-generated: "2024-10-04T09:52:56.003342-04:00"
+  version: 0.1.4
+digest: sha256:1d6786f106f8407e1fc334d7f47af0141f49fe81a27d9aecfb9562300d199d16
+generated: "2024-10-08T23:32:41.922667-04:00"

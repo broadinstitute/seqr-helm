@@ -7,5 +7,5 @@ exports:
         accessMode: ReadWriteOnce
         local:
           nodeSelector: kind-control-plane
-          path: '/seqr'
+          path: '/var/seqr'
         csi: {}

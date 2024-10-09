@@ -12,7 +12,7 @@ volumes: |-
       medium: "Memory"
 volumeMounts: |-
   - name: seqr-datasets
-    mountPath: /seqr
+    mountPath: /var/seqr
     readOnly: true
   - name: in-memory-dir
     mountPath: {{ .Values.environment.IN_MEMORY_DIR }}

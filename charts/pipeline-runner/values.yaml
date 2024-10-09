@@ -19,7 +19,7 @@ volumes: |-
       claimName: {{ include "lib.pvc-name" . }}
 volumeMounts: |-
   - name: seqr-datasets
-    mountPath: /seqr
+    mountPath: /var/seqr
     readOnly: false
 
 pods:
@@ -64,7 +64,7 @@ pods:
       - name: mkdir-luigi-state
         image: busybox:1.35
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
-        command: ['/bin/mkdir', '-p', '/seqr/luigi-state']
+        command: ['/bin/mkdir', '-p', '/var/seqr/luigi-state']
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}

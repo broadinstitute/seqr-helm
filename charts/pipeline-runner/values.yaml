@@ -66,7 +66,7 @@ pods:
     service:
       type: NodePort
       port: 8082
-      nodePort: 30901
+      nodePort: 30951
     healthCheckRoute: /
     command: ["luigid"]
     initContainers: |-

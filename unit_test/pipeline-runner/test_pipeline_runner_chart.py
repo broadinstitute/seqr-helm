@@ -29,7 +29,7 @@ class TestPipelineRunnerChart(unittest.TestCase):
         ]:
             self.assertIn(job, p.stdout)
         self.assertIn(
-            'sqlite:///var/seqr/luigi-state/luigi-task-hist.db'
+            'sqlite:///var/seqr/luigi-state/luigi-task-hist.db',
             p.stdout
         )
 

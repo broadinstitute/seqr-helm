@@ -55,7 +55,7 @@ environment:
   # -- The port that the seqr server should listen on
   SEQR_SERVICE_PORT: "8000"  # TODO: this should probably always match the service.port setting?
   # -- If storing static media files in a local filesystem, the path to that filesystem
-  STATIC_MEDIA_DIR: null
+  STATIC_MEDIA_DIR: '/seqr/seqr-static-media'
 
   HAIL_BACKEND_SERVICE_HOSTNAME: "hail-search"
   HAIL_BACKEND_SERVICE_PORT: "5000"
@@ -72,8 +72,24 @@ requiredSecrets:
   seqrSecretName: seqr-secrets
 
 additionalSecrets: {}
-volumes: {}
-volumeMounts: {}
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: false
+      claimName: {{ include "lib.pvc-name" . }}
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /seqr
+    readOnly: false
+initContainers: |-
+  - name: mkdir-loading-datasets
+    image: busybox:1.35
+    imagePullPolicy: {{ $.Values.image.pullPolicy }}
+    command: ['/bin/mkdir', '-p', {{ $.Values.environment.LOADING_DATASETS_DIR }}]
+    {{- with $.Values.volumeMounts }}
+    volumeMounts:
+      {{- tpl . $ | nindent 4 }}
+    {{- end }}
 
 jobAfterHook: ""
 jobBeforeHook: ""

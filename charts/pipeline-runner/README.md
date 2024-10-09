@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.1.3-dev](https://img.shields.io/badge/Version-0.1.3--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e15e33e99648d7a765d1e204bb6c6bc92a40b0f9](https://img.shields.io/badge/AppVersion-e15e33e99648d7a765d1e204bb6c6bc92a40b0f9-informational?style=flat-square)
+![Version: 0.1.4-dev](https://img.shields.io/badge/Version-0.1.4--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e15e33e99648d7a765d1e204bb6c6bc92a40b0f9](https://img.shields.io/badge/AppVersion-e15e33e99648d7a765d1e204bb6c6bc92a40b0f9-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -19,7 +19,7 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.3 |
+| file://../lib | lib | 0.1.4 |
 
 ## Values
 
@@ -260,7 +260,7 @@ true
 			<td>pods[1].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', '/seqr/luigi-state']\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
+"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', '/var/seqr/luigi-state']\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -368,7 +368,7 @@ true
 			<td>volumeMounts</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: false"
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false"
 </pre>
 </td>
 			<td></td>
@@ -413,7 +413,7 @@ true
 			<td>lib.exports.global.lib.persistentVolume.local.path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>

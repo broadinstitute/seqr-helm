@@ -1,6 +1,6 @@
 # hail-search
 
-![Version: 0.2.8-dev](https://img.shields.io/badge/Version-0.2.8--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f7c9a85e5de3064e65766915a440f298332bf745](https://img.shields.io/badge/AppVersion-f7c9a85e5de3064e65766915a440f298332bf745-informational?style=flat-square)
+![Version: 0.2.9-dev](https://img.shields.io/badge/Version-0.2.9--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f7c9a85e5de3064e65766915a440f298332bf745](https://img.shields.io/badge/AppVersion-f7c9a85e5de3064e65766915a440f298332bf745-informational?style=flat-square)
 
 A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
 
@@ -19,7 +19,7 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.3 |
+| file://../lib | lib | 0.1.4 |
 
 ## Values
 
@@ -62,7 +62,7 @@ false
 			<td>environment.HAIL_SEARCH_DATA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr/seqr-hail-search-data"
+"/var/seqr/seqr-hail-search-data"
 </pre>
 </td>
 			<td></td>
@@ -71,7 +71,7 @@ false
 			<td>environment.REFERENCE_DATASETS_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr/seqr-reference-data"
+"/var/seqr/seqr-reference-data"
 </pre>
 </td>
 			<td></td>
@@ -197,7 +197,7 @@ true
 			<td>volumeMounts</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  mountPath: /seqr\n  readOnly: true"
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: true"
 </pre>
 </td>
 			<td></td>
@@ -242,7 +242,7 @@ true
 			<td>lib.exports.global.lib.persistentVolume.local.path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>

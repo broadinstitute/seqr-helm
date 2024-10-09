@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.1.7-dev](https://img.shields.io/badge/Version-1.1.7--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2a0d731ad31d30234283a86dd8f2dd183b2d489c](https://img.shields.io/badge/AppVersion-2a0d731ad31d30234283a86dd8f2dd183b2d489c-informational?style=flat-square)
+![Version: 1.1.11-dev](https://img.shields.io/badge/Version-1.1.11--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2a0d731ad31d30234283a86dd8f2dd183b2d489c](https://img.shields.io/badge/AppVersion-2a0d731ad31d30234283a86dd8f2dd183b2d489c-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -21,7 +21,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.3 |
+| file://../lib | lib | 0.1.4 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 
@@ -129,7 +129,7 @@ false
 			<td>environment.HAIL_SEARCH_DATA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr/seqr-hail-search-data"
+"/var/seqr/seqr-hail-search-data"
 </pre>
 </td>
 			<td></td>
@@ -138,7 +138,7 @@ false
 			<td>environment.LOADING_DATASETS_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr/seqr-loading-temp"
+"/var/seqr/seqr-loading-temp"
 </pre>
 </td>
 			<td></td>
@@ -219,7 +219,7 @@ false
 			<td>environment.STATIC_MEDIA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"/var/seqr/seqr-static-media"
 </pre>
 </td>
 			<td>If storing static media files in a local filesystem, the path to that filesystem</td>
@@ -256,6 +256,15 @@ null
 			<td>bool</td>
 			<td><pre lang="json">
 false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>initContainers</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: mkdir-loading-datasets\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ $.Values.environment.LOADING_DATASETS_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -363,7 +372,7 @@ true
 			<td>postgresql.postgresqlDataDir</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr/postgresql-data"
+"/var/seqr/postgresql-data"
 </pre>
 </td>
 			<td></td>
@@ -462,7 +471,7 @@ false
 			<td>postgresql.primary.initContainers[0].volumeMounts[0].mountPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>
@@ -489,7 +498,7 @@ false
 			<td>postgresql.primary.persistence.mountPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>
@@ -643,18 +652,18 @@ true
 		</tr>
 		<tr>
 			<td>volumeMounts</td>
-			<td>object</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>volumes</td>
-			<td>object</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"
 </pre>
 </td>
 			<td></td>
@@ -690,7 +699,7 @@ true
 			<td>lib.exports.global.lib.persistentVolume.local.path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>

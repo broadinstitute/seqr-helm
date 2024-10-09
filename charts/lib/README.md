@@ -1,6 +1,6 @@
 # lib
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: library](https://img.shields.io/badge/Type-library-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: library](https://img.shields.io/badge/Type-library-informational?style=flat-square)
 
 A collection of shared resources used by the composing helm charts of Seqr, an open source software platform for rare disease genomics
 
@@ -55,7 +55,7 @@ A collection of shared resources used by the composing helm charts of Seqr, an o
 			<td>exports.global.lib.persistentVolume.local.path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/seqr"
+"/var/seqr"
 </pre>
 </td>
 			<td></td>

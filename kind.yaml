@@ -7,7 +7,7 @@ nodes:
       containerPath: /var/seqr
       readOnly: false
     extraPortMappings:
-    - containerPort: 30900 # the seqr app exposes a NodePort on this port
+    - containerPort: 30950 # the seqr app exposes a NodePort on this port
       hostPort: 80
-    - containerPort: 30901 # the luigi scheduler exposes a NodePort on this port
+    - containerPort: 30951 # the luigi scheduler exposes a NodePort on this port
       hostPort: 8082

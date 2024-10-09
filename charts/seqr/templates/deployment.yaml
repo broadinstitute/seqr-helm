@@ -28,7 +28,7 @@ spec:
     spec:
       {{- with .Values.volumes }}
       volumes:
-        {{- toYaml . | nindent 6 }}
+        {{- tpl . $ | nindent 8 }}
       {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

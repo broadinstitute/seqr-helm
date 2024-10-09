@@ -47,5 +47,5 @@ jobs:
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
           mkdir -p /var/seqr
-          ct install --charts charts/seqr --namespace default
+          ct install --charts charts/seqr --namespace default --helm-extra-args '--timeout 500s'
 

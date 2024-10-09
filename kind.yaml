@@ -5,6 +5,7 @@ nodes:
     extraMounts:
     - hostPath: /var/seqr
       containerPath: /var/seqr
+      readOnly: false
     extraPortMappings:
     - containerPort: 30900 # the seqr app exposes a NodePort on this port
       hostPort: 80

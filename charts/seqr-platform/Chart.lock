@@ -1,7 +1,7 @@
 dependencies:
 - name: seqr
   repository: file://../seqr
-  version: 1.1.8-dev
+  version: 1.1.9-dev
 - name: pipeline-runner
   repository: file://../pipeline-runner
   version: 0.1.3-dev
@@ -11,5 +11,5 @@ dependencies:
 - name: lib
   repository: file://../lib
   version: 0.1.3
-digest: sha256:727f995997a109e74b8a880874243925215f7a913f9018b783467183967fb6e6
-generated: "2024-10-08T20:06:41.524035-04:00"
+digest: sha256:7b0c5b61c088d52b3732aa60e3b826bd60b5460bf5854bbdd27eb66bfcd13ad5
+generated: "2024-10-08T21:08:32.576842-04:00"

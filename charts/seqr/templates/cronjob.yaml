@@ -32,7 +32,7 @@ spec:
           shareProcessNamespace: true
           {{- with $.Values.volumes }}
           volumes:
-            {{- toYaml . | nindent 10 }}
+            {{- tpl . $ | nindent 10 }}
           {{- end }}
           {{- with $.Values.imagePullSecrets }}
           imagePullSecrets:
@@ -47,7 +47,7 @@ spec:
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}
             volumeMounts:
-              {{- toYaml . | nindent 14 }}
+              {{- tpl . $ | nindent 14 }}
             {{- end }}
             {{- include "seqr.environment" $ | nindent 12}}
             command: ["/bin/bash", "-c"]

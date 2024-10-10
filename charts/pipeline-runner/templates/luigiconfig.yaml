@@ -5,9 +5,11 @@ metadata:
   labels:
     {{- include "pipeline-runner.labels" . | nindent 4 }}
 data:
+  # Note: the luigi docs reference default_scheduler_url but
+  # it appears to be kebab case in practice.
   luigi.cfg: |-
     [core]
-    default_scheduler_url=http://{{ .Chart.Name }}-ui:8082/
+    default-scheduler-url=http://{{ .Chart.Name }}-ui:8082/
 
     [scheduler]
     record_task_history = True

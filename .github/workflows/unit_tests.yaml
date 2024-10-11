@@ -34,7 +34,7 @@ jobs:
       - name: Chart Lint
         run: ct lint --all
       - name: Create folder
-        run: sudo mkdir -p /var/seqr; sudo chmod 666 /var/seqr
+        run: sudo mkdir -p /var/seqr; sudo chmod 777 /var/seqr
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
         with:

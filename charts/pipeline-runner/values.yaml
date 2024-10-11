@@ -15,6 +15,9 @@ volumes: |-
     persistentVolumeClaim:
       readOnly: false
       claimName: {{ include "lib.pvc-name" . }}
+  - name: docker-socket
+    hostPath:
+      path: /var/run/docker.sock
   - name: luigi-config
     configMap:
       name: luigi-config
@@ -24,6 +27,9 @@ volumes: |-
 volumeMounts: |-
   - name: seqr-datasets
     mountPath: /var/seqr
+    readOnly: false
+  - name: docker-socket
+    mountPath: /var/run/docker.sock
     readOnly: false
   - name: luigi-config
     mountPath: /etc/luigi/luigi.cfg

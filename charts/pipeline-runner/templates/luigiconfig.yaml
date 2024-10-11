@@ -11,8 +11,6 @@ data:
     [core]
     scheduler_host = {{ .Chart.Name }}-ui
     scheduler_port = 8082
-    default_scheduler_host = {{ .Chart.Name }}-ui
-    default_scheduler_port = 8082
 
     [scheduler]
     record_task_history = True

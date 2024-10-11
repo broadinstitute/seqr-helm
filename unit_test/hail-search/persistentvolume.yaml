@@ -19,18 +19,11 @@ volumeMounts: |-
 
 initContainers: |-
   - name: sync-annotations
-    image: busybox
+    image: eeacms/rsync
     command: [
-      '/bin/sh', 
+      '/bin/sh',
       '-c',
-      'mkdir -p {{ $.Values.environment.IN_MEMORY_DIR }}',
-      '&&',
-      'rsync',
-      '--recursive',
-      '--include="*/*/annotations.ht/***"',
-      '--exclude="*/*/*"',
-      '{{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}',
-      '{{ $.Values.environment.IN_MEMORY_DIR }}',
+      'cd {{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}; rsync --recursive --include="*/*/annotations.ht/***" --exclude="*/*/*" . {{ $.Values.environment.IN_MEMORY_DIR }}',
     ]
     {{- with $.Values.volumeMounts }}
     volumeMounts:

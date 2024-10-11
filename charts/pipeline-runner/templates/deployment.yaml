@@ -13,7 +13,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  replicas: {{ $.Values.replicaCount }}
+  replicas: 1 # The worker runs with a concurrency limit of 1, so ensure this isn't overrideable.
   revisionHistoryLimit: 5
   selector:
     matchLabels:

@@ -9,11 +9,15 @@ data:
   # it appears to be kebab case in practice.
   luigi.cfg: |-
     [core]
-    default-scheduler-url=http://{{ .Chart.Name }}-ui:8082/
+    scheduler_host = {{ .Chart.Name }}-ui
+    scheduler_port = 8082
+    default_scheduler_host = {{ .Chart.Name }}-ui
+    default_scheduler_port = 8082
 
     [scheduler]
     record_task_history = True
     state_path = {{ .Values.environment.LUIGI_STATE_DIR }}/luigi-state.pickle
+    remove_delay = 3600
 
     [task_history]
     db_connection = sqlite://{{ .Values.environment.LUIGI_STATE_DIR }}/luigi-task-hist.db

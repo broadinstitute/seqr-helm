@@ -8,7 +8,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.1.16-dev
+version: 0.1.17-dev
 appVersion: "ffa085dca1e1c8a4a168345468f795a141dd63f1"
 dependencies:
   - name: lib

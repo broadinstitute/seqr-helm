@@ -15,7 +15,7 @@ dependencies:
     version: 1.1.14-dev
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
-    version: 0.1.15-dev
+    version: 0.1.17-dev
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: pipeline-runner.enabled
   - name: hail-search

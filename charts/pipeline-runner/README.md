@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.1.4-dev](https://img.shields.io/badge/Version-0.1.4--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e15e33e99648d7a765d1e204bb6c6bc92a40b0f9](https://img.shields.io/badge/AppVersion-e15e33e99648d7a765d1e204bb6c6bc92a40b0f9-informational?style=flat-square)
+![Version: 0.1.15-dev](https://img.shields.io/badge/Version-0.1.15--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 92f827224f608388fc4e20be60a08b1f675c7408](https://img.shields.io/badge/AppVersion-92f827224f608388fc4e20be60a08b1f675c7408-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -54,6 +54,15 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.LUIGI_STATE_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/luigi-state"
 </pre>
 </td>
 			<td></td>
@@ -260,7 +269,7 @@ true
 			<td>pods[1].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', '/var/seqr/luigi-state']\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
+"- name: mkdir-luigi-state\n  image: busybox:1.35\n  imagePullPolicy: {{ .Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ .Values.environment.LUIGI_STATE_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -287,7 +296,7 @@ true
 			<td>pods[1].service.nodePort</td>
 			<td>int</td>
 			<td><pre lang="json">
-30901
+30951
 </pre>
 </td>
 			<td></td>
@@ -368,7 +377,7 @@ true
 			<td>volumeMounts</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false"
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false\n- name: luigi-config\n  mountPath: /etc/luigi/luigi.cfg\n  subPath: luigi.cfg"
 </pre>
 </td>
 			<td></td>
@@ -377,7 +386,7 @@ true
 			<td>volumes</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}\n- name: luigi-config\n  configMap:\n    name: luigi-config\n    items:\n      - key: luigi.cfg\n        path: luigi.cfg"
 </pre>
 </td>
 			<td></td>

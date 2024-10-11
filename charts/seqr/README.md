@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.1.11-dev](https://img.shields.io/badge/Version-1.1.11--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2a0d731ad31d30234283a86dd8f2dd183b2d489c](https://img.shields.io/badge/AppVersion-2a0d731ad31d30234283a86dd8f2dd183b2d489c-informational?style=flat-square)
+![Version: 1.1.14-dev](https://img.shields.io/badge/Version-1.1.14--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ccdaa1e872e782d6f7016a90e2d3f2a565351805](https://img.shields.io/badge/AppVersion-ccdaa1e872e782d6f7016a90e2d3f2a565351805-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -147,7 +147,7 @@ false
 			<td>environment.PIPELINE_RUNNER_HOSTNAME</td>
 			<td>string</td>
 			<td><pre lang="json">
-"pipeline-runner"
+"pipeline-runner-api"
 </pre>
 </td>
 			<td></td>
@@ -156,7 +156,7 @@ false
 			<td>environment.PIPELINE_RUNNER_PORT</td>
 			<td>string</td>
 			<td><pre lang="json">
-"5000"
+"6000"
 </pre>
 </td>
 			<td></td>
@@ -435,7 +435,7 @@ true
 			<td>postgresql.primary.initContainers[0].securityContext.runAsGroup</td>
 			<td>int</td>
 			<td><pre lang="json">
-0
+1001
 </pre>
 </td>
 			<td></td>

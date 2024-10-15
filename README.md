@@ -4,9 +4,9 @@ Helm charts for the *seqr* platform
 ## Overview
 This repo consists of helm charts defining the seqr platform.  [Helm](https://helm.sh) is a package manager for [Kubernetes](https://kubernetes.io), an open source system for automating deployment and management of containerized applications.  
 
-1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr) and the optionally enabled [redis cache](https://github.com/redis/redis) and [postgresql relational database](https://github.com/postgres/postgres).  
+1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis) and [`postgresql` relational database](https://github.com/postgres/postgres).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.
 1. The [hail-search](charts/hail-search) application chart contains a deployment of the service powering variant search within *seqr*.
-1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also exposes the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
+1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also runs the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
 1. A [lib](charts/lib) library chart for resources shared
 between the other charts.
 1. The [*seqr-platform*](charts/seqr-platform) umbrella chart that bundles the composing charts into a single installable.
@@ -36,19 +36,11 @@ kind create cluster --config kind.yaml
 mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube/config
 ```
 4. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
-5.  Install the `seqr-platform` chart with any override values:
+5. [Migrate](#migrating-application-data) any existing application data.
+6. Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
 helm install your-institution-name-seqr seqr-helm/seqr-platform
-```
-
-## Migrating from `docker-compose.yaml`
-
-If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
-
-```
-cat /var/seqr/postgresql-data/PG_VERSION
-12
 ```
 
 ## Required Secrets
@@ -70,14 +62,37 @@ kubectl create secret generic seqr-secrets \
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
 
-## Values Overrides
+## Migrating Application Data
 
-All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might
-create a file `my-values.yaml` with the contents:
+If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
+
+```
+cat /var/seqr/postgresql-data/PG_VERSION
+12
+```
+
+To migrate static files, you may move your existing [`./data/seqr_static_files`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11)  to [`/var/seqr/seqr-static-media`].  
+
+To migrate `readviz`, you may move your existing [`./data/readviz`] directory to [`/var/seqr/seqr-static-media`] and additionally run the `update_igv_location.py` `manage.py`:
+
+```
+python /seqr/manage.py update_igv_location old_prefix new_prefix
+```
+
+## Values/Environment Overrides
+
+All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might create a file `my-values.yaml` with the contents:
 ```
 seqr:
   postgresql:
     enabled: false
 ```
+
+This is also the recommended pattern for overriding any `seqr` environment variables:
+
+```
+seqr:
+  environment:
+    GUNICORN_WORKER_THREADS: "8"
 
 A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).  

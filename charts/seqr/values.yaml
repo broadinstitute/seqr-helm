@@ -55,14 +55,16 @@ environment:
   # -- The port that the seqr server should listen on
   SEQR_SERVICE_PORT: "8000"  # TODO: this should probably always match the service.port setting?
   # -- If storing static media files in a local filesystem, the path to that filesystem
-  STATIC_MEDIA_DIR: '/var/seqr/seqr-static-media'
+  STATIC_MEDIA_DIR: "/var/seqr/seqr-static-media"
 
   HAIL_BACKEND_SERVICE_HOSTNAME: "hail-search"
   HAIL_BACKEND_SERVICE_PORT: "5000"
   PIPELINE_RUNNER_HOSTNAME: "pipeline-runner-api"
   PIPELINE_RUNNER_PORT: "6000"
-  LOADING_DATASETS_DIR: '/var/seqr/seqr-loading-temp'
-  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  LUIGI_UI_SERVICE_HOSTNAME: "pipeline-runner-ui"
+  LUIGI_UI_SERVICE_PORT: "8082"
+  LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
+  HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
 
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:

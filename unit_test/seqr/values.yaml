@@ -76,11 +76,11 @@ cronJobs:
     schedule: "2 0 * * 0"
     command: "python /seqr/manage.py test_2"
 
-volumes:
+volumes: |-
   - name: matchbox-secrets-volume
     secret:
       secretName: matchbox-secrets
-volumeMounts:
+volumeMounts: |-
   - name: matchbox-secrets-volume
     mountPath: /mme
 

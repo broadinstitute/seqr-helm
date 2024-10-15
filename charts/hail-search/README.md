@@ -1,0 +1,272 @@
+# hail-search
+
+![Version: 0.2.11-dev](https://img.shields.io/badge/Version-0.2.11--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c0142205f184e98a002b728625fccf97d88d4f04](https://img.shields.io/badge/AppVersion-c0142205f184e98a002b728625fccf97d88d4f04-informational?style=flat-square)
+
+A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| seqr | <seqr@broadinstitute.org> |  |
+
+## Source Code
+
+* <https://github.com/broadinstitute/seqr>
+* <https://github.com/broadinstitute/seqr-helm>
+
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| file://../lib | lib | 0.1.4 |
+
+## Values
+
+<table>
+	<thead>
+		<th>Key</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>affinity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>deploymentAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.HAIL_SEARCH_DATA_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-hail-search-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.REFERENCE_DATASETS_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.pullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Always"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"gcr.io/seqr-project/seqr-hail-search"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>imagePullSecrets</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>initContainers</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>nodeSelector</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>podAnnotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>replicaCount</td>
+			<td>int</td>
+			<td><pre lang="json">
+1
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>service.port</td>
+			<td>int</td>
+			<td><pre lang="json">
+5000
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>service.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ClusterIP"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>serviceAccount.create</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>tolerations</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumeMounts</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: true"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>volumes</td>
+			<td>string</td>
+			<td><pre lang="json">
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.csi</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
+			<td>string</td>
+			<td><pre lang="json">
+"kind-control-plane"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"750Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

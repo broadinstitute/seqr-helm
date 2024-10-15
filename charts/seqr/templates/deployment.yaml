@@ -28,7 +28,7 @@ spec:
     spec:
       {{- with .Values.volumes }}
       volumes:
-        {{- toYaml . | nindent 6 }}
+        {{- tpl . $ | nindent 8 }}
       {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -46,7 +46,7 @@ spec:
         image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
         {{- with .Values.volumeMounts }}
         volumeMounts:
-          {{- toYaml . | nindent 10 }}
+          {{- tpl . $ | nindent 10 }}
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
@@ -76,6 +76,10 @@ spec:
       {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- tpl . $ | trim | nindent 8}}
+      {{- end }}
       {{- with .Values.affinity }}
       affinity:
         {{- tpl . $ | nindent 8 }}

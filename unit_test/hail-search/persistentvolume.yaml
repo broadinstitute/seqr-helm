@@ -12,24 +12,23 @@ volumes: |-
       medium: "Memory"
 volumeMounts: |-
   - name: seqr-datasets
-    mountPath: /seqr
+    mountPath: /var/seqr
     readOnly: true
   - name: in-memory-dir
     mountPath: {{ .Values.environment.IN_MEMORY_DIR }}
 
 initContainers: |-
-  {{- range $path, $version := index $.Values.global "hail-search" "datasetVersions" -}}
-  {{ if $version }}
-  {{- $localPath := $path | replace "SV" "SV_WGS" | replace "GCNV" "SV_WES" -}}
-  - name: sync-annotations-{{ $path | replace "/" "-" | replace "_" "-" | lower}}
-    image: busybox
-    command: ['/bin/sh', '-c', 'mkdir -p {{ $.Values.environment.IN_MEMORY_DIR }}/{{ $localPath }} && cp -r {{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}/{{ $localPath }}/annotations.ht {{ $.Values.environment.IN_MEMORY_DIR }}/{{ $localPath }}/annotations.ht']
+  - name: sync-annotations
+    image: eeacms/rsync
+    command: [
+      '/bin/sh',
+      '-c',
+      'cd {{ $.Values.environment.HAIL_SEARCH_DATA_DIR }}; rsync --recursive --include="*/*/annotations.ht/***" --exclude="*/*/*" . {{ $.Values.environment.IN_MEMORY_DIR }}',
+    ]
     {{- with $.Values.volumeMounts }}
     volumeMounts:
       {{- tpl . $ | nindent 4 }}
     {{- end }}
-  {{ end -}}
-  {{ end }}
 
 global:
   lib:
@@ -40,8 +39,3 @@ global:
         volumeHandle: projects/test-project/zones/us-central3-a/disks/test-disk
         fsType: 'ext4'
         readOnly: True
-  hail-search:
-    datasetVersions:
-      GRCh38/GCNV: 2023-11-03T22-31-23.149902+00-00
-      GRCh37/SNV_INDEL: 2023-11-03T22-31-23.149902+00-00
-      GRCh38/SNV_INDEL: 2023-11-02T23-31-23.149902+00-00

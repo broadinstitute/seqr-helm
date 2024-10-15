@@ -21,13 +21,8 @@ resources:
   {}
 
 environment:
-  HAIL_SEARCH_DATA_DIR: '/seqr/seqr-hail-search-data'
-  REFERENCE_DATASETS_DIR: '/seqr/seqr-reference-data'
-
-persistentVolume:
-  storageCapacity: ''
-  driver: ''
-  volumeHandle: ''
+  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
 
 volumes: |-
   - name: seqr-datasets
@@ -36,12 +31,11 @@ volumes: |-
       claimName: {{ include "lib.pvc-name" . }}
 volumeMounts: |-
   - name: seqr-datasets
-    mountPath: /seqr
+    mountPath: /var/seqr
     readOnly: true
 
 initContainers: {}
 
-# Prefer to be scheduled away from other seqr platform pods
 affinity: |-
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -59,7 +53,4 @@ nodeSelector: {}
 tolerations: []
 
 global:
-  hail-search:
-    datasetVersions:
-      GRCh37/SNV_INDEL: ''
-      GRCh38/SNV_INDEL: ''
+  seqrPlatformDeploy: false

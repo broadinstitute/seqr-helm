@@ -1,0 +1,21 @@
+{{- range $p := .Values.pods }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Chart.Name }}-{{ $p.name }}
+  labels:
+    {{- include "pipeline-runner.labels" $ | nindent 4 }}
+spec:
+  type: {{ $p.service.type }}
+  ports:
+    - port: {{ $p.service.port }}
+      protocol: TCP
+      name: http
+      {{- with $p.service.nodePort }}
+      nodePort: {{ $p.service.nodePort }}
+      {{- end }}
+  selector:
+    name: {{ $.Chart.Name }}-{{ $p.name }}
+    {{- include "pipeline-runner.selectorLabels" $ | nindent 4 }}
+{{ end }}

@@ -1,10 +1,11 @@
 exports:
   global:
+    seqrPlatformDeploy: false
     lib:
       persistentVolume:
         storageCapacity: '750Gi'
         accessMode: ReadWriteOnce
         local:
           nodeSelector: kind-control-plane
-          path: '/seqr'
+          path: '/var/seqr'
         csi: {}

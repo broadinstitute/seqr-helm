@@ -4,4 +4,12 @@ nodes:
   - role: control-plane 
     extraMounts:
     - hostPath: /var/seqr
-      containerPath: /seqr
+      containerPath: /var/seqr
+      readOnly: false
+    - hostPath: /var/run/docker.sock
+      containerPath: /var/run/docker.sock
+    extraPortMappings:
+    - containerPort: 30950 # the seqr app exposes a NodePort on this port
+      hostPort: 80
+    - containerPort: 30951 # the luigi scheduler exposes a NodePort on this port
+      hostPort: 8082

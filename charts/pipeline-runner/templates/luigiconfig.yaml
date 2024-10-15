@@ -5,8 +5,6 @@ metadata:
   labels:
     {{- include "pipeline-runner.labels" . | nindent 4 }}
 data:
-  # Note: the luigi docs reference default_scheduler_url but
-  # it appears to be kebab case in practice.
   luigi.cfg: |-
     [core]
     scheduler_host = {{ .Chart.Name }}-ui

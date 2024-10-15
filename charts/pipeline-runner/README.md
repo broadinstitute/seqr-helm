@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.1.15-dev](https://img.shields.io/badge/Version-0.1.15--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 92f827224f608388fc4e20be60a08b1f675c7408](https://img.shields.io/badge/AppVersion-92f827224f608388fc4e20be60a08b1f675c7408-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ffa085dca1e1c8a4a168345468f795a141dd63f1](https://img.shields.io/badge/AppVersion-ffa085dca1e1c8a4a168345468f795a141dd63f1-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -329,15 +329,6 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>replicaCount</td>
-			<td>int</td>
-			<td><pre lang="json">
-1
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>resources</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -377,7 +368,7 @@ true
 			<td>volumeMounts</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false\n- name: luigi-config\n  mountPath: /etc/luigi/luigi.cfg\n  subPath: luigi.cfg"
+"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: false\n- name: docker-socket\n  mountPath: /var/run/docker.sock\n  readOnly: false\n- name: luigi-config\n  mountPath: /etc/luigi/luigi.cfg\n  subPath: luigi.cfg"
 </pre>
 </td>
 			<td></td>
@@ -386,7 +377,7 @@ true
 			<td>volumes</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}\n- name: luigi-config\n  configMap:\n    name: luigi-config\n    items:\n      - key: luigi.cfg\n        path: luigi.cfg"
+"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}\n- name: docker-socket\n  hostPath:\n    path: /var/run/docker.sock\n- name: luigi-config\n  configMap:\n    name: luigi-config\n    items:\n      - key: luigi.cfg\n        path: luigi.cfg"
 </pre>
 </td>
 			<td></td>

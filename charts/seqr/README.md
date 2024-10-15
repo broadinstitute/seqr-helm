@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.1.14-dev](https://img.shields.io/badge/Version-1.1.14--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ccdaa1e872e782d6f7016a90e2d3f2a565351805](https://img.shields.io/badge/AppVersion-ccdaa1e872e782d6f7016a90e2d3f2a565351805-informational?style=flat-square)
+![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ccdaa1e872e782d6f7016a90e2d3f2a565351805](https://img.shields.io/badge/AppVersion-ccdaa1e872e782d6f7016a90e2d3f2a565351805-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -139,6 +139,24 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "/var/seqr/seqr-loading-temp"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.LUIGI_UI_SERVICE_HOSTNAME</td>
+			<td>string</td>
+			<td><pre lang="json">
+"pipeline-runner-ui"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.LUIGI_UI_SERVICE_PORT</td>
+			<td>string</td>
+			<td><pre lang="json">
+"8082"
 </pre>
 </td>
 			<td></td>

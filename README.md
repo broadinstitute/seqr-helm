@@ -94,5 +94,6 @@ This is also the recommended pattern for overriding any `seqr` environment varia
 seqr:
   environment:
     GUNICORN_WORKER_THREADS: "8"
+```
 
 A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).  

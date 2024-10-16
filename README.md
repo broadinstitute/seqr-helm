@@ -134,6 +134,11 @@ seqr:
 
 A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
+## Updating your code.
+To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
+```
+helm upgrade broad-seqr seqr-helm/seqr-platform
+```
 
 ## Debugging FAQ
 - How do I uninstall `seqr` and remove all application data?

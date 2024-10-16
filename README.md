@@ -40,10 +40,34 @@ mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube
 6. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
-helm install your-institution-name-seqr seqr-helm/seqr-platform -f my-values.yaml
+helm install YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 
-You may need to run some of the above actions as super-user `sudo`, depending on your environment.
+After install you should expect to something like:
+
+```
+helm install broad-seqr seqr-helm/seqr-platform 
+NAME: YOUR_INSTITUTION_NAME-seqr
+LAST DEPLOYED: Wed Oct 16 14:50:22 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
+The first deployment will include a download of all of the genomic reference data (400GB+).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Once the download completes, you may check the status of the services with:
+
+```
+kubectl get pods
+NAME                                        READY   STATUS      RESTARTS      AGE
+hail-search-7678986f7-n8655                 1/1     Running     0             12m34s
+pipeline-runner-api-5557bbc7-vrtcj          2/2     Running     0             12m34s
+pipeline-runner-ui-749c94468f-62rtv         1/1     Running     0             12m34s
+seqr-68d7b855fb-bjppn                       1/1     Running     0             12m34s
+seqr-check-new-samples-job-28818190-vlhxj   0/1     Completed   0             12m34s
+seqr-postgresql-0                           1/1     Running     0             12m34s
+seqr-redis-master-0                         1/1     Running     0             12m34s
+```
 
 ## Required Secrets
 
@@ -100,4 +124,18 @@ seqr:
     GUNICORN_WORKER_THREADS: "8"
 ```
 
-A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).  
+A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
+
+
+## Debugging FAQ
+- How do I uninstall `seqr` and remove all application data?
+```
+helm uninstall YOUR_INSTITUTION_NAME-seqr
+kind delete cluster
+rm -rf /var/seqr
+```
+- How do I view `seqr`'s disk utilization?
+You may access the size of each of the on-disk components with:
+```
+du -sh /var/seqr/*
+```

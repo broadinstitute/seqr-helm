@@ -17,6 +17,7 @@ The Kubernetes ecosystem contains many standardized and custom solutions across 
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
+  - If running `Docker Desktop` on a laptop, make sure to set your CPU and Memory limits under Settings > Resources > Advanced.
 1. The [`kubectl`](https://kubernetes.io/docs/tasks/tools/) command line client.
 1. The [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) local cluster manager.
 1. The [`helm`](https://helm.sh/docs/intro/install/) package manager.
@@ -73,6 +74,7 @@ Once services are healthy, you may create a seqr Admin user using the pod name f
 
 ```
 kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+python3 /seqr/manage.py createsuperuser
 ```
 
 ## Required Secrets
@@ -144,4 +146,14 @@ rm -rf /var/seqr
 You may access the size of each of the on-disk components with:
 ```
 du -sh /var/seqr/*
+```
+- How do I tail logs?
+To tail the logs of the pipeline worker, for example:
+```
+kubectl get pods -o name | grep pipeline-runner-api
+pipeline-runner-api-5557bbc7-vrtcj
+kubectl logs pipeline-runner-api-5557bbc7-vrtcj -c pipeline-runner-api-sidecar
+2024-10-16 18:24:27 - pipeline_worker - INFO - Waiting for work
+2024-10-16 18:24:28 - pipeline_worker - INFO - Waiting for work
+2024-10-16 18:24:29 - pipeline_worker - INFO - Waiting for work
 ```

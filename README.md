@@ -13,7 +13,7 @@ between the other charts.
 
 ## Instructions for Initial Deployment
 
-The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and bare metal environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space.
+The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space.
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.

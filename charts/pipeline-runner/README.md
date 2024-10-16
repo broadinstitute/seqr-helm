@@ -68,6 +68,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.SHOULD_REGISTER_ALLELES</td>
+			<td>string</td>
+			<td><pre lang="json">
+"1"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD</td>
 			<td>string</td>
 			<td><pre lang="json">

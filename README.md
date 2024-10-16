@@ -4,7 +4,7 @@ Helm charts for the *seqr* platform
 ## Overview
 This repo consists of helm charts defining the seqr platform.  [Helm](https://helm.sh) is a package manager for [Kubernetes](https://kubernetes.io), an open source system for automating deployment and management of containerized applications.  
 
-1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis) and [`postgresql` relational database](https://github.com/postgres/postgres).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.
+1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis) and [`postgresql` relational database](https://github.com/postgres/postgres).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.  Note that this deployment does not include support for `elasticsearch`.
 1. The [hail-search](charts/hail-search) application chart contains a deployment of the service powering variant search within *seqr*.
 1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also runs the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
 1. A [lib](charts/lib) library chart for resources shared
@@ -40,7 +40,7 @@ mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube
 6. Install the `seqr-platform` chart with any override values:
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
-helm install your-institution-name-seqr seqr-helm/seqr-platform
+helm install your-institution-name-seqr seqr-helm/seqr-platform -f my-values.yaml
 ```
 
 ## Required Secrets
@@ -71,13 +71,15 @@ cat /var/seqr/postgresql-data/PG_VERSION
 12
 ```
 
-To migrate static files, you may move your existing [`./data/seqr_static_files`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11)  to [`/var/seqr/seqr-static-media`].  
+To migrate static files, you may move your existing [`./data/seqr_static_files`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L63)  to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58).
 
-To migrate `readviz`, you may move your existing [`./data/readviz`] directory to [`/var/seqr/seqr-static-media`] and additionally run the `update_igv_location.py` `manage.py`:
+To migrate `readviz`, you may move your existing [`./data/readviz`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L62) directory to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58) and additionally run the `update_igv_location.py` `manage.py` command:
 
 ```
 python /seqr/manage.py update_igv_location old_prefix new_prefix
 ```
+
+Note that you do not need to migrate any elasticsearch data.
 
 ## Values/Environment Overrides
 

@@ -60,13 +60,19 @@ The first deployment will include a download of all of the genomic reference dat
 ```
 kubectl get pods
 NAME                                        READY   STATUS      RESTARTS      AGE
-hail-search-7678986f7-n8655                 1/1     Running     0             12m34s
-pipeline-runner-api-5557bbc7-vrtcj          2/2     Running     0             12m34s
-pipeline-runner-ui-749c94468f-62rtv         1/1     Running     0             12m34s
-seqr-68d7b855fb-bjppn                       1/1     Running     0             12m34s
-seqr-check-new-samples-job-28818190-vlhxj   0/1     Completed   0             12m34s
-seqr-postgresql-0                           1/1     Running     0             12m34s
-seqr-redis-master-0                         1/1     Running     0             12m34s
+hail-search-7678986f7-n8655                 1/1     Running     0             22m
+pipeline-runner-api-5557bbc7-vrtcj          2/2     Running     0             22m
+pipeline-runner-ui-749c94468f-62rtv         1/1     Running     0             22m
+seqr-68d7b855fb-bjppn                       1/1     Running     0             22m
+seqr-check-new-samples-job-28818190-vlhxj   0/1     Completed   0             22m
+seqr-postgresql-0                           1/1     Running     0             22m
+seqr-redis-master-0                         1/1     Running     0             22m
+```
+
+Once services are healthy, you may create a seqr Admin user using the pod name from the above output:
+
+```
+kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
 ```
 
 ## Required Secrets

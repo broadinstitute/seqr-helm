@@ -17,7 +17,7 @@ The Kubernetes ecosystem contains many standardized and custom solutions across 
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
-  - If running `Docker Desktop` on a laptop, make sure to set your CPU and Memory limits under Settings > Resources > Advanced.
+    - If running `Docker Desktop` on a laptop, make sure to set your CPU and Memory limits under Settings > Resources > Advanced.
 1. The [`kubectl`](https://kubernetes.io/docs/tasks/tools/) command line client.
 1. The [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) local cluster manager.
 1. The [`helm`](https://helm.sh/docs/intro/install/) package manager.

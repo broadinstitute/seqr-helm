@@ -37,11 +37,13 @@ mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube
 ```
 4. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
 5. [Migrate](#migrating-application-data) any existing application data.
-6. Install the `seqr-platform` chart with any override values:
+6. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):
 ```
 helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
 helm install your-institution-name-seqr seqr-helm/seqr-platform -f my-values.yaml
 ```
+
+You may need to run some of the above actions as super-user `sudo`, depending on your environment.
 
 ## Required Secrets
 
@@ -57,7 +59,7 @@ kubectl create secret generic postgres-secrets \
   --from-literal=password='super-secure-password'
 
 kubectl create secret generic seqr-secrets \
-  --from-literal=django_key='securely-generated-key' \
+  --from-literal=django_key='securely-generated-key'
 ```
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.

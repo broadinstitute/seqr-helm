@@ -148,7 +148,7 @@ You may access the size of each of the on-disk components with:
 du -sh /var/seqr/*
 ```
 - How do I tail logs?
-To tail the logs of the pipeline worker, for example:
+To tail the logs of the pipeline worker after you have started a pipeline run, for example:
 ```
 kubectl get pods -o name | grep pipeline-runner-api
 pipeline-runner-api-5557bbc7-vrtcj
@@ -156,4 +156,7 @@ kubectl logs pipeline-runner-api-5557bbc7-vrtcj -c pipeline-runner-api-sidecar
 2024-10-16 18:24:27 - pipeline_worker - INFO - Waiting for work
 2024-10-16 18:24:28 - pipeline_worker - INFO - Waiting for work
 2024-10-16 18:24:29 - pipeline_worker - INFO - Waiting for work
+....
+base_hail_table - INFO - UpdatedCachedReferenceDatasetQuery(reference_genome=GRCh37, dataset_type=SNV_INDEL, crdq=CLINVAR_PATH_VARIANTS) start
+[Stage 42:========>
 ```

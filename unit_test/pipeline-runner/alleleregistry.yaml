@@ -1,0 +1,11 @@
+additionalEnvironment:
+  - name: CLINGEN_ALLELE_REGISTRY_LOGIN
+    valueFrom:
+      secretKeyRef:
+        name: pipeline-secrets
+        key: clingen_allele_registry_login
+  - name: CLINGEN_ALLELE_REGISTRY_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: pipeline-secrets
+        key: clingen_allele_registry_password

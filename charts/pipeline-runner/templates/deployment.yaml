@@ -49,6 +49,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
+          {{- with $.Values.additionalEnvironment }}
+          env:
+            {{- toYaml . | nindent 12}}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ $p.service.port }}

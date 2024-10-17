@@ -1,0 +1,8 @@
+additionalEnvironment:
+  - name: CLINGEN_ALLELE_REGISTRY_LOGIN
+    value: "caid login"
+  - name: CLINGEN_ALLELE_REGISTRY_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: pipeline-secrets
+        key: clingen_allele_registry_password

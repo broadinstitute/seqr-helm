@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5ddb3ea4fd27f44337100b4a4380ac8bfaead618](https://img.shields.io/badge/AppVersion-5ddb3ea4fd27f44337100b4a4380ac8bfaead618-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 497d36f32bc2815b2b7f245c26482065f9c0825b](https://img.shields.io/badge/AppVersion-497d36f32bc2815b2b7f245c26482065f9c0825b-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -41,10 +41,10 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>additionalEnvironment</td>
-			<td>list</td>
+			<td>additionalSecrets</td>
+			<td>object</td>
 			<td><pre lang="json">
-[]
+{}
 </pre>
 </td>
 			<td></td>

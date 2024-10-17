@@ -10,7 +10,7 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
-additionalEnvironment: []
+additionalSecrets: {}
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:

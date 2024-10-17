@@ -1,4 +1,4 @@
-additionalEnvironment:
+additionalSecrets:
   - name: CLINGEN_ALLELE_REGISTRY_LOGIN
     valueFrom:
       secretKeyRef:

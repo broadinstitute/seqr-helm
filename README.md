@@ -98,16 +98,16 @@ Alternatively, you can use your preferred method for defining secrets in kuberne
 
 ## Migrating Application Data
 
-If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
+- If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
 
 ```
 cat /var/seqr/postgresql-data/PG_VERSION
 12
 ```
 
-To migrate static files, you may move your existing [`./data/seqr_static_files`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L63)  to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58).
+- To migrate static files, you may move your existing [`./data/seqr_static_files`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L63)  to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58).
 
-To migrate `readviz`, you may move your existing [`./data/readviz`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L62) directory to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58) and additionally run the `update_igv_location.py` `manage.py` command:
+- To migrate `readviz`, you may move your existing [`./data/readviz`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L62) directory to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58) and additionally run the `update_igv_location.py` `manage.py` command:
 
 ```
 python /seqr/manage.py update_igv_location old_prefix new_prefix
@@ -134,7 +134,7 @@ seqr:
 
 A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
-## Updating your code.
+## Updating your code
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
 ```
 helm upgrade broad-seqr seqr-helm/seqr-platform

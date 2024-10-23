@@ -137,6 +137,7 @@ A more comprehensive example of what this may look like, and how the different v
 ## Updating your code
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
 ```
+helm repo update
 helm upgrade broad-seqr seqr-helm/seqr-platform
 ```
 

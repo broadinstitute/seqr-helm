@@ -70,7 +70,7 @@ seqr-postgresql-0                           1/1     Running     0             22
 seqr-redis-master-0                         1/1     Running     0             22m
 ```
 
-Once services are healthy, you may create a seqr Admin user using the pod name from the above output:
+Once services are healthy, you may create a seqr admin user using the pod name from the above output:
 
 ```
 kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
@@ -96,7 +96,7 @@ kubectl create secret generic seqr-secrets \
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
 
-## Migrating Application Data
+## Migrating Application Data from `docker-compose.yaml`
 
 - If you wish to preserve your existing application state in `postgresql`, you may move your existing [`./data/postgres`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L11) to `/var/seqr/postgresql-data`.  You should see:
 
@@ -110,7 +110,8 @@ cat /var/seqr/postgresql-data/PG_VERSION
 - To migrate `readviz`, you may move your existing [`./data/readviz`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L62) directory to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58) and additionally run the `update_igv_location.py` `manage.py` command:
 
 ```
-python /seqr/manage.py update_igv_location old_prefix new_prefix
+kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+python3 /seqr/manage.py update_igv_location old_prefix new_prefix
 ```
 
 Note that you do not need to migrate any elasticsearch data.
@@ -134,11 +135,17 @@ seqr:
 
 A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
-## Updating your code
+## Updating *seqr*
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
 ```
 helm repo update
 helm upgrade broad-seqr seqr-helm/seqr-platform
+```
+
+To update reference data in seqr, such as OMIM, HPO, etc., run the following
+```bash
+kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+python3 /seqr/manage.py createsuperuser update_all_reference_data --use-cached-omim --skip-gencode
 ```
 
 ## Debugging FAQ

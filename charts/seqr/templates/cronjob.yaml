@@ -5,6 +5,7 @@ kind: CronJob
 metadata:
   name: {{ $.Chart.Name }}-{{- $c.name }}
   labels:
+    name: {{ $.Chart.Name }}-{{- $c.name }}
     {{- include "seqr.labels" $ | nindent 4 }}
 spec:
   schedule: {{ toYaml $c.schedule }}
@@ -20,6 +21,7 @@ spec:
         metadata:
           name: {{ $.Chart.Name }}-{{- $c.name }}
           labels:
+            name: {{ $.Chart.Name }}-{{- $c.name }}
             {{- include "seqr.labels" $ | nindent 12 }}
           annotations:
             checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}

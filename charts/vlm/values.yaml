@@ -1,0 +1,56 @@
+replicaCount: 1
+
+image:
+  repository: gcr.io/seqr-project/seqr-hail-search
+  pullPolicy: Always
+
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+podAnnotations: {}
+deploymentAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 5000
+
+resources:
+  {}
+
+environment:
+  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
+
+volumes: |-
+  - name: seqr-datasets
+    persistentVolumeClaim:
+      readOnly: true
+      claimName: {{ include "lib.pvc-name" . }}
+volumeMounts: |-
+  - name: seqr-datasets
+    mountPath: /var/seqr
+    readOnly: true
+
+initContainers: {}
+
+affinity: |-
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1.0
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "app.kubernetes.io/part-of"
+                operator: In
+                values:
+                - "seqr-platform"
+          topologyKey: "kubernetes.io/hostname"
+
+nodeSelector: {}
+tolerations: []
+
+global:
+  seqrPlatformDeploy: false

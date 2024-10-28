@@ -1,8 +1,8 @@
-# hail-search
+# vlm
 
-![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 77e84647fa237fbb1fa02086598a1e11ae061ed3](https://img.shields.io/badge/AppVersion-77e84647fa237fbb1fa02086598a1e11ae061ed3-informational?style=flat-square)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
+A Helm chart for deploying VLM within Seqr
 
 ## Maintainers
 
@@ -59,19 +59,10 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.HAIL_SEARCH_DATA_DIR</td>
+			<td>environment.VLM_DATA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/seqr/seqr-hail-search-data"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.REFERENCE_DATASETS_DIR</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr/seqr-reference-data"
 </pre>
 </td>
 			<td></td>
@@ -89,7 +80,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"gcr.io/seqr-project/seqr-hail-search"
+"gcr.io/seqr-project/seqr-vlm"
 </pre>
 </td>
 			<td></td>
@@ -152,7 +143,7 @@ false
 			<td>service.port</td>
 			<td>int</td>
 			<td><pre lang="json">
-5000
+6000
 </pre>
 </td>
 			<td></td>

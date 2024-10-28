@@ -24,6 +24,7 @@ A Helm chart for deploying all components of Seqr, an open source software platf
 | https://broadinstitute.github.io/seqr-helm | lib | 0.1.4 |
 | https://broadinstitute.github.io/seqr-helm | pipeline-runner | 0.2.2 |
 | https://broadinstitute.github.io/seqr-helm | seqr | 1.4.1 |
+| https://broadinstitute.github.io/seqr-helm | vlm | 0.0.1 |
 
 ## Values
 
@@ -49,6 +50,15 @@ true
 			<td>bool</td>
 			<td><pre lang="json">
 true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>vlm.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>

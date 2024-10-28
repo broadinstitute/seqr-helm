@@ -1,4 +1,6 @@
 pipeline-runner:
   enabled: true
+vlm:
+  enabled: false
 global:
   seqrPlatformDeploy: true

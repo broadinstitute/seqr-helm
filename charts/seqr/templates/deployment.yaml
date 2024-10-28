@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
   labels:
+    name: {{ $.Chart.Name }}
     {{- include "seqr.labels" . | nindent 4 }}
   {{- with .Values.deploymentAnnotations }}
   annotations:
@@ -14,11 +15,13 @@ spec:
   revisionHistoryLimit: 5
   selector:
     matchLabels:
+      name: {{ $.Chart.Name }}
       {{- include "seqr.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       name: {{ .Chart.Name }}
       labels:
+        name: {{ $.Chart.Name }}
         {{- include "seqr.labels" . | nindent 8 }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") . | sha256sum }}

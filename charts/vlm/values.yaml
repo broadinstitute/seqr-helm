@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: gcr.io/seqr-project/seqr-hail-search
+  repository: gcr.io/seqr-project/seqr-vlm
   pullPolicy: Always
 
 imagePullSecrets: []
@@ -15,14 +15,13 @@ deploymentAnnotations: {}
 
 service:
   type: ClusterIP
-  port: 5000
+  port: 6000
 
 resources:
   {}
 
 environment:
-  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
-  REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
+  VLM_DATA_DIR: '/var/seqr/seqr-hail-search-data'
 
 volumes: |-
   - name: seqr-datasets

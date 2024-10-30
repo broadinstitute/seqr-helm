@@ -145,7 +145,7 @@ helm upgrade broad-seqr seqr-helm/seqr-platform
 To update reference data in seqr, such as OMIM, HPO, etc., run the following
 ```bash
 kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
-python3 /seqr/manage.py createsuperuser update_all_reference_data --use-cached-omim --skip-gencode
+python3 /seqr/manage.py update_all_reference_data --use-cached-omim --skip-gencode
 ```
 
 ## Debugging FAQ

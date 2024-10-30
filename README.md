@@ -18,31 +18,30 @@ The Kubernetes ecosystem contains many standardized and custom solutions across 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
     - If running `Docker Desktop` on a laptop, make sure to set your CPU and Memory limits under Settings > Resources > Advanced.
+    - If running on linux, make sure docker can be run without `sudo` (https://docs.docker.com/engine/install/linux-postinstall/)
 1. The [`kubectl`](https://kubernetes.io/docs/tasks/tools/) command line client.
 1. The [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) local cluster manager.
 1. The [`helm`](https://helm.sh/docs/intro/install/) package manager.
 
 Then:
 1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster.  This will host all seqr application data:
-```
-mkdir -p /var/seqr
-```
-2. Start a `kind` cluster:
-```
-curl https://raw.githubusercontent.com/broadinstitute/seqr-helm/refs/heads/main/kind.yaml > kind.yaml
-kind create cluster --config kind.yaml
-```
-3. Create a `~/.kube/config` file:
-```
-mkdir -p ~/.kube; kubectl config view --raw > ~/.kube/config; chmod go-r ~/.kube/config
-```
-4. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
-5. [Migrate](#migrating-application-data) any existing application data.
-6. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):
-```
-helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
-helm install YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
-```
+    ```
+    mkdir -p /var/seqr
+    chmod 777 /var/seqr 
+    ```
+1. Start a `kind` cluster:
+    ```
+    curl https://raw.githubusercontent.com/broadinstitute/seqr-helm/refs/heads/main/kind.yaml > kind.yaml
+    kind create cluster --config kind.yaml
+    ```
+    *Note that kubernetes can have unexpected behavior when run with `sudo`. Make sure to run this and all other commands without it*
+1. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
+1. [Migrate](#migrating-application-data) any existing application data.
+1. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):
+    ```
+    helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm
+    helm install YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
+    ```
 
 After install you should expect to something like:
 
@@ -56,7 +55,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-The first deployment will include a download of all of the genomic reference data (400GB+).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Once the download completes, you may check the status of the services with:
+The first deployment will include a download of all of the genomic reference data (400GB+).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Additionally, you may check the status of the services with:
 
 ```
 kubectl get pods
@@ -68,6 +67,12 @@ seqr-68d7b855fb-bjppn                       1/1     Running     0             22
 seqr-check-new-samples-job-28818190-vlhxj   0/1     Completed   0             22m
 seqr-postgresql-0                           1/1     Running     0             22m
 seqr-redis-master-0                         1/1     Running     0             22m
+```
+
+While the reference data is downloading, the pipeline-runner-api pod should be in the `Init` state
+
+```
+pipeline-runner-api-5557bbc7-vrtcj        0/2     Init:0/4    0             8m51s
 ```
 
 Once services are healthy, you may create a seqr admin user using the pod name from the above output:

@@ -13,3 +13,5 @@ nodes:
       hostPort: 80
     - containerPort: 30951 # the luigi scheduler exposes a NodePort on this port
       hostPort: 8082
+    - containerPort: 30952 # VLM exposes a NodePort on this port
+      hostPort: 6000

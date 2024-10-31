@@ -17,7 +17,6 @@ service:
   port: 8000
   nodePort: 30950
 
-clusterHostname: ""
 ingress:
   enabled: false
 

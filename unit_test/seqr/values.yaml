@@ -13,8 +13,6 @@ tolerations:
     value: "value1"
     effect: "NoSchedule"
 
-clusterHostname: &clusterHostname "test-seqr.myinstitute.org"
-
 resources:
   requests:
     memory: "0.5Gi"
@@ -93,6 +91,7 @@ ingress:
       proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
+  clusterHostname: &clusterHostname "test-seqr.myinstitute.org"
   hosts:
     - host: *clusterHostname
       paths:

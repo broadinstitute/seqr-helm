@@ -26,15 +26,15 @@ Install the four required kubernetes infrastructure components:
 Then:
 1. Create a local `/var/seqr` directory to be mounted into the Kubernetes cluster.  This will host all seqr application data:
     ```
-    mkdir -p /var/seqr
-    chmod 777 /var/seqr 
+    sudo mkdir -p /var/seqr
+    sudo chmod 777 /var/seqr 
     ```
 1. Start a `kind` cluster:
     ```
     curl https://raw.githubusercontent.com/broadinstitute/seqr-helm/refs/heads/main/kind.yaml > kind.yaml
     kind create cluster --config kind.yaml
     ```
-    *Note that kubernetes can have unexpected behavior when run with `sudo`. Make sure to run this and all other commands without it*
+    *Note that kubernetes can have unexpected behavior when run with `sudo`. Make sure to run this and all other `kubectl`/`kind`/`helm` commands without it*
 1. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
 1. [Migrate](#migrating-application-data) any existing application data.
 1. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):

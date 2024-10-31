@@ -82,7 +82,7 @@ volumeMounts: |-
   - name: matchbox-secrets-volume
     mountPath: /mme
 
-clusterHostname: &clusterHostname "test-seqr.myinstitute.org"
+clusterHostname: "test-seqr.myinstitute.org"
 ingress:
   enabled: true
   nameOverride: ingress-nginx
@@ -93,14 +93,11 @@ ingress:
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
   hosts:
-    - host: *clusterHostname
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: nginx-secrets-cert-manager
-      hosts:
-        - *clusterHostname
 
 additionalSecrets:
   - name: OMIM_KEY

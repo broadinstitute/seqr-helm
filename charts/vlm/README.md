@@ -152,7 +152,7 @@ false
 			<td>service.port</td>
 			<td>int</td>
 			<td><pre lang="json">
-6000
+7000
 </pre>
 </td>
 			<td></td>

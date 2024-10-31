@@ -15,7 +15,7 @@ deploymentAnnotations: {}
 
 service:
   type: NodePort
-  port: 6000
+  port: 7000
   nodePort: 30952
 
 resources:

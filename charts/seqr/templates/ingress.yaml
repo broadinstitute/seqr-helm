@@ -19,13 +19,13 @@ spec:
   tls:
     {{- range .Values.ingress.tls }}
     - hosts:
-        - {{ .Values.clusterHostname | quote }}
+        - {{ .Values.ingress.clusterHostname | quote }}
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - host: {{ .Values.clusterHostname | quote }}
+    - host: {{ .Values.ingress.clusterHostname | quote }}
       http:
         paths:
           {{- range .paths }}

@@ -63,6 +63,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>clusterHostname</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>cronJobs[0].command</td>
 			<td>string</td>
 			<td><pre lang="json">

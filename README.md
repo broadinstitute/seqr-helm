@@ -46,7 +46,7 @@ Then:
 After install you should expect to something like:
 
 ```
-helm install broad-seqr seqr-helm/seqr-platform 
+helm install YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform 
 NAME: YOUR_INSTITUTION_NAME-seqr
 LAST DEPLOYED: Wed Oct 16 14:50:22 2024
 NAMESPACE: default
@@ -144,7 +144,7 @@ A more comprehensive example of what this may look like, and how the different v
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
 ```
 helm repo update
-helm upgrade broad-seqr seqr-helm/seqr-platform
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 
 To update reference data in seqr, such as OMIM, HPO, etc., run the following

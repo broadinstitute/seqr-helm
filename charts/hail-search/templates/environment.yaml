@@ -6,5 +6,7 @@ metadata:
     {{- include "hail-search.labels" . | nindent 4 }}
 data:
   {{- with .Values.environment }}
-    {{- toYaml . | nindent 2 }}
+    {{- range $key, $value := . }}
+      {{ $key }}: {{ tpl $value $ | quote }}
+    {{- end }}
   {{- end }}

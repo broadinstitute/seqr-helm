@@ -90,6 +90,7 @@ resources: {}
 environment:
   SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
+  SEQR_APP_HAIL_SEARCH_DATA_DIR: "{{ index .Values \"hail-search\" \"environment\" \"HAIL_SEARCH_DATA_DIR\" }}"
 
 affinity: |-
   podAntiAffinity:

@@ -1,5 +1,8 @@
 pipeline-runner:
   enabled: true
+hail-search:
+  environment:
+    HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
 vlm:
   enabled: false
 global:

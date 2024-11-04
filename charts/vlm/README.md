@@ -140,10 +140,19 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>service.nodePort</td>
+			<td>int</td>
+			<td><pre lang="json">
+30952
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>service.port</td>
 			<td>int</td>
 			<td><pre lang="json">
-6000
+7000
 </pre>
 </td>
 			<td></td>
@@ -152,7 +161,7 @@ false
 			<td>service.type</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ClusterIP"
+"NodePort"
 </pre>
 </td>
 			<td></td>

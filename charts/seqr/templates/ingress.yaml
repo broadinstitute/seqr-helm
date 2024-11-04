@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := .Chart.Name -}}
 {{- $svcPort := .Values.service.port -}}
+{{- $clusterHostname := .Values.clusterHostname -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -19,15 +20,13 @@ spec:
   tls:
     {{- range .Values.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
+        - {{ $clusterHostname | quote }}
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ $clusterHostname | quote }}
       http:
         paths:
           {{- range .paths }}
@@ -35,9 +34,9 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ .serviceName | default $fullName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ .servicePort | default $svcPort }}
           {{- end }}
     {{- end }}
 {{- end }}

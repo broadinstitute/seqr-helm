@@ -14,8 +14,9 @@ podAnnotations: {}
 deploymentAnnotations: {}
 
 service:
-  type: ClusterIP
-  port: 6000
+  type: NodePort
+  port: 7000
+  nodePort: 30952
 
 resources:
   {}

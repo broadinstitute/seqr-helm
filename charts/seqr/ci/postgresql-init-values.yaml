@@ -1,7 +1,8 @@
 postgresql:
-  initdb:
-    user: "postgres"
-    password: "super-secure-password"
-    scripts:
-      00_init.sql: |-
-        CREATE DATABASE seqrdb;
+  primary:
+    initdb:
+      user: "postgres"
+      password: "super-secure-password"
+      scripts:
+        00_init.sql: |-
+          CREATE DATABASE seqrdb;

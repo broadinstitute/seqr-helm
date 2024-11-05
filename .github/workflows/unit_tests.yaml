@@ -44,9 +44,6 @@ jobs:
         run: python3 -m unittest unit_test/**/*.py
       - name: Test Seqr Chart Installation
         run: |
-          # This hack lets us skip expensive setup in the seqr container
-          export PGPASSWORD='super-secure-password'; psql -h localhost -U postgres -c 'CREATE DATABASE seqrdb'; psql -h localhost -U postgres -c 'CREATE DATABASE reference_data_db';
-
           # Add secrets
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'

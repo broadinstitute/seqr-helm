@@ -123,6 +123,9 @@ postgresql:
     tag: '12.19.0-debian-12-r9'
   postgresqlDataDir: /var/seqr/postgresql-data
   primary:
+    resources:
+      limits:
+        memory: "2Gi"
     persistence:
       existingClaim: |-
         {{ include "lib.pvc-name" . }}

@@ -19,7 +19,8 @@ class TestSeqrChart(unittest.TestCase):
     def test_open_source_values(self):
         p = subprocess.run(DEFAULT_ARGS[:-2], capture_output=True, text=True) # NB: text=True here to avoid opening the output in binary mode
         p.check_returncode()
-        self.assertEqual(p.stdout.count('kind: CronJob'), 1)
+        self.assertEqual(p.stdout.count('kind: CronJob'), 2)
+        self.assertEqual(p.stdout.count('update_all_reference_data'), 2)
 
     def test_values(self):
         p = subprocess.run(DEFAULT_ARGS, capture_output=True, text=True)
@@ -32,7 +33,6 @@ class TestSeqrChart(unittest.TestCase):
         self.assertIn('a/deployment', p.stdout)
         self.assertIn('NoSchedule', p.stdout)
         self.assertEqual(p.stdout.count('kind: CronJob'), 2)
-        self.assertEqual(p.stdout.count('update_all_reference_data', 2))
 
     def test_no_deployment_sidecars(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'no-deployment-sidecars.yaml')], capture_output=True, text=True)

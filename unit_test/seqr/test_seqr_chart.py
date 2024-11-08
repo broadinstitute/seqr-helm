@@ -9,7 +9,6 @@ DEFAULT_ARGS = [
     'test', 
     'charts/seqr', 
     '--dry-run',
-    '--debug', 
     '-f',
     os.path.join(WORK_DIR, 'values.yaml')
 ]
@@ -47,7 +46,7 @@ class TestSeqrChart(unittest.TestCase):
     def test_incorrectly_formatted_cronjob(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'incorrectly-formatted-cronjob.yaml')], capture_output=True, text=True)
         self.assertRaises(subprocess.CalledProcessError, p.check_returncode)
-        self.assertIn('invalid resource name "seqr-a/bad/cron/1": [may not contain \'/\']\nhelm.go', p.stderr)
+        self.assertIn('invalid resource name "seqr-a/bad/cron/1"', p.stderr)
 
     def test_redis(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'redis.yaml')], capture_output=True, text=True)

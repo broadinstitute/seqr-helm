@@ -9,7 +9,6 @@ DEFAULT_ARGS = [
     'test', 
     'charts/hail-search', 
     '--dry-run',
-    '--debug', 
     '-f',
     os.path.join(WORK_DIR, 'values.yaml')
 ]

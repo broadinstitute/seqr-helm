@@ -90,33 +90,6 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>cronJobs[1].command</td>
-			<td>string</td>
-			<td><pre lang="json">
-"python manage.py update_all_reference_data --use-cached-omim"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>cronJobs[1].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"update-all-reference-data-job"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>cronJobs[1].schedule</td>
-			<td>string</td>
-			<td><pre lang="json">
-"0 4 * * 0"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>deploymentAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">

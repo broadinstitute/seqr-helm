@@ -705,6 +705,15 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>updateAllReferenceDataPostInstallJob.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>volumeMounts</td>
 			<td>string</td>
 			<td><pre lang="json">

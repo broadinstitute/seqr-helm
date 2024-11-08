@@ -99,6 +99,9 @@ cronJobs:
   - name: check-new-samples-job
     schedule: "*/10 * * * *"
     command: "python manage.py check_for_new_samples_from_pipeline"
+  - name: update-all-reference-data-job
+    schedule: "0 4 * * 0" # 4am on sunday
+    command: "python manage.py update_all_reference_data --use-cached-omim"
 
 redis:
   # -- Set to "false" to disable the redis cache (if you're using a managed cache service).

@@ -48,14 +48,14 @@ spec:
             periodSeconds: 10
             failureThreshold: 5
             httpGet:
-              path: /status
+              path: /vlm/status
               port: http
           readinessProbe:
             initialDelaySeconds: 2
             periodSeconds: 10
             failureThreshold: 5
             httpGet:
-              path: /status
+              path: /vlm/status
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

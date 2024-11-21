@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Chart.Name }}-deny-egress
+  labels:
+    {{- include "vlm.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "vlm.selectorLabels" . | nindent 4 }}
+  policyTypes:
+    - Egress

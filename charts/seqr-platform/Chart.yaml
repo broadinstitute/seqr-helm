@@ -9,7 +9,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.3.11
+version: 0.3.12
 dependencies:
   - name: seqr
     version: 1.4.9

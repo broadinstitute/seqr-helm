@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.4.7](https://img.shields.io/badge/Version-1.4.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: d4df2c2415e2baaed1eb780f3cf178d8593a309e](https://img.shields.io/badge/AppVersion-d4df2c2415e2baaed1eb780f3cf178d8593a309e-informational?style=flat-square)
+![Version: 1.4.8](https://img.shields.io/badge/Version-1.4.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: d4df2c2415e2baaed1eb780f3cf178d8593a309e](https://img.shields.io/badge/AppVersion-d4df2c2415e2baaed1eb780f3cf178d8593a309e-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -499,6 +499,15 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>postgresql.primary.initdb.scripts."00_init.sql"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"CREATE DATABASE seqrdb;\nCREATE DATABASE reference_data_db;"
 </pre>
 </td>
 			<td></td>

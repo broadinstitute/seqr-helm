@@ -1,0 +1,67 @@
+{{- if .Values.updateAllReferenceDataPostInstallJob.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $.Chart.Name }}-update-all-reference-data
+  labels:
+    name: {{ $.Chart.Name }}-update-all-reference-data
+    {{- include "seqr.labels" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: {{ $.Chart.Name }}-update-all-reference-data
+      labels:
+        name: {{ $.Chart.Name }}-update-all-reference-data
+        {{- include "seqr.labels" $ | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
+      {{- with $.Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      activeDeadlineSeconds: 1200
+      restartPolicy: Never
+      shareProcessNamespace: true
+      {{- with $.Values.volumes }}
+      volumes:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.serviceAccount.create }}
+      serviceAccountName: {{ $.Chart.Name }}
+      {{- end }}
+      containers:
+      - name: {{ $.Chart.Name }}-update-all-reference-data
+        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
+        {{- with $.Values.volumeMounts }}
+        volumeMounts:
+          {{- tpl . $ | nindent 10 }}
+        {{- end }}
+        {{- include "seqr.environment" $ | nindent 8}}
+        command: ["/bin/bash", "-c"]
+        args:
+          - echo starting update all reference data job;
+          {{- if $.Values.jobBeforeHook}}
+            {{ $.Values.jobBeforeHook }};
+          {{- end }}
+          {{- if $.Values.jobAfterHook}}
+            trap "{{ $.Values.jobAfterHook }}" EXIT;
+          {{- end }}
+            python manage.py update_all_reference_data --use-cached-omim
+      {{- with $.Values.deploymentSidecars }}
+        {{- tpl . $ | nindent 6 }}
+      {{- end }}
+      {{- with $.Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
+

@@ -100,6 +100,9 @@ cronJobs:
     schedule: "*/10 * * * *"
     command: "python manage.py check_for_new_samples_from_pipeline"
 
+updateAllReferenceDataPostInstallJob:
+  enabled: true
+
 redis:
   # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true

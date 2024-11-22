@@ -7,6 +7,6 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      {{- include "vlm.podMatchLabel" . | nindent 4 }}
+      {{- include "vlm.selectorLabels" . | nindent 4 }}
   policyTypes:
     - Egress

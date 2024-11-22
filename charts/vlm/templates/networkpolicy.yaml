@@ -7,6 +7,6 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      {{- include "vlm.selectorLabels" . | nindent 4 }}
+      app.kubernetes.io/name: {{ .Chart.Name }}
   policyTypes:
     - Egress

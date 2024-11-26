@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -51,15 +51,6 @@ false
 		</tr>
 		<tr>
 			<td>deploymentAnnotations</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>egress</td>
 			<td>object</td>
 			<td><pre lang="json">
 {}

@@ -3,9 +3,9 @@ kind: NetworkPolicy
 metadata:
   name: default-cluster-deny-ingress
 spec:
-  namespaceSelector:
+  podSelector:
     matchLabels:
-      kubernetes.io/metadata.name: default
+      app.kubernetes.io/instance: {{ .Release.Name }}
   policyTypes:
     - Ingress
   ingress:

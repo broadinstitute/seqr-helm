@@ -13,8 +13,6 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/name: seqr
-      ports:
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 443
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ingress-nginx

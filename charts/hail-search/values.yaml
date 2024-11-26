@@ -21,7 +21,6 @@ resources:
   {}
 
 environment:
-  HAIL_SEARCH_DATA_DIR: "{{ index .Values \"hail-search\" \"environment\" \"HAIL_SEARCH_DATA_DIR\" }}"
   REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
 
 volumes: |-

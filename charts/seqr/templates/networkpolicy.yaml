@@ -13,7 +13,7 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/name: {{ .Chart.Name }}
-      {{- if .Values.ingress.enabled -}}
+      {{- if .Values.ingress.enabled }}
       - namespaceSelector:
           matchLabels:
             kubernetes.io/metadata.name: {{ .Values.ingress.namespaceLabel | default .Values.ingress.nameOverride }}

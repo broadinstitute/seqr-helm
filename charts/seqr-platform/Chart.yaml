@@ -9,7 +9,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.3.16
+version: 0.3.17
 dependencies:
   - name: seqr
     version: 1.4.9
@@ -22,7 +22,7 @@ dependencies:
     version: 0.5.1
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: vlm
-    version: 0.0.5
+    version: 0.0.6
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: vlm.enabled
   - name: lib

@@ -5,7 +5,9 @@ metadata:
   labels:
     {{- include "pipeline-runner.labels" . | nindent 4 }}
 data:
-    {{- with .Values.environment }}
+  {{- with .Values.environment }}
     {{- toYaml . | nindent 2 }}
   {{- end }}
-  SEQR_APP_HAIL_SEARCH_DATA_DIR: {{ .Values.global.HAIL_SEARCH_DATA_DIR | quote }}
+  {{- if ne .Values.environment.HAIL_SEARCH_DATA_DIR .Values.global.SEQR_APP_HAIL_SEARCH_DATA_DIR }}
+  SEQR_APP_HAIL_SEARCH_DATA_DIR: {{ .Values.global.SEQR_APP_HAIL_SEARCH_DATA_DIR | quote }}
+  {{- end }}

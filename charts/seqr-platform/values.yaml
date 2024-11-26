@@ -4,4 +4,3 @@ vlm:
   enabled: false
 global:
   seqrPlatformDeploy: true
-  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'

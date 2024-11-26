@@ -21,6 +21,7 @@ resources:
   {}
 
 environment:
+  HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'
   REFERENCE_DATASETS_DIR: '/var/seqr/seqr-reference-data'
 
 volumes: |-
@@ -53,3 +54,8 @@ tolerations: []
 
 global:
   seqrPlatformDeploy: false
+
+exports:
+  environment:
+    global:
+      SEQR_APP_HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'

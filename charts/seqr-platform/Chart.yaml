@@ -21,6 +21,8 @@ dependencies:
   - name: hail-search
     version: 0.5.0
     repository: "https://broadinstitute.github.io/seqr-helm"
+    import-values:
+      - environment
   - name: vlm
     version: 0.0.1
     repository: "https://broadinstitute.github.io/seqr-helm"

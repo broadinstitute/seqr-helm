@@ -10,3 +10,7 @@ spec:
       app.kubernetes.io/name: {{ .Chart.Name }}
   policyTypes:
     - Egress
+  {{- with .Values.egress }}
+  egress:
+    {{- tpl . $ | trim | nindent 4 }}
+  {{- end }}

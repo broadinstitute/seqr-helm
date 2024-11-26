@@ -9,3 +9,4 @@ exports:
           nodeSelector: kind-control-plane
           path: '/var/seqr'
         csi: {}
+    HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'

@@ -10,9 +10,9 @@ dependencies:
   version: 0.5.1
 - name: vlm
   repository: https://broadinstitute.github.io/seqr-helm
-  version: 0.0.8
+  version: 0.0.9
 - name: lib
   repository: https://broadinstitute.github.io/seqr-helm
   version: 0.1.4
-digest: sha256:e4d8c34696100eff3293d9ae48baf3b7e1adb2989c028661833502d8515cd64a
-generated: "2024-11-26T16:43:21.838261-05:00"
+digest: sha256:75d23e5b0c4955c1dac7929fbc4ce27bad0e822f62e833b0b330dc424d3e835b
+generated: "2024-11-26T17:12:31.096616-05:00"

@@ -72,8 +72,8 @@ spec:
             - /bin/bash
             - -c
             - /readiness_probe
-          failureThreshold: 6
-          periodSeconds: 10
+          failureThreshold: 60
+          periodSeconds: 15
       {{- with .Values.deploymentSidecars }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}

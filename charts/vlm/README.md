@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.0.9](https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -140,10 +140,19 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>service.nodePort</td>
+			<td>int</td>
+			<td><pre lang="json">
+30952
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>service.port</td>
 			<td>int</td>
 			<td><pre lang="json">
-6000
+7000
 </pre>
 </td>
 			<td></td>
@@ -152,7 +161,7 @@ false
 			<td>service.type</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ClusterIP"
+"NodePort"
 </pre>
 </td>
 			<td></td>

@@ -9,7 +9,6 @@ DEFAULT_ARGS = [
     'test', 
     'charts/pipeline-runner', 
     '--dry-run',
-    '--debug', 
 ]
 
 class TestPipelineRunnerChart(unittest.TestCase):
@@ -35,7 +34,6 @@ class TestPipelineRunnerChart(unittest.TestCase):
 
     def test_additional_secrets(self):
         p = subprocess.run([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'alleleregistry.yaml')], capture_output=True, text=True)
-        print([*DEFAULT_ARGS, '-f', os.path.join(WORK_DIR, 'alleleregistry.yaml')])
         self.assertIn(
             'clingen_allele_registry_password',
             p.stdout

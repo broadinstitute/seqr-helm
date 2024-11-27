@@ -13,7 +13,7 @@ between the other charts.
 
 ## Instructions for Initial Deployment
 
-The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space.
+The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space. While there is no requirement for the minimum number of CPUs, having more available will significantly speed up data loading and some searches.
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
@@ -46,7 +46,7 @@ Then:
 After install you should expect to something like:
 
 ```
-helm install broad-seqr seqr-helm/seqr-platform 
+helm install YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform 
 NAME: YOUR_INSTITUTION_NAME-seqr
 LAST DEPLOYED: Wed Oct 16 14:50:22 2024
 NAMESPACE: default
@@ -144,7 +144,7 @@ A more comprehensive example of what this may look like, and how the different v
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
 ```
 helm repo update
-helm upgrade broad-seqr seqr-helm/seqr-platform
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 
 To update reference data in seqr, such as OMIM, HPO, etc., run the following

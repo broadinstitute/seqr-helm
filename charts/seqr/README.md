@@ -585,6 +585,15 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>redis.networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>replicaCount</td>
 			<td>int</td>
 			<td><pre lang="json">

@@ -109,6 +109,8 @@ redis:
   architecture: standalone
   auth:
     enabled: false
+  networkPolicy:
+    enabled: false
   fullnameOverride: "seqr-redis"
 
 postgresql:

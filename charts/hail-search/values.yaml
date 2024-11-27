@@ -54,8 +54,3 @@ tolerations: []
 
 global:
   seqrPlatformDeploy: false
-
-exports:
-  environment:
-    global:
-      SEQR_APP_HAIL_SEARCH_DATA_DIR: '/var/seqr/seqr-hail-search-data'

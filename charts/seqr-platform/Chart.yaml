@@ -9,7 +9,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 0.3.20
+version: 0.3.21
 dependencies:
   - name: seqr
     version: 1.4.9
@@ -21,8 +21,6 @@ dependencies:
   - name: hail-search
     version: 0.5.1
     repository: "https://broadinstitute.github.io/seqr-helm"
-    import-values:
-      - environment
   - name: vlm
     version: 0.0.9
     repository: "https://broadinstitute.github.io/seqr-helm"

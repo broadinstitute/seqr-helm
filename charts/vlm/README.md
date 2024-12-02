@@ -59,6 +59,24 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.NODE_ID</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.SEQR_BASE_URL</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.VLM_DATA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">

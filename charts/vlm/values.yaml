@@ -23,6 +23,8 @@ resources:
 
 environment:
   VLM_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  SEQR_BASE_URL: ''
+  NODE_ID: ''
 
 volumes: |-
   - name: seqr-datasets

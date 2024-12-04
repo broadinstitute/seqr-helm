@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-cluster-deny-ingress
+  name: {{ .Chart.Name }}-only-ingress
 spec:
   podSelector:
     matchLabels:
@@ -12,7 +12,9 @@ spec:
     - from:
       - podSelector:
           matchLabels:
-            app.kubernetes.io/name: seqr
+            app.kubernetes.io/name: {{ .Chart.Name }}
+      {{- if .Values.ingress.enabled }}
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: ingress-nginx
+            kubernetes.io/metadata.name: {{ .Values.ingress.namespaceLabel | default .Values.ingress.nameOverride }}
+      {{- end }}

@@ -14,5 +14,5 @@ dependencies:
 - name: lib
   repository: https://broadinstitute.github.io/seqr-helm
   version: 0.1.4
-digest: sha256:75d23e5b0c4955c1dac7929fbc4ce27bad0e822f62e833b0b330dc424d3e835b
-generated: "2024-11-27T15:57:08.295828-05:00"
+digest: sha256:934ed7cd6fb1cb910474cbbbd47b8525ed093d0151b9074e4932b45d8be712b5
+generated: "2024-12-05T10:48:50.945398-05:00"

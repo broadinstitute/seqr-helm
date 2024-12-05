@@ -88,8 +88,9 @@ pods:
 
 resources: {}
 environment:
-  SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
+  HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
+  SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
 
 affinity: |-
   podAntiAffinity:

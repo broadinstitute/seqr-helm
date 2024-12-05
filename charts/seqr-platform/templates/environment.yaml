@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    {{- include "seqr-platform.labels" . | nindent 4 }}
+data:
+  {{- if ne (index .Values "hail-search" "environment" "HAIL_SEARCH_DATA_DIR") (index .Values "pipeline-runner" "environment" "HAIL_SEARCH_DATA_DIR") }}
+  SEQR_APP_HAIL_SEARCH_DATA_DIR: "{{ index .Values "hail-search" "environment" "HAIL_SEARCH_DATA_DIR" }}"
+  {{- end }}

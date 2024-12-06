@@ -99,6 +99,9 @@ cronJobs:
   - name: check-new-samples-job
     schedule: "*/10 * * * *"
     command: "python manage.py check_for_new_samples_from_pipeline"
+  - name: update-all-reference-data
+    schedule: "*/5 * * * *"
+    command: "python manage.py update_all_reference_data --use-cached-omim"
 
 updateAllReferenceDataPostInstallJob:
   enabled: true
@@ -130,7 +133,7 @@ postgresql:
   primary:
     initdb:
       scripts:
-        00_init.sql: |-
+        00_init.sql: |
           CREATE DATABASE seqrdb;
           CREATE DATABASE reference_data_db;
     resources:

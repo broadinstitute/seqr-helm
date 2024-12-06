@@ -90,6 +90,33 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>cronJobs[1].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python manage.py update_all_reference_data --use-cached-omim"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"update-all-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"*/5 * * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>deploymentAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -507,7 +534,7 @@ false
 			<td>postgresql.primary.initdb.scripts."00_init.sql"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"CREATE DATABASE seqrdb;\nCREATE DATABASE reference_data_db;"
+"CREATE DATABASE seqrdb;\nCREATE DATABASE reference_data_db;\n"
 </pre>
 </td>
 			<td></td>

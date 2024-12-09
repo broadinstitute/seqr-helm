@@ -48,5 +48,10 @@ jobs:
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
-          ct install --charts charts/seqr --namespace default --helm-extra-args '--timeout 500s'
-
+          ct install --charts charts/seqr --namespace default
+      - name: Test Hail Search Chart Installation
+        run: |
+          ct install --charts charts/hail-search --namespace default
+      - name: Test Pipeline Runner Installation
+        run: |
+          ct install --charts charts/pipeline-runner --namespace default

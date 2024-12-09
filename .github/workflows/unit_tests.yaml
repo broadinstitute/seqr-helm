@@ -42,7 +42,7 @@ jobs:
           config: "kind.yaml"
       - name: Run Chart Templating Unit Tests
         run: python3 -m unittest unit_test/**/*.py
-      - name: Test Seqr Chart Installation
+      - name: Test Seqr Platform Chart Installation
         run: |
           # Add secrets
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'

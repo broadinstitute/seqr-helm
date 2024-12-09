@@ -10,7 +10,7 @@ pods:
     sidecar:
       command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
       privileged: true
-      resources: {} # Also disable memory request
+      resources: {}  # Also disable memory request
   - name: ui
     service:
       type: NodePort

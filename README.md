@@ -78,7 +78,7 @@ pipeline-runner-api-5557bbc7-vrtcj        0/2     Init:0/4    0             8m51
 Once services are healthy, you may create a seqr admin user using the pod name from the above output:
 
 ```
-kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py createsuperuser
 ```
 
@@ -115,7 +115,7 @@ cat /var/seqr/postgresql-data/PG_VERSION
 - To migrate `readviz`, you may move your existing [`./data/readviz`](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml#L62) directory to [`/var/seqr/seqr-static-media`](charts/seqr/values.yaml#L58) and additionally run the `update_igv_location.py` `manage.py` command:
 
 ```
-kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_igv_location old_prefix new_prefix
 ```
 
@@ -149,7 +149,7 @@ helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 
 To update reference data in seqr, such as OMIM, HPO, etc., run the following
 ```bash
-kubectl exec seqr-68d7b855fb-bjppn -c seqr -it -- bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data --use-cached-omim --skip-gencode
 ```
 

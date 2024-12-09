@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.4.10](https://img.shields.io/badge/Version-1.4.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ef13b05a8255a84a635868925670e8c3d1b2b290](https://img.shields.io/badge/AppVersion-ef13b05a8255a84a635868925670e8c3d1b2b290-informational?style=flat-square)
+![Version: 1.4.12](https://img.shields.io/badge/Version-1.4.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f59d904c23cbe981679aa1576957fd7e337e8a32](https://img.shields.io/badge/AppVersion-f59d904c23cbe981679aa1576957fd7e337e8a32-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -85,6 +85,33 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "*/10 * * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python manage.py update_all_reference_data --use-cached-omim"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"update-all-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"*/5 * * * *"
 </pre>
 </td>
 			<td></td>
@@ -507,7 +534,7 @@ false
 			<td>postgresql.primary.initdb.scripts."00_init.sql"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"CREATE DATABASE seqrdb;\nCREATE DATABASE reference_data_db;"
+"CREATE DATABASE seqrdb;\nCREATE DATABASE reference_data_db;\n"
 </pre>
 </td>
 			<td></td>

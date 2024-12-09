@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: b3708d40fdd45dc294176083083b027f423783d0](https://img.shields.io/badge/AppVersion-b3708d40fdd45dc294176083083b027f423783d0-informational?style=flat-square)
+![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: b3997841bc57de14c9de287eeb7739775bbd3ee4](https://img.shields.io/badge/AppVersion-b3997841bc57de14c9de287eeb7739775bbd3ee4-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -63,6 +63,15 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.HAIL_SEARCH_DATA_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-hail-search-data"
 </pre>
 </td>
 			<td></td>

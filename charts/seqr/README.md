@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.4.12](https://img.shields.io/badge/Version-1.4.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f59d904c23cbe981679aa1576957fd7e337e8a32](https://img.shields.io/badge/AppVersion-f59d904c23cbe981679aa1576957fd7e337e8a32-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f59d904c23cbe981679aa1576957fd7e337e8a32](https://img.shields.io/badge/AppVersion-f59d904c23cbe981679aa1576957fd7e337e8a32-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -21,7 +21,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.4 |
+| file://../lib | lib | 1.0.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 

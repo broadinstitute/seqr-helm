@@ -16,7 +16,7 @@ version: 1.0.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "f59d904c23cbe981679aa1576957fd7e337e8a32"
+appVersion: "2bc28c2b8e0f99dbbd0b6cb833ec1d010ad8c162"
 dependencies:
   - name: lib
     version: 1.0.0

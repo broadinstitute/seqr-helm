@@ -36,6 +36,15 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 	</thead>
 	<tbody>
 		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>additionalSecrets</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -259,15 +268,6 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 </pre>
 </td>
 			<td>If storing static media files in a local filesystem, the path to that filesystem</td>
-		</tr>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
 		</tr>
 		<tr>
 			<td>image.pullPolicy</td>
@@ -745,6 +745,60 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.csi</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
+			<td>string</td>
+			<td><pre lang="json">
+"kind-control-plane"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.local.path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
+			<td>string</td>
+			<td><pre lang="json">
+"750Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lib.exports.global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>

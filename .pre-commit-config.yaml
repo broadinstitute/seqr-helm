@@ -3,5 +3,3 @@ repos:
     rev: v1.14.2
     hooks:
     - id:  helm-docs
-      args:
-        - --document-dependency-values

@@ -8,3 +8,6 @@ data:
   {{- if ne (index .Values "hail-search" "environment" "HAIL_SEARCH_DATA_DIR") (index .Values "pipeline-runner" "environment" "HAIL_SEARCH_DATA_DIR") }}
   SEQR_APP_HAIL_SEARCH_DATA_DIR: "{{ index .Values "hail-search" "environment" "HAIL_SEARCH_DATA_DIR" }}"
   {{- end }}
+  {{- if ne (index .Values "hail-search" "environment" "REFERENCE_DATASETS_DIR") (index .Values "pipeline-runner" "environment" "REFERENCE_DATASETS_DIR") }}
+  SEQR_APP_REFERENCE_DATASETS_DIR: "{{ index .Values "hail-search" "environment" "REFERENCE_DATASETS_DIR" }}"
+  {{- end }}

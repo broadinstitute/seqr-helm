@@ -77,6 +77,15 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.REFERENCE_DATASETS_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD</td>
 			<td>string</td>
 			<td><pre lang="json">

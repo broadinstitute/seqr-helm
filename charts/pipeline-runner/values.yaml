@@ -50,6 +50,12 @@ pods:
         image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         command: ["/v03_pipeline/bin/{{ $s }}.bash", "{{ $r }}"]
+        envFrom:
+          - configMapRef:
+              name: {{ $.Chart.Name }}
+          - configMapRef:
+              name: seqr-platform
+              optional: true
         resources:
           requests:
             memory: "16Gi"

@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 2.2.0](https://img.shields.io/badge/Version-2.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8ab0748baf8284c547dd5a2e04ab8b0c04d2f9b0](https://img.shields.io/badge/AppVersion-8ab0748baf8284c547dd5a2e04ab8b0c04d2f9b0-informational?style=flat-square)
+![Version: 2.3.0](https://img.shields.io/badge/Version-2.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8ab0748baf8284c547dd5a2e04ab8b0c04d2f9b0](https://img.shields.io/badge/AppVersion-8ab0748baf8284c547dd5a2e04ab8b0c04d2f9b0-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -328,6 +328,15 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 ""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>

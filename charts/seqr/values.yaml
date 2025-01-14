@@ -106,6 +106,9 @@ cronJobs:
 updateAllReferenceDataPostInstallJob:
   enabled: true
 
+networkPolicy:
+  enabled: false
+
 redis:
   # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true

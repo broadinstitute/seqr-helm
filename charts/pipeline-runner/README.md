@@ -188,7 +188,7 @@ false
 			<td>pods[0].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  resources:\n    requests:\n      memory: \"15Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
+"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  resources:\n    requests:\n      memory: \"12Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
 </pre>
 </td>
 			<td></td>

@@ -72,7 +72,7 @@ pods:
       resources:
         requests:
           # Default memory request because the worker runs HAIL.
-          memory: "16Gi"
+          memory: "12Gi"
   - name: ui
     service:
       type: NodePort

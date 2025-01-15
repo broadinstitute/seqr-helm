@@ -58,7 +58,7 @@ pods:
               optional: true
         resources:
           requests:
-            memory: "16Gi"
+            memory: "15Gi"
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}

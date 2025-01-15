@@ -22,7 +22,7 @@ A Helm chart for deploying all components of Seqr, an open source software platf
 |------------|------|---------|
 | https://broadinstitute.github.io/seqr-helm | hail-search | 2.2.0 |
 | https://broadinstitute.github.io/seqr-helm | lib | 1.0.0 |
-| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 1.0.3 |
+| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 1.0.4 |
 | https://broadinstitute.github.io/seqr-helm | seqr | 2.1.0 |
 | https://broadinstitute.github.io/seqr-helm | vlm | 0.0.11 |
 

@@ -4,7 +4,7 @@ dependencies:
   version: 2.3.0
 - name: pipeline-runner
   repository: https://broadinstitute.github.io/seqr-helm
-  version: 1.0.8
+  version: 1.0.9
 - name: hail-search
   repository: https://broadinstitute.github.io/seqr-helm
   version: 2.2.0
@@ -14,5 +14,5 @@ dependencies:
 - name: lib
   repository: https://broadinstitute.github.io/seqr-helm
   version: 1.0.0
-digest: sha256:a94c4353c8740ac6d4b70c20a2f7bda98483b573f14633e418224309a78cb8fb
-generated: "2025-01-15T19:08:29.444628-05:00"
+digest: sha256:833275f623f48253882731eece035ea82642e27ba4b3b54a721295416ee7293b
+generated: "2025-01-15T19:38:21.806839-05:00"

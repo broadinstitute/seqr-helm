@@ -1,5 +1,5 @@
 # seqr-helm
-Helm charts for the *seqr* platform
+Helm charts for the *seqr* platform!
 
 ## Overview
 This repo consists of helm charts defining the seqr platform.  [Helm](https://helm.sh) is a package manager for [Kubernetes](https://kubernetes.io), an open source system for automating deployment and management of containerized applications.  

@@ -1,0 +1,27 @@
+name: Run helm dep update on seqr-platform
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  helm-dep-update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Run helm dep update
+      run: |
+        cd charts/seqr-platform
+        helm dep update
+
+    - name: Commit and Push changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: ${{ github.event.pull_request.head.ref }}
+        commit_message: "Run helm dep update"

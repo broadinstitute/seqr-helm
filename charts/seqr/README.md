@@ -109,7 +109,25 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.image.tag</td>
+			<td>string</td>
+			<td><pre lang="json">
+"25.1.3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.keeper.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.networkPolicy.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
 false

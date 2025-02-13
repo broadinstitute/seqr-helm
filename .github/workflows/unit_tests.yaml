@@ -46,6 +46,7 @@ jobs:
         run: |
           # Add secrets
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
+          kubectl create secret generic clickhouse-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
           ct install --charts charts/seqr --namespace default --helm-extra-args '--timeout 500s'

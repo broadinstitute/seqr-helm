@@ -1,3 +1,5 @@
+hail-search:
+  enabled: true
 pipeline-runner:
   enabled: true
 vlm:

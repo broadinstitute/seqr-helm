@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 0.0.10](https://img.shields.io/badge/Version-0.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.0.11](https://img.shields.io/badge/Version-0.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -19,7 +19,7 @@ A Helm chart for deploying VLM within Seqr
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.4 |
+| file://../lib | lib | 1.0.0 |
 
 ## Values
 
@@ -31,15 +31,6 @@ A Helm chart for deploying VLM within Seqr
 		<th>Description</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
 		<tr>
 			<td>affinity</td>
 			<td>string</td>
@@ -81,6 +72,15 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "/var/seqr/seqr-hail-search-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
@@ -225,60 +225,6 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ReadWriteOnce"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.csi</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
-			<td>string</td>
-			<td><pre lang="json">
-"kind-control-plane"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
-			<td>string</td>
-			<td><pre lang="json">
-"750Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
 </pre>
 </td>
 			<td></td>

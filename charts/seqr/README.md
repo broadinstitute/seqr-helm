@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 1.4.13-dev](https://img.shields.io/badge/Version-1.4.13--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f59d904c23cbe981679aa1576957fd7e337e8a32](https://img.shields.io/badge/AppVersion-f59d904c23cbe981679aa1576957fd7e337e8a32-informational?style=flat-square)
+![Version: 2.10.0](https://img.shields.io/badge/Version-2.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -21,8 +21,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.4 |
-| https://charts.bitnami.com/bitnami | clickhouse | 8.0.0 |
+| file://../lib | lib | 1.0.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 
@@ -36,15 +35,6 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 		<th>Description</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
 		<tr>
 			<td>additionalSecrets</td>
 			<td>object</td>
@@ -397,6 +387,15 @@ false
 			<td>If storing static media files in a local filesystem, the path to that filesystem</td>
 		</tr>
 		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -455,6 +454,15 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 ""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
@@ -882,60 +890,6 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ReadWriteOnce"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.csi</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
-			<td>string</td>
-			<td><pre lang="json">
-"kind-control-plane"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
-			<td>string</td>
-			<td><pre lang="json">
-"750Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
 </pre>
 </td>
 			<td></td>

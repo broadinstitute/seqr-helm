@@ -1,6 +1,6 @@
 # hail-search
 
-![Version: 0.5.2](https://img.shields.io/badge/Version-0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f59d904c23cbe981679aa1576957fd7e337e8a32](https://img.shields.io/badge/AppVersion-f59d904c23cbe981679aa1576957fd7e337e8a32-informational?style=flat-square)
+![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
 
 A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
 
@@ -19,7 +19,7 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.4 |
+| file://../lib | lib | 1.0.0 |
 
 ## Values
 
@@ -31,15 +31,6 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 		<th>Description</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
 		<tr>
 			<td>affinity</td>
 			<td>string</td>
@@ -72,6 +63,15 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "/var/seqr/seqr-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
@@ -207,60 +207,6 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ReadWriteOnce"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.csi</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
-			<td>string</td>
-			<td><pre lang="json">
-"kind-control-plane"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
-			<td>string</td>
-			<td><pre lang="json">
-"750Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
 </pre>
 </td>
 			<td></td>

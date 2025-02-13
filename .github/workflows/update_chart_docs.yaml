@@ -1,0 +1,24 @@
+name: update chart docs
+
+# Update chart READMEs with helm-docs on pushes (incl. merges) to main
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  update_chart_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run helm-docs
+        uses: losisin/helm-docs-github-action@v1
+        with:
+          chart-search-root: charts
+          git-push: true

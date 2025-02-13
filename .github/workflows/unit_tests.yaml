@@ -42,12 +42,11 @@ jobs:
           config: "kind.yaml"
       - name: Run Chart Templating Unit Tests
         run: python3 -m unittest unit_test/**/*.py
-      - name: Test Seqr Chart Installation
+      - name: Test Seqr Platform Chart Installation
         run: |
           # Add secrets
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic clickhouse-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
 
-          ct install --charts charts/seqr --namespace default --helm-extra-args '--timeout 500s'
-
+          ct install --charts charts/seqr-platform --namespace default

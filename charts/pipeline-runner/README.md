@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: b3997841bc57de14c9de287eeb7739775bbd3ee4](https://img.shields.io/badge/AppVersion-b3997841bc57de14c9de287eeb7739775bbd3ee4-informational?style=flat-square)
+![Version: 1.10.0](https://img.shields.io/badge/Version-1.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7396413d4973b6a9138ad4a76e1f29b47ca889c6](https://img.shields.io/badge/AppVersion-7396413d4973b6a9138ad4a76e1f29b47ca889c6-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -19,7 +19,7 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 0.1.4 |
+| file://../lib | lib | 1.0.0 |
 
 ## Values
 
@@ -31,15 +31,6 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 		<th>Description</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
 		<tr>
 			<td>additionalSecrets</td>
 			<td>object</td>
@@ -86,10 +77,28 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.REFERENCE_DATASETS_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-reference-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD</td>
 			<td>string</td>
 			<td><pre lang="json">
 "1"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.seqrPlatformDeploy</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
@@ -179,7 +188,7 @@ false
 			<td>pods[0].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  resources:\n    requests:\n      memory: \"16Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
+"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  resources:\n    requests:\n      memory: \"12Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -260,7 +269,7 @@ true
 			<td>pods[0].sidecar.resources.requests.memory</td>
 			<td>string</td>
 			<td><pre lang="json">
-"16Gi"
+"12Gi"
 </pre>
 </td>
 			<td></td>
@@ -396,60 +405,6 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: false\n    claimName: {{ include \"lib.pvc-name\" . }}\n- name: docker-socket\n  hostPath:\n    path: /var/run/docker.sock\n- name: luigi-config\n  configMap:\n    name: luigi-config\n    items:\n      - key: luigi.cfg\n        path: luigi.cfg"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.accessMode</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ReadWriteOnce"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.csi</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.nodeSelector</td>
-			<td>string</td>
-			<td><pre lang="json">
-"kind-control-plane"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.local.path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.lib.persistentVolume.storageCapacity</td>
-			<td>string</td>
-			<td><pre lang="json">
-"750Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>lib.exports.global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
 </pre>
 </td>
 			<td></td>

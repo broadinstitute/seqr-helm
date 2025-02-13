@@ -1,0 +1,31 @@
+pods:
+  - name: api
+    service:
+      type: ClusterIP
+      port: 6000
+    healthCheckRoute: /status
+    command: ["python3", "-m", "v03_pipeline.api"]
+    initContainers: {}
+    resources: {}
+    sidecar:
+      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      privileged: true
+      resources: {}  # Also disable memory request
+  - name: ui
+    service:
+      type: NodePort
+      port: 8082
+      nodePort: 30951
+    healthCheckRoute: /
+    command: ["luigid"]
+    initContainers: |-
+      - name: mkdir-luigi-state
+        image: busybox:1.35
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ['/bin/mkdir', '-p', {{ .Values.environment.LUIGI_STATE_DIR }}]
+        {{- with $.Values.volumeMounts }}
+        volumeMounts:
+          {{- tpl . $ | nindent 4 }}
+        {{- end }}
+    resources: {}
+    sidecar: {}

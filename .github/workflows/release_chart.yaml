@@ -43,8 +43,3 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
-
-      - name: log chart updates
-        run:
-          echo "Changed charts: ${{ steps.release.outputs.changed_charts }}"
-          echo "Chart version: ${{ steps.release.outputs.chart_version }}"

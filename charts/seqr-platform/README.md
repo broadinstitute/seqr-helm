@@ -46,15 +46,6 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>hail-search.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>pipeline-runner.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">

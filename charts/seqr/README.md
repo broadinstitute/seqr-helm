@@ -22,6 +22,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 | Repository | Name | Version |
 |------------|------|---------|
 | file://../lib | lib | 1.0.0 |
+| https://charts.bitnami.com/bitnami | clickhouse | 8.0.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 

@@ -9,7 +9,7 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 2.10.0
+version: 2.10.0-dev
 appVersion: "95e36269c06ee9f91cd6a48f81a608307d130014"
 dependencies:
   - name: redis
@@ -20,6 +20,10 @@ dependencies:
     version: 15.5.31
     repository: "https://charts.bitnami.com/bitnami"
     condition: postgresql.enabled
+  - name: clickhouse
+    version: 8.0.0
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: clickhouse.enabled
   - name: lib
     version: 1.0.0
     repository: "file://../lib"

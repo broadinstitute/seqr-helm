@@ -72,6 +72,8 @@ requiredSecrets:
   postgresSecretName: &postgresSecretName postgres-secrets
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
+  # -- The secret containing the clickhouse credentials.
+  clickhouseSecretName: &clickhouseSecretName clickhouse-secrets
 
 additionalSecrets: {}
 volumes: |-
@@ -178,6 +180,31 @@ postgresql:
         volumeMounts:
           - name: data
             mountPath: /var/seqr
+
+clickhouse:
+  enabled: false
+  image:
+    # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
+    # recommended to hard pin.
+    tag: '25.1.3'
+  fullnameOverride: "seqr-clickhouse"
+  shards: 1
+  replicaCount: 1
+  resourcesPreset: "none"
+  networkPolicy:
+    enabled: false
+  keeper:
+    enabled: false
+  zookeeper:
+    enabled: false
+  auth:
+    username: clickhouse
+    existingSecret: *clickhouseSecretName
+    existingSecretKey: password
+  persistence:
+    enabled: true
+    existingClaim: |-
+      {{ include "lib.pvc-name" . }}
 
 global:
   seqrPlatformDeploy: false

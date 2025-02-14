@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 2.10.0](https://img.shields.io/badge/Version-2.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
+![Version: 2.10.0-dev](https://img.shields.io/badge/Version-2.10.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -22,6 +22,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 | Repository | Name | Version |
 |------------|------|---------|
 | file://../lib | lib | 1.0.0 |
+| https://charts.bitnami.com/bitnami | clickhouse | 8.0.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 
@@ -49,6 +50,132 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>string</td>
 			<td><pre lang="json">
 "podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.auth.existingSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+"clickhouse-secrets"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.auth.existingSecretKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"password"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.auth.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"clickhouse"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.fullnameOverride</td>
+			<td>string</td>
+			<td><pre lang="json">
+"seqr-clickhouse"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.image.tag</td>
+			<td>string</td>
+			<td><pre lang="json">
+"25.1.3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.keeper.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.existingClaim</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ include \"lib.pvc-name\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.replicaCount</td>
+			<td>int</td>
+			<td><pre lang="json">
+1
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.resourcesPreset</td>
+			<td>string</td>
+			<td><pre lang="json">
+"none"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.shards</td>
+			<td>int</td>
+			<td><pre lang="json">
+1
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.zookeeper.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
@@ -643,12 +770,22 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "clickhouseSecretName": "clickhouse-secrets",
   "postgresSecretName": "postgres-secrets",
   "seqrSecretName": "seqr-secrets"
 }
 </pre>
 </td>
 			<td>Secrets which are required for seqr's functionality</td>
+		</tr>
+		<tr>
+			<td>requiredSecrets.clickhouseSecretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+"clickhouse-secrets"
+</pre>
+</td>
+			<td>The secret containing the clickhouse credentials.</td>
 		</tr>
 		<tr>
 			<td>requiredSecrets.postgresSecretName</td>

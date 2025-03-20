@@ -26,6 +26,9 @@ environment:
   SEQR_BASE_URL: ''
   NODE_ID: ''
 
+requiredSecrets:
+  vlmSecretName: vlm-secrets
+
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:

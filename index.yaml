@@ -8480,6 +8480,44 @@ entries:
     version: 0.0.1
   seqr-platform:
   - apiVersion: v2
+    created: "2025-03-20T21:18:22.565206655Z"
+    dependencies:
+    - name: seqr
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.14.0
+    - condition: pipeline-runner.enabled
+      name: pipeline-runner
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.5.0
+    - name: hail-search
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.8.0
+    - condition: vlm.enabled
+      name: vlm
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 0.0.12
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.0.0
+    description: A Helm chart for deploying all components of Seqr, an open source
+      software platform for rare disease genomics
+    digest: a5f54747c48f388a7e556dc7fc7cff31a1ce88fccfffba1d1f48f600699f8f27
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr-platform
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-platform-1.13.0/seqr-platform-1.13.0.tgz
+    version: 1.13.0
+  - apiVersion: v2
     created: "2025-03-04T21:39:39.957936248Z"
     dependencies:
     - name: seqr
@@ -12553,4 +12591,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-03-20T21:04:55.12377118Z"
+generated: "2025-03-20T21:18:22.565959663Z"

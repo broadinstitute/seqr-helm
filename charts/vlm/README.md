@@ -149,6 +149,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>requiredSecrets.vlmSecretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+"vlm-secrets"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>resources</td>
 			<td>object</td>
 			<td><pre lang="json">

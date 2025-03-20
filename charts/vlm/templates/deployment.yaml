@@ -39,6 +39,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Chart.Name }}
+          env:
+            - name: VLM_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: client_id
+            - name: VLM_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: client_secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

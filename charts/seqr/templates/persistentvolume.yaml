@@ -32,7 +32,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: seqr-clickhouse-pv
+  name: seqr-clickhouse-pvc
   labels:
     {{- include "seqr.labels" . | nindent 4 }}
 spec:

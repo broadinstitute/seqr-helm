@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 2.10.0-dev](https://img.shields.io/badge/Version-2.10.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
+![Version: 2.11.0-dev](https://img.shields.io/badge/Version-2.11.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -85,7 +85,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>clickhouse.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td></td>
@@ -127,6 +127,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.persistence.accessModes[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.persistence.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -139,7 +148,16 @@ true
 			<td>clickhouse.persistence.existingClaim</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{ include \"lib.pvc-name\" . }}"
+"seqr-clickhouse-pvc"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.size</td>
+			<td>string</td>
+			<td><pre lang="json">
+"750Gi"
 </pre>
 </td>
 			<td></td>

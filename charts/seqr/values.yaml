@@ -182,7 +182,7 @@ postgresql:
             mountPath: /var/seqr
 
 clickhouse:
-  enabled: true
+  enabled: false
   image:
     # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
     # recommended to hard pin.

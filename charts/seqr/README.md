@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 2.12.0-dev](https://img.shields.io/badge/Version-2.12.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
+![Version: 2.13.0-dev](https://img.shields.io/badge/Version-2.13.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -131,6 +131,33 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "ReadWriteOnce"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.csi.driver</td>
+			<td>string</td>
+			<td><pre lang="json">
+"pd.csi.storage.gke.io"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.csi.fsType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ext4"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.persistence.csi.readOnly</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
 </pre>
 </td>
 			<td></td>

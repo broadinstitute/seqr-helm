@@ -207,6 +207,10 @@ clickhouse:
     accessModes:
       - "ReadWriteOnce"
     size: "750Gi"
+    csi:
+      driver: pd.csi.storage.gke.io
+      fsType: 'ext4'
+      readOnly: True
 
 global:
   seqrPlatformDeploy: false

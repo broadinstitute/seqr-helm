@@ -210,7 +210,7 @@ clickhouse:
     csi:
       driver: pd.csi.storage.gke.io
       fsType: 'ext4'
-      readOnly: True
+      readOnly: False
 
 global:
   seqrPlatformDeploy: false

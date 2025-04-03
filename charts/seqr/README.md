@@ -84,7 +84,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>cronJobs[1].command</td>
 			<td>string</td>
 			<td><pre lang="json">
-"python manage.py update_all_reference_data --use-cached-omim"
+"python manage.py update_all_reference_data"
 </pre>
 </td>
 			<td></td>

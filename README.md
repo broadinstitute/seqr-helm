@@ -147,10 +147,11 @@ helm repo update
 helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 
-To update reference data in seqr, such as OMIM, HPO, etc., run the following
+To update reference data in seqr, such as OMIM, HPO, etc., run the following. By default, this will be run automatically 
+as a cron job.
 ```bash
 kubectl exec seqr-POD-ID -c seqr -it -- bash
-python3 /seqr/manage.py update_all_reference_data --use-cached-omim --skip-gencode
+python3 /seqr/manage.py update_all_reference_data
 ```
 
 ## Debugging FAQ

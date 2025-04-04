@@ -101,7 +101,7 @@ cronJobs:
     command: "python manage.py check_for_new_samples_from_pipeline"
   - name: update-all-reference-data
     schedule: "*/5 * * * *"
-    command: "python manage.py update_all_reference_data --use-cached-omim"
+    command: "python manage.py update_all_reference_data"
 
 updateAllReferenceDataPostInstallJob:
   enabled: true

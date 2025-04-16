@@ -7,12 +7,12 @@ dependencies:
   version: 1.5.0
 - name: hail-search
   repository: https://broadinstitute.github.io/seqr-helm
-  version: 2.10.0
+  version: 2.11.0
 - name: vlm
   repository: https://broadinstitute.github.io/seqr-helm
   version: 1.0.0
 - name: lib
   repository: https://broadinstitute.github.io/seqr-helm
   version: 1.0.0
-digest: sha256:7365d89ba60141e1132df3277d3bb94acdfffb01a5c1864577b1c0c7415bcff8
-generated: "2025-04-11T18:00:45.380486476Z"
+digest: sha256:a228c4596723b21fc2ea2b01afc9f4f3da4e3fb13050a065f48826c911ad6959
+generated: "2025-04-16T18:18:37.103976096Z"

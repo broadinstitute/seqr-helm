@@ -2,6 +2,30 @@ apiVersion: v1
 entries:
   hail-search:
   - apiVersion: v2
+    appVersion: 69905fefd168e79daae1264783c9be8d04163e28
+    created: "2025-05-01T20:58:28.566595038Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.0.0
+    description: A Helm chart for deploying the hail backend of Seqr, an open source
+      software platform for rare disease genomics
+    digest: 290636f78a364dc16aa520060631bd1d60df595193cca384847f6bec734498bc
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: hail-search
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/hail-search-2.13.0/hail-search-2.13.0.tgz
+    version: 2.13.0
+  - apiVersion: v2
     appVersion: 27df58cc3a11eddf632bd12a30c32199158d377e
     created: "2025-04-23T17:01:56.687787182Z"
     dependencies:
@@ -13737,4 +13761,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-05-01T20:37:02.828343713Z"
+generated: "2025-05-01T20:58:28.567556371Z"

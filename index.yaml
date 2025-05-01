@@ -4345,6 +4345,39 @@ entries:
     version: 0.1.0-dev
   seqr:
   - apiVersion: v2
+    appVersion: 69905fefd168e79daae1264783c9be8d04163e28
+    created: "2025-05-01T20:37:02.60652813Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.31
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.0.0
+    description: A Helm chart for deploying the Seqr app, an open source software
+      platform for rare disease genomics
+    digest: a40597ba0fbf4f3dcfff596970224f41f23ac9fc336f1768db7b823dd3cdabe9
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-2.19.0/seqr-2.19.0.tgz
+    version: 2.19.0
+  - apiVersion: v2
     appVersion: 27df58cc3a11eddf632bd12a30c32199158d377e
     created: "2025-04-23T16:43:58.943651748Z"
     dependencies:
@@ -13395,6 +13428,29 @@ entries:
     version: 0.1.0-dev
   vlm:
   - apiVersion: v2
+    appVersion: 69905fefd168e79daae1264783c9be8d04163e28
+    created: "2025-05-01T20:37:02.826621955Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.0.0
+    description: A Helm chart for deploying VLM within Seqr
+    digest: c17c45e5e226a16df59ea5f3ab4c3389d52a4f10a226b8839856d68dede9c10f
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: vlm
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-1.1.0/vlm-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: bdfc9c72808fcbdcd042ea61cd4fee5b885c9977
     created: "2025-03-26T17:05:05.477795102Z"
     dependencies:
@@ -13681,4 +13737,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-05-01T17:29:48.069671884Z"
+generated: "2025-05-01T20:37:02.828343713Z"

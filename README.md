@@ -55,7 +55,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-The first deployment will include a download of all of the genomic reference data (400GB+).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Additionally, you may check the status of the services with:
+The first deployment will include a download of all of the genomic reference data (~350GB as of 6/2025 but variable).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Additionally, you may check the status of the services with:
 
 ```
 kubectl get pods

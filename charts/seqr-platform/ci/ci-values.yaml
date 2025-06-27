@@ -1,7 +1,7 @@
 seqr:
   cronJobs: []
   clickhouse:
-    enabled: True
+    enabled: true
 pipeline-runner:
   pods:
     - name: api

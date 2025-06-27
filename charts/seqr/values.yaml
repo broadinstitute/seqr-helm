@@ -187,7 +187,7 @@ clickhouse:
     # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
     # recommended to hard pin.
     tag: '25.4.3'
-    fullnameOverride: "seqr-clickhouse"
+  fullnameOverride: seqr-clickhouse
   shards: 1
   replicaCount: 1
   resourcesPreset: "none"
@@ -214,8 +214,26 @@ clickhouse:
     - name: in-memory-dir
       emptyDir:
         medium: "Memory"
+  usersdFiles:
+    00_seqr_config.xml: |
+      <clickhouse>
+        <profiles>
+          <default>
+            <flatten_nested>0</flatten_nested>
+            <join_use_nulls>1</join_use_nulls>
+
+            <!-- Added to enable clean staging of large projects that may exceed the default (50GB) -->
+            <max_partition_size_to_drop>250000000000</max_partition_size_to_drop>
+            <max_table_size_to_drop>250000000000</max_table_size_to_drop>
+
+            <!-- Reduces the memory bloat of the dictionary group by. -->
+            <max_bytes_ratio_before_external_group_by>0.1</max_bytes_ratio_before_external_group_by>
+            <max_bytes_ratio_before_external_sort>0.1</max_bytes_ratio_before_external_sort>
+          </default>
+        </profiles>
+      </clickhouse>
   configdFiles:
-    99-seqr-config.xml: |
+    00_seqr_config.xml: |
       <clickhouse>
         <path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/</path>
         <user_files_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/user_files/</user_files_path>
@@ -226,5 +244,6 @@ clickhouse:
           </local_directory>
         </user_directories>
         <format_schema_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
+      </clickhouse>
 global:
   seqrPlatformDeploy: false

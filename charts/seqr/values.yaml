@@ -216,6 +216,6 @@ clickhouse:
         medium: "Memory"
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
-    
+
 global:
   seqrPlatformDeploy: false

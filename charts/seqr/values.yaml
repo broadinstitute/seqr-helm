@@ -204,12 +204,20 @@ clickhouse:
     existingClaim: |-
       {{ include "lib.pvc-name" . }}
     mountPath: /var/seqr
-  startdbScripts:
-    00_init.sql: |
-      CREATE DATABASE IF NOT EXISTS seqr;
+  initdbScripts:
+    00_init.sh: |
+      clickhouse-client -u seqr_clickhouse_admin --password $(cat $CLICKHOUSE_ADMIN_PASSWORD_FILE) --query 'CREATE DATABASE IF NOT EXISTS seqr;'
   extraVolumeMounts:
     - name: in-memory-dir
       mountPath: /in-memory-dir
+    # Well documented bug in chart init:
+    # https://github.com/bitnami/charts/issues/24473
+    # https://github.com/bitnami/charts/issues/27607
+    # Without this block, the clickhouse startup script does not have perms to write the /bitnami/clickhouse/data/.user_scripts_initialized file
+    # that signals a successful db initialization.
+    - name: empty-dir
+      mountPath: /bitnami/clickhouse/data
+      subPath: app-volume-dir-for-init
   extraVolumes:
     - name: in-memory-dir
       emptyDir:

@@ -204,9 +204,9 @@ clickhouse:
     existingClaim: |-
       {{ include "lib.pvc-name" . }}
     mountPath: /var/seqr
-  initdbScripts:
+  startdbScripts:
     00_init.sql: |
-      CREATE DATABASE seqr;
+      CREATE DATABASE IF NOT EXISTS seqr;
   extraVolumeMounts:
     - name: in-memory-dir
       mountPath: /in-memory-dir

@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 69905fefd168e79daae1264783c9be8d04163e28](https://img.shields.io/badge/AppVersion-69905fefd168e79daae1264783c9be8d04163e28-informational?style=flat-square)
+![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -117,6 +117,15 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>

@@ -50,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.requiredSecrets.vlmSecretName }}
                   key: client_secret
+            - name: CLICKHOUSE_VLM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: seqr_clickhouse_vlm_password
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

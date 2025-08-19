@@ -223,6 +223,6 @@ clickhouse:
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
   initdbScriptsSecret: seqr-clickhouse-init-db-secret
-  initdbSecretEnabled: True # note this is not a clickhouse chart variable, but controls seqr's db initialization.
+  initdbSecretEnabled: True  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
   seqrPlatformDeploy: false

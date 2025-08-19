@@ -205,9 +205,6 @@ clickhouse:
       {{ include "lib.pvc-name" . }}
     mountPath: /var/seqr
   usePasswordFiles: false
-  initdbScripts:
-    00_init.sh: |
-      clickhouse-client -u seqr_clickhouse_admin --password $CLICKHOUSE_ADMIN_PASSWORD --query 'CREATE DATABASE IF NOT EXISTS seqr;'
   extraVolumeMounts:
     - name: in-memory-dir
       mountPath: /in-memory-dir
@@ -225,6 +222,7 @@ clickhouse:
         medium: "Memory"
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
-
+  initdbScriptsSecret: seqr-clickhouse-init-db-secret
+  initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
   seqrPlatformDeploy: false

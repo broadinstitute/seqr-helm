@@ -10,6 +10,6 @@ dependencies:
   version: 9.2.2
 - name: lib
   repository: file://../lib
-  version: 1.0.0
-digest: sha256:93d436c0b9d52f8cfa7dab3f610c660507739a1cdea41cf1a9ed3f51fe691885
-generated: "2025-06-26T23:50:54.767209-04:00"
+  version: 1.1.0
+digest: sha256:dd228d4a06e62c5517429759b56f066d3c34b7a24fb5f445e0aae1d53f8f93d6
+generated: "2025-08-27T22:20:41.058053-04:00"

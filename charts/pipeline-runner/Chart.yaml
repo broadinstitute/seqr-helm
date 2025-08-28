@@ -12,7 +12,7 @@ version: 1.111.0
 appVersion: "2c870b577ac330bea0f3641ac002f4913371aeb3"
 dependencies:
   - name: lib
-    version: 1.0.0
+    version: 1.1.0
     repository: "file://../lib"
     import-values:
       - child: exports.global

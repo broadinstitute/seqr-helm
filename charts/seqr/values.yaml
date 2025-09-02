@@ -67,7 +67,6 @@ environment:
   HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
 
   # Clickhouse Config
-  CLICKHOUSE_ADMIN_USER: &clickhouseAdminUsername "seqr_clickhouse_admin"
   CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
   CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
   CLICKHOUSE_DATA_DIR: &clickhouseDataDir "/var/seqr/clickhouse-data"
@@ -207,7 +206,7 @@ clickhouse:
   keeper:
     enabled: false
   auth:
-    username: *clickhouseAdminUsername
+    username: seqr_clickhouse_admin
     existingSecret: *clickhouseSecretName
     existingSecretKey: password
   persistence:
@@ -247,18 +246,19 @@ clickhouse:
         - name: in-memory-dir
           mountPath: /in-memory-dir
         - name: data
-          mountPath: *clickhouseDataDir
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}
   extraEnvVars:
     - name: CLICKHOUSE_READER_PASSWORD
       valueFrom:
         secretKeyRef:
           name: clickhouse-secrets
-          key: seqr_clickhouse_reader_password
+          key: reader_password
     - name: CLICKHOUSE_WRITER_PASSWORD
       valueFrom:
         secretKeyRef:
           name: clickhouse-secrets
-          key: seqr_clickhouse_writer_password
+          key: writer_password
   sidecars:
     - name: clickhouse-loader
       image: gcr.io/seqr-project/seqr-pipeline-runner
@@ -272,12 +272,13 @@ clickhouse:
           valueFrom:
             secretKeyRef:
               name: clickhouse-secrets
-              key: seqr_clickhouse_writer_password
+              key: writer_password
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
   initdbScriptsSecret: seqr-clickhouse-init-db-secret
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
   seqrPlatformDeploy: false
+  # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
   security:
     allowInsecureImages: true

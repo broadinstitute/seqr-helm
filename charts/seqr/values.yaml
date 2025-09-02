@@ -69,7 +69,6 @@ environment:
   # Clickhouse Config
   CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
   CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
-  CLICKHOUSE_DATA_DIR: &clickhouseDataDir "/var/seqr/clickhouse-data"
 
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:
@@ -241,7 +240,8 @@ clickhouse:
         - name: CLICKHOUSE_IN_MEMORY_DIR
           value: /in-memory-dir
         - name: CLICKHOUSE_DATA_DIR
-          value: *clickhouseDataDir
+          value: |-
+            {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
       volumeMounts:
         - name: in-memory-dir
           mountPath: /in-memory-dir
@@ -278,6 +278,9 @@ clickhouse:
   initdbScriptsSecret: seqr-clickhouse-init-db-secret
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
+  seqr:
+    environment:
+      CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
   seqrPlatformDeploy: false
   # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
   security:

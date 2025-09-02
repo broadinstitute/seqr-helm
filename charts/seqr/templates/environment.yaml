@@ -8,3 +8,6 @@ data:
   {{- with .Values.environment }}
     {{- toYaml . | nindent 2 }}
   {{- end }}
+  {{- with .Values.globals.seqr.environment }}
+    {{- toYaml . | nindent 2 }}
+  {{- end }}

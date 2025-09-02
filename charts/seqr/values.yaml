@@ -279,3 +279,5 @@ clickhouse:
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
   seqrPlatformDeploy: false
+  security:
+    allowInsecureImages: true

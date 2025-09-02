@@ -137,7 +137,7 @@ postgresql:
     existingSecret: *postgresSecretName
     secretKeys:
       # Keyword used to find the admin password inside the existingSecret
-      adminPasswordKey: password
+      adminPasswordKey: admin_password
   fullnameOverride: seqr-postgresql
   image:
     repository: bitnamilegacy/postgresql

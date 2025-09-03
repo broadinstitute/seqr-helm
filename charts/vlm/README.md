@@ -50,24 +50,6 @@ A Helm chart for deploying VLM within Seqr
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.CLICKHOUSE_SERVICE_HOSTNAME</td>
-			<td>string</td>
-			<td><pre lang="json">
-"seqr-clickhouse"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.CLICKHOUSE_SERVICE_PORT</td>
-			<td>string</td>
-			<td><pre lang="json">
-"8123"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment.CLICKHOUSE_VLM_USERNAME</td>
 			<td>string</td>
 			<td><pre lang="json">

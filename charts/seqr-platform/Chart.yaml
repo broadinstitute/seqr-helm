@@ -12,7 +12,7 @@ type: application
 version: 1.31.0
 dependencies:
   - name: seqr
-    version: 2.36.0
+    version: 2.33.0
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
     version: 1.5.0

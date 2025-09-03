@@ -64,11 +64,11 @@ data:
         </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
       </profiles>
       <users>
-        <{{ $.Values.environment.CLICKHOUSE_ADMIN_USER }}>
+        <seqr_clickhouse_admin>
           <named_collection_control>1</named_collection_control>
           <show_named_collections>1</show_named_collections>
           <show_named_collections_secrets>1</show_named_collections_secrets>
-        </{{ $.Values.environment.CLICKHOUSE_ADMIN_USER }}>
+        </seqr_clickhouse_admin>
         <{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
           <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
           <password from_env="CLICKHOUSE_READER_PASSWORD"/>

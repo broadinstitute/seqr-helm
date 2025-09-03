@@ -69,6 +69,7 @@ environment:
   # Clickhouse Config
   CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
   CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
+  CLICKHOUSE_VLM_USERNAME: "vlm_clickhouse_reader"
 
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:
@@ -259,6 +260,11 @@ clickhouse:
         secretKeyRef:
           name: clickhouse-secrets
           key: writer_password
+    - name: CLICKHOUSE_VLM_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: vlm-secrets
+          key: seqr_clickhouse_vlm_password
   sidecars:
     - name: clickhouse-loader
       image: gcr.io/seqr-project/seqr-pipeline-runner

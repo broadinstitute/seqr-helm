@@ -19,7 +19,7 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 1.0.0 |
+| file://../lib | lib | 1.1.0 |
 
 ## Values
 

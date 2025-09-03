@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
+![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -19,7 +19,7 @@ A Helm chart for deploying VLM within Seqr
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 1.0.0 |
+| file://../lib | lib | 1.1.0 |
 
 ## Values
 
@@ -50,6 +50,33 @@ A Helm chart for deploying VLM within Seqr
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.CLICKHOUSE_SERVICE_HOSTNAME</td>
+			<td>string</td>
+			<td><pre lang="json">
+"seqr-clickhouse"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.CLICKHOUSE_SERVICE_PORT</td>
+			<td>string</td>
+			<td><pre lang="json">
+"8123"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.CLICKHOUSE_VLM_USERNAME</td>
+			<td>string</td>
+			<td><pre lang="json">
+"vlm_clickhouse_reader"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.NODE_ID</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -63,15 +90,6 @@ A Helm chart for deploying VLM within Seqr
 			<td>string</td>
 			<td><pre lang="json">
 ""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.VLM_DATA_DIR</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr/seqr-hail-search-data"
 </pre>
 </td>
 			<td></td>

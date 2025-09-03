@@ -48,6 +48,7 @@ jobs:
           kubectl create secret generic postgres-secrets --from-literal=password='super-secure-password'
           kubectl create secret generic seqr-secrets --from-literal=django_key='securely-generated-key'
           kubectl create secret generic clickhouse-secrets \
+            --from-literal=password='super-clickhouse-password' \
             --from-literal=admin_password='super-clickhouse-password' \
             --from-literal=reader_password='super-clickhouse-reader' \
             --from-literal=writer_password='super-clickhouse-writer'

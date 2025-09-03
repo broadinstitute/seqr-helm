@@ -208,7 +208,7 @@ clickhouse:
   auth:
     username: seqr_clickhouse_admin
     existingSecret: *clickhouseSecretName
-    existingSecretKey: password
+    existingSecretKey: admin_password
   persistence:
     enabled: true
     existingClaim: |-

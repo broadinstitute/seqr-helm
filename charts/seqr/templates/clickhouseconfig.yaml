@@ -99,7 +99,7 @@ data:
             <query>GRANT SELECT ON seqr."GRCh38/SNV_INDEL/key_lookup"</query>
             <query>GRANT dictGet ON seqr."GRCh38/SNV_INDEL/gt_stats_dict"</query>
           </grants>
-        </{{ $.Values.global.vlm.environment.CLICKHOUSE_VLM_USERNAME }}>
+        </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>
     </clickhouse>
 {{- end }}

@@ -117,33 +117,6 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.CLICKHOUSE_READER_USER</td>
-			<td>string</td>
-			<td><pre lang="json">
-"seqr_clickhouse_reader"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.CLICKHOUSE_VLM_USERNAME</td>
-			<td>string</td>
-			<td><pre lang="json">
-"vlm_clickhouse_reader"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.CLICKHOUSE_WRITER_USER</td>
-			<td>string</td>
-			<td><pre lang="json">
-"seqr_clickhouse_writer"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment.GUNICORN_WORKER_THREADS</td>
 			<td>string</td>
 			<td><pre lang="json">

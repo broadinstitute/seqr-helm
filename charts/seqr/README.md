@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 2.26.0](https://img.shields.io/badge/Version-2.26.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
+![Version: 2.34.0](https://img.shields.io/badge/Version-2.34.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4c936c36b09283c3a8decb0e5b8dde6cef2a7d41](https://img.shields.io/badge/AppVersion-4c936c36b09283c3a8decb0e5b8dde6cef2a7d41-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -21,7 +21,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 1.0.0 |
+| file://../lib | lib | 1.1.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 
@@ -261,6 +261,15 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>If storing static media files in a local filesystem, the path to that filesystem</td>
 		</tr>
 		<tr>
+			<td>global.security.allowInsecureImages</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>global.seqrPlatformDeploy</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -381,7 +390,7 @@ false
 			<td>postgresql.auth.secretKeys.adminPasswordKey</td>
 			<td>string</td>
 			<td><pre lang="json">
-"password"
+"admin_password"
 </pre>
 </td>
 			<td></td>
@@ -409,6 +418,15 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "seqr-postgresql"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>postgresql.image.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"bitnamilegacy/postgresql"
 </pre>
 </td>
 			<td></td>
@@ -616,6 +634,15 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "seqr-redis"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>redis.images.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"bitnamilegacy/redis"
 </pre>
 </td>
 			<td></td>

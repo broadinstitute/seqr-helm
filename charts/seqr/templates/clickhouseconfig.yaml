@@ -87,6 +87,19 @@ data:
             <ip>::/0</ip> <!-- Allow from any network -->
           </networks>
         </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
+          <password from_env="CLICKHOUSE_VLM_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+          <grants>
+            <query>GRANT SELECT ON seqr."GRCh37/SNV_INDEL/key_lookup"</query>
+            <query>GRANT dictGet ON seqr."GRCh37/SNV_INDEL/gt_stats_dict"</query>
+            <query>GRANT SELECT ON seqr."GRCh38/SNV_INDEL/key_lookup"</query>
+            <query>GRANT dictGet ON seqr."GRCh38/SNV_INDEL/gt_stats_dict"</query>
+          </grants>
+        </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>
     </clickhouse>
 {{- end }}

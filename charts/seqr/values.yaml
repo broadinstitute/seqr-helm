@@ -265,6 +265,7 @@ clickhouse:
         secretKeyRef:
           name: vlm-secrets
           key: seqr_clickhouse_vlm_password
+          optional: true
   sidecars:
     - name: clickhouse-loader
       image: gcr.io/seqr-project/seqr-pipeline-runner

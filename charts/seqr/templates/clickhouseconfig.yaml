@@ -17,6 +17,9 @@ data:
         </local_directory>
       </user_directories>
       <format_schema_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
+      <dictionaries_lazy_load>false</dictionaries_lazy_load>
+      <!-- Give hint to ClickHouse that a large chunk of the node's memory is for mounted RocksDB. -->
+      <max_server_memory_usage_to_ram_ratio>0.7</max_server_memory_usage_to_ram_ratio>
     </clickhouse>
 ---
 apiVersion: v1
@@ -37,10 +40,53 @@ data:
           <max_partition_size_to_drop>300000000000</max_partition_size_to_drop>
           <max_table_size_to_drop>300000000000</max_table_size_to_drop>
 
+          <!-- Enabled fast count for EmbeddedRocksDB engine -->
+          <optimize_trivial_approximate_count_query>1</optimize_trivial_approximate_count_query>
+
           <!-- Reduces the memory bloat of the dictionary group by. -->
           <max_bytes_ratio_before_external_group_by>0.1</max_bytes_ratio_before_external_group_by>
           <max_bytes_ratio_before_external_sort>0.1</max_bytes_ratio_before_external_sort>
         </default>
       </profiles>
+    </clickhouse>
+  01_seqr_users_config.xml: |
+    <clickhouse>
+      <profiles>
+        <{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+          <profile>default</profile> <!-- Inheritance -->
+          <readonly>1</readonly> <!-- Only SELECT queries allowed, no change settings -->
+          <allow_ddl>0</allow_ddl>
+        </{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+          <profile>default</profile>
+          <readonly>0</readonly> <!-- Read, Write, and Change settings queries are allowed. -->
+          <allow_ddl>1</allow_ddl> <!-- DDL queries are allowed. -->
+        </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+      </profiles>
+      <users>
+        <{{ $.Values.environment.CLICKHOUSE_ADMIN_USER }}>
+          <named_collection_control>1</named_collection_control>
+          <show_named_collections>1</show_named_collections>
+          <show_named_collections_secrets>1</show_named_collections_secrets>
+        </{{ $.Values.environment.CLICKHOUSE_ADMIN_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
+          <password from_env="CLICKHOUSE_READER_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+          <grants>
+            <query>GRANT SHOW, SELECT, SYSTEM VIEWS, dictGet ON *.*</query>
+          </grants>
+        </{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}</profile>
+          <named_collection_control>1</named_collection_control> <!-- Access named collections. -->
+          <password from_env="CLICKHOUSE_WRITER_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+        </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+      </users>
     </clickhouse>
 {{- end }}

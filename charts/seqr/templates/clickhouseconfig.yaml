@@ -87,6 +87,7 @@ data:
             <ip>::/0</ip> <!-- Allow from any network -->
           </networks>
         </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+        {{- if .Values.vlm.enabled -}}
         <{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
           <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
           <password from_env="CLICKHOUSE_VLM_PASSWORD"/>
@@ -100,6 +101,7 @@ data:
             <query>GRANT dictGet ON seqr."GRCh38/SNV_INDEL/gt_stats_dict"</query>
           </grants>
         </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
+        {{- end }}
       </users>
     </clickhouse>
 {{- end }}

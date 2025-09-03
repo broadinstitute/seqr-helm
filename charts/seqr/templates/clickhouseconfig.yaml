@@ -8,15 +8,15 @@ metadata:
 data:
   00_seqr_config.xml: |
     <clickhouse>
-      <path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/</path>
-      <user_files_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/user_files/</user_files_path>
-      <tmp_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/tmp/</tmp_path>
+      <path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/</path>
+      <user_files_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/user_files/</user_files_path>
+      <tmp_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/tmp/</tmp_path>
       <user_directories>
         <local_directory>
-          <path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/access/</path>
+          <path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/access/</path>
         </local_directory>
       </user_directories>
-      <format_schema_path>{{ $.Values.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
+      <format_schema_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
       <dictionaries_lazy_load>false</dictionaries_lazy_load>
       <!-- Give hint to ClickHouse that a large chunk of the node's memory is for mounted RocksDB. -->
       <max_server_memory_usage_to_ram_ratio>0.7</max_server_memory_usage_to_ram_ratio>

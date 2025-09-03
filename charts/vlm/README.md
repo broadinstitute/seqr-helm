@@ -50,15 +50,6 @@ A Helm chart for deploying VLM within Seqr
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.CLICKHOUSE_VLM_USERNAME</td>
-			<td>string</td>
-			<td><pre lang="json">
-"vlm_clickhouse_reader"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment.NODE_ID</td>
 			<td>string</td>
 			<td><pre lang="json">

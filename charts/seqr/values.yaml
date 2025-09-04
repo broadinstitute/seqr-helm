@@ -78,8 +78,6 @@ requiredSecrets:
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
 
-  clickhouseSecretName: &clickhouseSecretName clickhouse-secrets
-
 additionalSecrets: {}
 volumes: |-
   - name: seqr-datasets

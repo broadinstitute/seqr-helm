@@ -205,7 +205,7 @@ clickhouse:
     enabled: false
   auth:
     username: seqr_clickhouse_admin
-    existingSecret: *clickhouseSecretName
+    existingSecret: clickhouse-secrets
     existingSecretKey: admin_password
   persistence:
     enabled: true

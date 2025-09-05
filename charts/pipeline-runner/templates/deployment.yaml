@@ -54,11 +54,6 @@ spec:
                 optional: true
           {{- with $.Values.additionalSecrets }}
           env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $.Values.requiredSecrets.postgresSecretName }}
-                  key: password
             {{- toYaml . | nindent 12}}
           {{- end }}
           ports:

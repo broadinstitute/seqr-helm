@@ -10,6 +10,9 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
+requiredSecrets:
+  postgresSecretName: postgres-secrets
+
 additionalSecrets: {}
 volumes: |-
   - name: seqr-datasets
@@ -98,6 +101,10 @@ environment:
   REFERENCE_DATASETS_DIR: "/var/seqr/seqr-reference-data"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
   SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
+
+  POSTGRES_SERVICE_HOSTNAME: "seqr-postgresql"
+  POSTGRES_USERNAME: "postgres"
+  POSTGRES_SERVICE_PORT: "5432"
 
 affinity: |-
   podAntiAffinity:

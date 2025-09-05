@@ -9,7 +9,7 @@ data:
   00_seqr_config.xml: |
     <clickhouse>
       <path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/</path>
-      <user_files_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/user_files/</user_files_path>
+      <user_files_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/</user_files_path>
       <tmp_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/tmp/</tmp_path>
       <user_directories>
         <local_directory>

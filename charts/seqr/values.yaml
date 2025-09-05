@@ -296,6 +296,10 @@ clickhouse:
             secretKeyRef:
               name: clickhouse-secrets
               key: writer_password
+      volumeMounts:
+        - name: data
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
   initdbScriptsSecret: seqr-clickhouse-init-db-secret

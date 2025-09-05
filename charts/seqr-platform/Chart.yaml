@@ -12,10 +12,10 @@ type: application
 version: 1.42.0
 dependencies:
   - name: seqr
-    version: 2.46.0
+    version: 2.48.0
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
-    version: 1.116.0
+    version: 1.118.0
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: pipeline-runner.enabled
   - name: hail-search

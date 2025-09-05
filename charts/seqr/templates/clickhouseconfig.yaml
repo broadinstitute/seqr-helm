@@ -1,4 +1,4 @@
-{{- if .Values.clickhouse.enabled -}}
+{{- if $.Values.clickhouse.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -113,7 +113,7 @@ data:
         </seqr_postgres_named_collection>
       </named_collections>
     </clickhouse>
-  {{- if .hasPrefix "gcs" Values.environment.HAIL_SEARCH_DATA_DIR }}
+  {{- if hasPrefix "gcs" $.Values.environment.HAIL_SEARCH_DATA_DIR }}
   03_clickhouse_search_named_collection.xml: |
     <clickhouse>
       <named_collections>

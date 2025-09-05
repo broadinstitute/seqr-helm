@@ -102,4 +102,15 @@ data:
         </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>
     </clickhouse>
+  02_seqr_postgres_named_collection.xml: |
+    <clickhouse>
+      <named_collections>
+        <seqr_postgres_named_collection>
+          <user>{{ $.Values.environment.POSTGRES_USERNAME }}</user>
+          <password from_env="POSTGRES_PASSWORD">
+          <host>{{ $.Values.environment.POSTGRES_SERVICE_HOSTNAME }}</host>
+          <port>{{ $.Values.environment.POSTGRES_SERVICE_PORT }}</port>
+        </seqr_postgres_named_collection>
+      </named_collections>
+    </clickhouse>
 {{- end }}

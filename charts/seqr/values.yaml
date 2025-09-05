@@ -266,6 +266,11 @@ clickhouse:
           mountPath: |-
             {{ .Values.persistence.mountPath }}
   extraEnvVars:
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: *postgresSecretName
+          key: password
     - name: CLICKHOUSE_READER_PASSWORD
       valueFrom:
         secretKeyRef:

@@ -107,7 +107,7 @@ data:
       <named_collections>
         <seqr_postgres_named_collection>
           <user>{{ $.Values.environment.POSTGRES_USERNAME }}</user>
-          <password from_env="POSTGRES_PASSWORD">
+          <password from_env="POSTGRES_PASSWORD"/>
           <host>{{ $.Values.environment.POSTGRES_SERVICE_HOSTNAME }}</host>
           <port>{{ $.Values.environment.POSTGRES_SERVICE_PORT }}</port>
         </seqr_postgres_named_collection>

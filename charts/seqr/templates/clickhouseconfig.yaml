@@ -21,6 +21,29 @@ data:
       <!-- Give hint to ClickHouse that a large chunk of the node's memory is for mounted RocksDB. -->
       <max_server_memory_usage_to_ram_ratio>0.7</max_server_memory_usage_to_ram_ratio>
     </clickhouse>
+  01_seqr_postgres_named_collection.xml: |
+    <clickhouse>
+      <named_collections>
+        <seqr_postgres_named_collection>
+          <user>{{ $.Values.environment.POSTGRES_USERNAME }}</user>
+          <password from_env="POSTGRES_PASSWORD"/>
+          <host>{{ $.Values.environment.POSTGRES_SERVICE_HOSTNAME }}</host>
+          <port>{{ $.Values.environment.POSTGRES_SERVICE_PORT }}</port>
+        </seqr_postgres_named_collection>
+      </named_collections>
+    </clickhouse>
+  {{- if hasPrefix "gcs" $.Values.environment.HAIL_SEARCH_DATA_DIR }}
+  02_clickhouse_search_named_collection.xml: |
+    <clickhouse>
+      <named_collections>
+        <clickhouse_search_named_collection>
+          <access_key_id from_env="CLICKHOUSE_SEARCH_ACCESS_ID"/>
+          <secret_access_key from_env="CLICKHOUSE_SEARCH_SECRET"/>
+          <format>Parquet</format>
+        </clickhouse_search_named_collection>
+      </named_collections>
+    </clickhouse>
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -102,27 +125,4 @@ data:
         </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>
     </clickhouse>
-  02_seqr_postgres_named_collection.xml: |
-    <clickhouse>
-      <named_collections>
-        <seqr_postgres_named_collection>
-          <user>{{ $.Values.environment.POSTGRES_USERNAME }}</user>
-          <password from_env="POSTGRES_PASSWORD"/>
-          <host>{{ $.Values.environment.POSTGRES_SERVICE_HOSTNAME }}</host>
-          <port>{{ $.Values.environment.POSTGRES_SERVICE_PORT }}</port>
-        </seqr_postgres_named_collection>
-      </named_collections>
-    </clickhouse>
-  {{- if hasPrefix "gcs" $.Values.environment.HAIL_SEARCH_DATA_DIR }}
-  03_clickhouse_search_named_collection.xml: |
-    <clickhouse>
-      <named_collections>
-        <clickhouse_search_named_collection>
-          <access_key_id from_env="CLICKHOUSE_SEARCH_ACCESS_ID"/>
-          <secret_access_key from_env="CLICKHOUSE_SEARCH_SECRET"/>
-          <format>Parquet</format>
-        </clickhouse_search_named_collection>
-      </named_collections>
-    </clickhouse>
-  {{- end }}
 {{- end }}

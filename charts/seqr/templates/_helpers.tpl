@@ -38,13 +38,13 @@ env:
   - name: CLICKHOUSE_READER_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: clickhouse-secrets
+        name: {{ .Values.requiredSecrets.clickhouseSecretName }}
         key: reader_password
         optional: true
   - name: CLICKHOUSE_WRITER_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: clickhouse-secrets
+        name: {{ .Values.requiredSecrets.clickhouseSecretName }}
         key: writer_password
         optional: true
   {{- with .Values.additionalSecrets }}

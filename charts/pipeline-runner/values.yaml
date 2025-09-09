@@ -10,7 +10,6 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
-additionalSecrets: {}
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
@@ -116,4 +115,5 @@ tolerations: []
 global:
   seqrPlatformDeploy: false
   seqr:
+    additionalSecrets: {}
     environment: {}

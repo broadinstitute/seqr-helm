@@ -49,7 +49,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
-          {{- with $.Values.additionalSecrets }}
+          {{- with $.Values.global.seqr.additionalSecrets }}
           env:
             {{- toYaml . | nindent 12}}
           {{- end }}
@@ -81,6 +81,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
+          {{- with $.Values.global.seqr.additionalSecrets }}
+          env:
+            {{- toYaml . | nindent 12}}
+          {{- end }}
           resources:
             {{- toYaml .resources | nindent 12 }}
           {{- with $.Values.volumeMounts }}

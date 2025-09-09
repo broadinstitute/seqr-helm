@@ -22,7 +22,6 @@ resources:
   {}
 
 environment:
-  CLICKHOUSE_SERVICE_HOSTNAME: 'seqr-clickhouse'
   CLICKHOUSE_SERVICE_PORT: '8123'
   CLICKHOUSE_VLM_USERNAME: 'vlm_clickhouse_reader'
   SEQR_BASE_URL: ''
@@ -51,3 +50,7 @@ tolerations: []
 
 networkPolicy:
   enabled: false
+
+global:
+  seqr:
+    environment: {}

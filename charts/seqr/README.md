@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.2.0](https://img.shields.io/badge/Version-3.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
+![Version: 3.2.1](https://img.shields.io/badge/Version-3.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -526,7 +526,7 @@ false
 			<td>clickhouse.initContainers[1].env[0].value</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/in-memory-dir"
+"{{ .Values.global.seqr.environment.CLICKHOUSE_IN_MEMORY_DIR }}"
 </pre>
 </td>
 			<td></td>
@@ -571,7 +571,7 @@ false
 			<td>clickhouse.initContainers[1].volumeMounts[0].mountPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/in-memory-dir"
+"{{ .Values.global.seqr.environment.CLICKHOUSE_IN_MEMORY_DIR }}"
 </pre>
 </td>
 			<td></td>
@@ -742,7 +742,7 @@ true
 			<td>clickhouse.sidecars[0].env[0].name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"CLICKHOUSE_WRITER_USER"
+"CLICKHOUSE_DATA_DIR"
 </pre>
 </td>
 			<td></td>
@@ -751,7 +751,7 @@ true
 			<td>clickhouse.sidecars[0].env[0].value</td>
 			<td>string</td>
 			<td><pre lang="json">
-"seqr_clickhouse_writer"
+"{{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}"
 </pre>
 </td>
 			<td></td>
@@ -760,13 +760,49 @@ true
 			<td>clickhouse.sidecars[0].env[1].name</td>
 			<td>string</td>
 			<td><pre lang="json">
+"PIPELINE_DATA_DIR"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.sidecars[0].env[1].value</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.sidecars[0].env[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"CLICKHOUSE_WRITER_USER"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.sidecars[0].env[2].value</td>
+			<td>string</td>
+			<td><pre lang="json">
+"seqr_clickhouse_writer"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.sidecars[0].env[3].name</td>
+			<td>string</td>
+			<td><pre lang="json">
 "CLICKHOUSE_WRITER_PASSWORD"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>clickhouse.sidecars[0].env[1].valueFrom.secretKeyRef.key</td>
+			<td>clickhouse.sidecars[0].env[3].valueFrom.secretKeyRef.key</td>
 			<td>string</td>
 			<td><pre lang="json">
 "writer_password"
@@ -775,7 +811,7 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>clickhouse.sidecars[0].env[1].valueFrom.secretKeyRef.name</td>
+			<td>clickhouse.sidecars[0].env[3].valueFrom.secretKeyRef.name</td>
 			<td>string</td>
 			<td><pre lang="json">
 "clickhouse-secrets"
@@ -1067,6 +1103,15 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "/var/seqr/clickhouse-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.seqr.environment.CLICKHOUSE_IN_MEMORY_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/in-memory-dir"
 </pre>
 </td>
 			<td></td>
@@ -1490,6 +1535,7 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "clickhouseSecretName": "clickhouse-secrets",
   "postgresSecretName": "postgres-secrets",
   "seqrSecretName": "seqr-secrets"
 }

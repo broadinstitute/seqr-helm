@@ -2,7 +2,7 @@ apiVersion: v2
 name: lib
 description: A collection of shared resources used by the composing helm charts of Seqr, an open source software platform for rare disease genomics
 type: library
-version: 1.0.0
+version: 1.1.0
 sources:
   - https://github.com/broadinstitute/seqr-helm
 maintainers:

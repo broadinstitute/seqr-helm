@@ -66,14 +66,17 @@ environment:
   LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
   HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
 
+  # Clickhouse Config
+  CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
+  CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
+  CLICKHOUSE_VLM_USERNAME: "vlm_clickhouse_reader"
+
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:
   # -- The secret containing the postgres credentials. See the README for information on the format of this secret
   postgresSecretName: &postgresSecretName postgres-secrets
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
-  # -- The secret containing the clickhouse credentials.
-  clickhouseSecretName: &clickhouseSecretName clickhouse-secrets
 
 additionalSecrets: {}
 volumes: |-
@@ -103,7 +106,7 @@ cronJobs:
     command: "python manage.py check_for_new_samples_from_pipeline"
   - name: update-all-reference-data
     schedule: "*/5 * * * *"
-    command: "python manage.py update_all_reference_data --use-cached-omim"
+    command: "python manage.py update_all_reference_data"
 
 updateAllReferenceDataPostInstallJob:
   enabled: true
@@ -114,6 +117,8 @@ networkPolicy:
 redis:
   # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true
+  images:
+    repository: bitnamilegacy/redis
   architecture: standalone
   auth:
     enabled: false
@@ -133,6 +138,7 @@ postgresql:
       adminPasswordKey: password
   fullnameOverride: seqr-postgresql
   image:
+    repository: bitnamilegacy/postgresql
     tag: '12.19.0-debian-12-r9'
   postgresqlDataDir: /var/seqr/postgresql-data
   primary:
@@ -181,13 +187,15 @@ postgresql:
           - name: data
             mountPath: /var/seqr
 
+# The clickhouse backend is experimental and not yet supported.
 clickhouse:
   enabled: false
   image:
+    repository: bitnamilegacy/clickhouse
     # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
     # recommended to hard pin.
-    tag: '25.1.3'
-  fullnameOverride: "seqr-clickhouse"
+    tag: '25.4.3'
+  fullnameOverride: seqr-clickhouse
   shards: 1
   replicaCount: 1
   resourcesPreset: "none"
@@ -195,16 +203,129 @@ clickhouse:
     enabled: false
   keeper:
     enabled: false
-  zookeeper:
-    enabled: false
   auth:
-    username: clickhouse
-    existingSecret: *clickhouseSecretName
-    existingSecretKey: password
+    username: seqr_clickhouse_admin
+    existingSecret: clickhouse-secrets
+    existingSecretKey: admin_password
   persistence:
     enabled: true
     existingClaim: |-
       {{ include "lib.pvc-name" . }}
-
+    mountPath: /var/seqr
+  serviceAccount:
+    create: true
+    name: seqr-clickhouse
+  usePasswordFiles: false
+  extraVolumeMounts:
+    - name: in-memory-dir
+      mountPath: /in-memory-dir
+    # Well documented bug in chart init:
+    # https://github.com/bitnami/charts/issues/24473
+    # https://github.com/bitnami/charts/issues/27607
+    # Without this block, the clickhouse startup script does not have perms to write the /bitnami/clickhouse/data/.user_scripts_initialized file
+    # that signals a successful db initialization.
+    - name: empty-dir
+      mountPath: /bitnami/clickhouse/data
+      subPath: app-volume-dir-for-init
+  extraVolumes:
+    - name: in-memory-dir
+      emptyDir:
+        medium: "Memory"
+  initContainers:
+    - name: seqr-clickhouse-init-chmod-data
+      image: busybox
+      command:
+        - /bin/sh
+        - -ec
+        - |
+          mkdir -p {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR  }}
+          chown -R 1001:1001 {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
+      securityContext:
+        runAsGroup: 1001
+        runAsNonRoot: false
+        seLinuxOptions: {}
+        seccompProfile:
+          type: RuntimeDefault
+      volumeMounts:
+        - name: data
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}
+    - name: sync-annotations-disk
+      image: busybox
+      command: ['/bin/sh', '-c', 'mkdir -p $CLICKHOUSE_DATA_DIR && cd $CLICKHOUSE_DATA_DIR && find . -type f | grep -E "GRCh(37|38)/[^/]+/(v[0-9]+/)?annotations" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR && chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR']
+      env:
+        - name: CLICKHOUSE_IN_MEMORY_DIR
+          value: /in-memory-dir
+        - name: CLICKHOUSE_DATA_DIR
+          value: |-
+            {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
+      volumeMounts:
+        - name: in-memory-dir
+          mountPath: /in-memory-dir
+        - name: data
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}
+  extraEnvVars:
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: *postgresSecretName
+          key: password
+    - name: CLICKHOUSE_READER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-secrets
+          key: reader_password
+    - name: CLICKHOUSE_WRITER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-secrets
+          key: writer_password
+    - name: CLICKHOUSE_VLM_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: vlm-secrets
+          key: seqr_clickhouse_vlm_password
+          optional: true
+    - name: CLICKHOUSE_SEARCH_ACCESS_ID
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-hmac-secrets
+          key: clickhouse_search_access_id
+          optional: true
+    - name: CLICKHOUSE_SEARCH_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-hmac-secrets
+          key: clickhouse_search_secret
+          optional: true
+  sidecars:
+    - name: clickhouse-loader
+      image: gcr.io/seqr-project/seqr-pipeline-runner
+      imagePullPolicy: Always
+      command: ["/bin/bash", "-c"]
+      args: ["python3 -m v03_pipeline.bin.clickhouse_loader"]
+      env:
+        - name: CLICKHOUSE_WRITER_USER
+          value: "seqr_clickhouse_writer"
+        - name: CLICKHOUSE_WRITER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: clickhouse-secrets
+              key: writer_password
+      volumeMounts:
+        - name: data
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}
+  existingConfigdConfigmap: seqr-clickhouse-configd-config
+  existingUsersdConfigmap: seqr-clickhouse-usersd-config
+  initdbScriptsSecret: seqr-clickhouse-init-db-secret
+  initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
+  seqr:
+    environment:
+      CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
   seqrPlatformDeploy: false
+  # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
+  security:
+    allowInsecureImages: true

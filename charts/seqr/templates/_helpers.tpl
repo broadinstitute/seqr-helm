@@ -35,6 +35,18 @@ env:
       secretKeyRef:
         name: {{ .Values.requiredSecrets.seqrSecretName }}
         key: django_key
+  - name: CLICKHOUSE_READER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: clickhouse-secrets
+        key: reader_password
+        optional: true
+  - name: CLICKHOUSE_WRITER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: clickhouse-secrets
+        key: writer_password
+        optional: true
   {{- with .Values.additionalSecrets }}
     {{- toYaml . | nindent 2}}
   {{- end }}

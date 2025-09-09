@@ -24,10 +24,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with .Values.volumes }}
-      volumes:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
@@ -39,6 +35,22 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Chart.Name }}
+          env:
+            - name: VLM_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: client_id
+            - name: VLM_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: client_secret
+            - name: CLICKHOUSE_VLM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.requiredSecrets.vlmSecretName }}
+                  key: seqr_clickhouse_vlm_password
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -59,10 +71,6 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- tpl . $ | nindent 12 }}
-          {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

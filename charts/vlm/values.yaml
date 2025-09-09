@@ -22,19 +22,14 @@ resources:
   {}
 
 environment:
-  VLM_DATA_DIR: '/var/seqr/seqr-hail-search-data'
+  CLICKHOUSE_SERVICE_HOSTNAME: 'seqr-clickhouse'
+  CLICKHOUSE_SERVICE_PORT: '8123'
+  CLICKHOUSE_VLM_USERNAME: 'vlm_clickhouse_reader'
   SEQR_BASE_URL: ''
   NODE_ID: ''
 
-volumes: |-
-  - name: seqr-datasets
-    persistentVolumeClaim:
-      readOnly: true
-      claimName: {{ include "lib.pvc-name" . }}
-volumeMounts: |-
-  - name: seqr-datasets
-    mountPath: /var/seqr
-    readOnly: true
+requiredSecrets:
+  vlmSecretName: vlm-secrets
 
 initContainers: {}
 
@@ -54,5 +49,5 @@ affinity: |-
 nodeSelector: {}
 tolerations: []
 
-global:
-  seqrPlatformDeploy: false
+networkPolicy:
+  enabled: false

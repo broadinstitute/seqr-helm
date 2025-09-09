@@ -1,0 +1,128 @@
+{{- if $.Values.clickhouse.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seqr-clickhouse-configd-config
+  labels:
+    {{- include "seqr.labels" $ | nindent 4 }}
+data:
+  00_seqr_config.xml: |
+    <clickhouse>
+      <path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/</path>
+      <user_files_path>/var/seqr/</user_files_path>
+      <tmp_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/tmp/</tmp_path>
+      <user_directories>
+        <local_directory>
+          <path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/access/</path>
+        </local_directory>
+      </user_directories>
+      <format_schema_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
+      <dictionaries_lazy_load>false</dictionaries_lazy_load>
+      <!-- Give hint to ClickHouse that a large chunk of the node's memory is for mounted RocksDB. -->
+      <max_server_memory_usage_to_ram_ratio>0.7</max_server_memory_usage_to_ram_ratio>
+    </clickhouse>
+  01_seqr_postgres_named_collection.xml: |
+    <clickhouse>
+      <named_collections>
+        <seqr_postgres_named_collection>
+          <user>{{ $.Values.environment.POSTGRES_USERNAME }}</user>
+          <password from_env="POSTGRES_PASSWORD"/>
+          <host>{{ $.Values.environment.POSTGRES_SERVICE_HOSTNAME }}</host>
+          <port>{{ $.Values.environment.POSTGRES_SERVICE_PORT }}</port>
+        </seqr_postgres_named_collection>
+      </named_collections>
+    </clickhouse>
+  {{- if hasPrefix "gcs" $.Values.environment.HAIL_SEARCH_DATA_DIR }}
+  02_clickhouse_search_named_collection.xml: |
+    <clickhouse>
+      <named_collections>
+        <clickhouse_search_named_collection>
+          <access_key_id from_env="CLICKHOUSE_SEARCH_ACCESS_ID"/>
+          <secret_access_key from_env="CLICKHOUSE_SEARCH_SECRET"/>
+          <format>Parquet</format>
+        </clickhouse_search_named_collection>
+      </named_collections>
+    </clickhouse>
+  {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seqr-clickhouse-usersd-config
+  labels:
+    {{- include "seqr.labels" $ | nindent 4 }}
+data:
+  00_seqr_config.xml: |
+    <clickhouse>
+      <profiles>
+        <default>
+          <flatten_nested>0</flatten_nested>
+          <join_use_nulls>1</join_use_nulls>
+
+          <!-- Added to enable clean staging of large projects that may exceed the default (50GB) -->
+          <max_partition_size_to_drop>300000000000</max_partition_size_to_drop>
+          <max_table_size_to_drop>300000000000</max_table_size_to_drop>
+
+          <!-- Enabled fast count for EmbeddedRocksDB engine -->
+          <optimize_trivial_approximate_count_query>1</optimize_trivial_approximate_count_query>
+
+          <!-- Reduces the memory bloat of the dictionary group by. -->
+          <max_bytes_ratio_before_external_group_by>0.1</max_bytes_ratio_before_external_group_by>
+          <max_bytes_ratio_before_external_sort>0.1</max_bytes_ratio_before_external_sort>
+        </default>
+      </profiles>
+    </clickhouse>
+  01_seqr_users_config.xml: |
+    <clickhouse>
+      <profiles>
+        <{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+          <profile>default</profile> <!-- Inheritance -->
+          <readonly>1</readonly> <!-- Only SELECT queries allowed, no change settings -->
+          <allow_ddl>0</allow_ddl>
+        </{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+          <profile>default</profile>
+          <readonly>0</readonly> <!-- Read, Write, and Change settings queries are allowed. -->
+          <allow_ddl>1</allow_ddl> <!-- DDL queries are allowed. -->
+        </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+      </profiles>
+      <users>
+        <seqr_clickhouse_admin>
+          <named_collection_control>1</named_collection_control>
+          <show_named_collections>1</show_named_collections>
+          <show_named_collections_secrets>1</show_named_collections_secrets>
+        </seqr_clickhouse_admin>
+        <{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
+          <password from_env="CLICKHOUSE_READER_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+          <grants>
+            <query>GRANT SHOW, SELECT, SYSTEM VIEWS, dictGet ON *.*</query>
+          </grants>
+        </{{ $.Values.environment.CLICKHOUSE_READER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}</profile>
+          <named_collection_control>1</named_collection_control> <!-- Access named collections. -->
+          <password from_env="CLICKHOUSE_WRITER_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+        </{{ $.Values.environment.CLICKHOUSE_WRITER_USER }}>
+        <{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
+          <profile>{{ $.Values.environment.CLICKHOUSE_READER_USER }}</profile>
+          <password from_env="CLICKHOUSE_VLM_PASSWORD"/>
+          <networks>
+            <ip>::/0</ip> <!-- Allow from any network -->
+          </networks>
+          <grants>
+            <query>GRANT SELECT ON seqr."GRCh37/SNV_INDEL/key_lookup"</query>
+            <query>GRANT dictGet ON seqr."GRCh37/SNV_INDEL/gt_stats_dict"</query>
+            <query>GRANT SELECT ON seqr."GRCh38/SNV_INDEL/key_lookup"</query>
+            <query>GRANT dictGet ON seqr."GRCh38/SNV_INDEL/gt_stats_dict"</query>
+          </grants>
+        </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
+      </users>
+    </clickhouse>
+{{- end }}

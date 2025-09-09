@@ -1,6 +1,6 @@
 # hail-search
 
-![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 95e36269c06ee9f91cd6a48f81a608307d130014](https://img.shields.io/badge/AppVersion-95e36269c06ee9f91cd6a48f81a608307d130014-informational?style=flat-square)
+![Version: 2.15.0](https://img.shields.io/badge/Version-2.15.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: b3221901dd719abff1cb925148d788c442ce0a06](https://img.shields.io/badge/AppVersion-b3221901dd719abff1cb925148d788c442ce0a06-informational?style=flat-square)
 
 A Helm chart for deploying the hail backend of Seqr, an open source software platform for rare disease genomics
 
@@ -19,7 +19,7 @@ A Helm chart for deploying the hail backend of Seqr, an open source software pla
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../lib | lib | 1.0.0 |
+| file://../lib | lib | 1.1.0 |
 
 ## Values
 

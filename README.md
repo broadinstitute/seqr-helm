@@ -55,7 +55,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-The first deployment will include a download of all of the genomic reference data (400GB+).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Additionally, you may check the status of the services with:
+The first deployment will include a download of all of the genomic reference data (~350GB as of 6/2025 but variable).  It is likely to be slow, but can be monitored by checking the contents of `/var/seqr/seqr-reference-data`.  Additionally, you may check the status of the services with:
 
 ```
 kubectl get pods
@@ -147,10 +147,11 @@ helm repo update
 helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 
-To update reference data in seqr, such as OMIM, HPO, etc., run the following
+To update reference data in seqr, such as OMIM, HPO, etc., run the following. By default, this will be run automatically 
+as a cron job.
 ```bash
 kubectl exec seqr-POD-ID -c seqr -it -- bash
-python3 /seqr/manage.py update_all_reference_data --use-cached-omim --skip-gencode
+python3 /seqr/manage.py update_all_reference_data
 ```
 
 ## Debugging FAQ

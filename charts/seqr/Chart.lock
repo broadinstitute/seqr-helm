@@ -7,9 +7,9 @@ dependencies:
   version: 15.5.31
 - name: clickhouse
   repository: https://charts.bitnami.com/bitnami
-  version: 8.0.0
+  version: 9.2.2
 - name: lib
   repository: file://../lib
-  version: 1.0.0
-digest: sha256:9a93f7acc687a5d359159252ce8daf065ff81dcaa7a87af73121c3871d17b995
-generated: "2025-02-13T17:46:39.092382-05:00"
+  version: 1.1.0
+digest: sha256:dd228d4a06e62c5517429759b56f066d3c34b7a24fb5f445e0aae1d53f8f93d6
+generated: "2025-08-27T22:20:41.058053-04:00"

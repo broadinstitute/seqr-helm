@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: f26c52869195389117018045a3a581b33fbec98a](https://img.shields.io/badge/AppVersion-f26c52869195389117018045a3a581b33fbec98a-informational?style=flat-square)
+![Version: 1.113.0](https://img.shields.io/badge/Version-1.113.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: d3c06c38daa29d000a9b5d46b15adf12dbe3769f](https://img.shields.io/badge/AppVersion-d3c06c38daa29d000a9b5d46b15adf12dbe3769f-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -59,6 +59,15 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td></td>
 		</tr>
 		<tr>
+			<td>environment.HAIL_SEARCH_DATA_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-hail-search-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.LUIGI_STATE_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -81,15 +90,6 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>string</td>
 			<td><pre lang="json">
 "1"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>global.seqr.environment</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
 </pre>
 </td>
 			<td></td>

@@ -289,17 +289,17 @@ clickhouse:
           name: vlm-secrets
           key: seqr_clickhouse_vlm_password
           optional: true
-    - name: CLICKHOUSE_SEARCH_ACCESS_ID
+    - name: PIPELINE_DATA_DIR_ACCESS_ID
       valueFrom:
         secretKeyRef:
           name: clickhouse-hmac-secrets
-          key: clickhouse_search_access_id
+          key: pipeline_data_dir_access_id
           optional: true
-    - name: CLICKHOUSE_SEARCH_SECRET
+    - name: PIPELINE_DATA_DIR_ACCESS_KEY
       valueFrom:
         secretKeyRef:
           name: clickhouse-hmac-secrets
-          key: clickhouse_search_secret
+          key: pipeline_data_dir_access_key
           optional: true
   sidecars:
     - name: clickhouse-loader

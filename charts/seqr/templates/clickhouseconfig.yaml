@@ -32,15 +32,15 @@ data:
         </seqr_postgres_named_collection>
       </named_collections>
     </clickhouse>
-  {{- if hasPrefix "gcs" $.Values.environment.HAIL_SEARCH_DATA_DIR }}
-  02_clickhouse_search_named_collection.xml: |
+  {{- if hasPrefix "gcs" $.Values.global.seqr.environment.PIPELINE_DATA_DIR }}
+  02_pipeline_data_access_named_collection.xml: |
     <clickhouse>
       <named_collections>
-        <clickhouse_search_named_collection>
-          <access_key_id from_env="CLICKHOUSE_SEARCH_ACCESS_ID"/>
-          <secret_access_key from_env="CLICKHOUSE_SEARCH_SECRET"/>
+        <pipeline_data_access>
+          <access_key_id from_env="PIPELINE_DATA_DIR_ACCESS_ID"/>
+          <secret_access_key from_env="PIPELINE_DATA_DIR_ACCESS_KEY"/>
           <format>Parquet</format>
-        </clickhouse_search_named_collection>
+        </pipeline_data_access>
       </named_collections>
     </clickhouse>
   {{- end }}

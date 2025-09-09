@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3145348f7abf1c30fc17bd10eb93b8861160e2f0](https://img.shields.io/badge/AppVersion-3145348f7abf1c30fc17bd10eb93b8861160e2f0-informational?style=flat-square)
+![Version: 3.2.0](https://img.shields.io/badge/Version-3.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -955,24 +955,6 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.HAIL_SEARCH_DATA_DIR</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr/seqr-hail-search-data"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.LOADING_DATASETS_DIR</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/seqr/seqr-loading-temp"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment.LUIGI_UI_SERVICE_HOSTNAME</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -1090,6 +1072,24 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>global.seqr.environment.LOADING_DATASETS_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/seqr-loading-temp"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.seqr.environment.PIPELINE_DATA_DIR</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/seqr/pipeline-data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>global.seqrPlatformDeploy</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -1138,7 +1138,7 @@ false
 			<td>initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: mkdir-loading-datasets\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ $.Values.environment.LOADING_DATASETS_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
+"- name: mkdir-loading-datasets\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ $.Values.global.seqr.environment.LOADING_DATASETS_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
 </pre>
 </td>
 			<td></td>

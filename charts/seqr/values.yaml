@@ -336,6 +336,7 @@ global:
       CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
       PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
       LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
+      CLICKHOUSE_SERVICE_HOSTNAME: 'seqr-clickhouse'
   seqrPlatformDeploy: false
   # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
   security:

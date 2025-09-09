@@ -295,7 +295,7 @@ clickhouse:
         - configMapRef:
             name: |-
               {{ .Chart.Name }}
-      env:
+      env: |-
         {{- include "seqr.requiredSecrets" $ | nindent 4 }}
         {{- with .Values.global.seqr.additionalSecrets }}
           {{- toYaml . | nindent 6 }}

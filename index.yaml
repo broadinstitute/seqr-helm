@@ -12989,6 +12989,45 @@ entries:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-platform-1.45.0-hail-search-final/seqr-platform-1.45.0-hail-search-final.tgz
     version: 1.45.0-hail-search-final
   - apiVersion: v2
+    created: "2025-09-09T19:31:37.062444421Z"
+    dependencies:
+    - name: seqr
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.51.0
+    - condition: pipeline-runner.enabled
+      name: pipeline-runner
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.119.0
+    - condition: hail-search.enabled
+      name: hail-search
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.14.0
+    - condition: vlm.enabled
+      name: vlm
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.4.0
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.1.0
+    description: A Helm chart for deploying all components of Seqr, an open source
+      software platform for rare disease genomics
+    digest: a4191ec6747190a52bec3a4c4ae88153fd2841eb5ad9cba2e75d98e6d76acb4d
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr-platform
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-platform-1.45.0-hail-search-final/seqr-platform-1.45.0-hail-search-final.tgz
+    version: 1.45.0-hail-search-final
+  - apiVersion: v2
     created: "2025-09-08T17:18:18.032383726Z"
     dependencies:
     - name: seqr
@@ -18777,4 +18816,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-09-09T19:25:44.849914671Z"
+generated: "2025-09-09T19:31:37.276028929Z"

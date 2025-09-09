@@ -53,7 +53,14 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        {{- include "seqr.environment" $ | nindent 8 }}
+        envFrom:
+          - configMapRef:
+              name: {{ .Chart.Name }}
+        env:
+          {{- include "seqr.requiredSecrets" $ | nindent 10 }}
+          {{- with .Values.global.seqr.additionalSecrets  }}
+            {{- toYaml . | nindent 12}}
+          {{- end }}
         livenessProbe:
           exec:
             command:

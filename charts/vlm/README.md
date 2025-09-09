@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: c446cd03a0479026d1b370ffa1e2c4007256ed0b](https://img.shields.io/badge/AppVersion-c446cd03a0479026d1b370ffa1e2c4007256ed0b-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 
@@ -90,15 +90,6 @@ A Helm chart for deploying VLM within Seqr
 			<td>string</td>
 			<td><pre lang="json">
 ""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>global.seqrPlatformDeploy</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
 </pre>
 </td>
 			<td></td>
@@ -243,24 +234,6 @@ true
 			<td>list</td>
 			<td><pre lang="json">
 []
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>volumeMounts</td>
-			<td>string</td>
-			<td><pre lang="json">
-"- name: seqr-datasets\n  mountPath: /var/seqr\n  readOnly: true"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>volumes</td>
-			<td>string</td>
-			<td><pre lang="json">
-"- name: seqr-datasets\n  persistentVolumeClaim:\n    readOnly: true\n    claimName: {{ include \"lib.pvc-name\" . }}"
 </pre>
 </td>
 			<td></td>

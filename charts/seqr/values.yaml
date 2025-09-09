@@ -63,7 +63,6 @@ environment:
   PIPELINE_RUNNER_PORT: "6000"
   LUIGI_UI_SERVICE_HOSTNAME: "pipeline-runner-ui"
   LUIGI_UI_SERVICE_PORT: "8082"
-  LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
 
   # Clickhouse Config
   CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
@@ -91,7 +90,7 @@ initContainers: |-
   - name: mkdir-loading-datasets
     image: busybox:1.35
     imagePullPolicy: {{ $.Values.image.pullPolicy }}
-    command: ['/bin/mkdir', '-p', {{ $.Values.environment.LOADING_DATASETS_DIR }}]
+    command: ['/bin/mkdir', '-p', {{ $.Values.global.seqr.environment.LOADING_DATASETS_DIR }}]
     {{- with $.Values.volumeMounts }}
     volumeMounts:
       {{- tpl . $ | nindent 4 }}
@@ -325,6 +324,7 @@ global:
     environment:
       CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
       PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
+      LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
   seqrPlatformDeploy: false
   # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
   security:

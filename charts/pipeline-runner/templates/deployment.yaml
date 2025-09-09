@@ -49,9 +49,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
-            - configMapRef:
-                name: seqr-platform
-                optional: true
           {{- with $.Values.additionalSecrets }}
           env:
             {{- toYaml . | nindent 12}}
@@ -84,9 +81,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
-            - configMapRef:
-                name: seqr-platform
-                optional: true
           resources:
             {{- toYaml .resources | nindent 12 }}
           {{- with $.Values.volumeMounts }}

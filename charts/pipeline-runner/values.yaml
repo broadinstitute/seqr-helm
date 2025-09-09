@@ -94,7 +94,6 @@ pods:
 
 resources: {}
 environment:
-  HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
   REFERENCE_DATASETS_DIR: "/var/seqr/seqr-reference-data"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
   SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
@@ -116,3 +115,5 @@ tolerations: []
 
 global:
   seqrPlatformDeploy: false
+  seqr:
+    environment: {}

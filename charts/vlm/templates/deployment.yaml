@@ -24,10 +24,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with .Values.volumes }}
-      volumes:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 6 }}
@@ -75,10 +71,6 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- tpl . $ | nindent 12 }}
-          {{- end }}
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- with .Values.initContainers}}

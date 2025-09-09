@@ -31,16 +31,6 @@ environment:
 requiredSecrets:
   vlmSecretName: vlm-secrets
 
-volumes: |-
-  - name: seqr-datasets
-    persistentVolumeClaim:
-      readOnly: true
-      claimName: {{ include "lib.pvc-name" . }}
-volumeMounts: |-
-  - name: seqr-datasets
-    mountPath: /var/seqr
-    readOnly: true
-
 initContainers: {}
 
 affinity: |-
@@ -61,6 +51,3 @@ tolerations: []
 
 networkPolicy:
   enabled: false
-
-global:
-  seqrPlatformDeploy: false

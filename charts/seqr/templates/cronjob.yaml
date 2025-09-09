@@ -51,14 +51,7 @@ spec:
             volumeMounts:
               {{- tpl . $ | nindent 14 }}
             {{- end }}
-            envFrom:
-              - configMapRef:
-                  name: {{ .Chart.Name }}
-            env:
-              {{- include "seqr.requiredSecrets" $ | nindent 10 }}
-              {{- with .Values.global.seqr.additionalSecrets  }}
-                {{- toYaml . | nindent 12}}
-              {{- end }}
+            {{- include "seqr.environment" $ | nindent 12}}
             command: ["/bin/bash", "-c"]
             args:
               - echo starting CronJob {{ $c.name }};

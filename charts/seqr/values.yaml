@@ -76,6 +76,7 @@ requiredSecrets:
   # -- The secret containing the seqr required secrets. See the README for information on the format of this secret
   seqrSecretName: seqr-secrets
 
+additionalSecrets: {}
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
@@ -250,23 +251,34 @@ clickhouse:
     - name: sync-annotations-disk
       image: busybox
       command: ['/bin/sh', '-c', 'mkdir -p $CLICKHOUSE_DATA_DIR && cd $CLICKHOUSE_DATA_DIR && find . -type f | grep -E "GRCh(37|38)/[^/]+/(v[0-9]+/)?annotations" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR && chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR']
-      envFrom:
-        - configMapRef:
-            name: |-
-              {{ .Chart.Name }}
+      env:
+        - name: CLICKHOUSE_IN_MEMORY_DIR
+          value: /in-memory-dir
+        - name: CLICKHOUSE_DATA_DIR
+          value: |-
+            {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
       volumeMounts:
         - name: in-memory-dir
           mountPath: /in-memory-dir
         - name: data
           mountPath: |-
             {{ .Values.persistence.mountPath }}
-  extraEnvVarsCM: |-
-    {{ .Chart.Name }}
-  extraEnvVars: |-
-    {{- include "seqr.requiredSecrets" $ | nindent 4 }}
-    {{- with .Values.global.seqr.additionalSecrets }}
-      {{- toYaml . | nindent 4}}
-    {{- end }}
+  extraEnvVars:
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: *postgresSecretName
+          key: password
+    - name: CLICKHOUSE_READER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-secrets
+          key: reader_password
+    - name: CLICKHOUSE_WRITER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: clickhouse-secrets
+          key: writer_password
     - name: CLICKHOUSE_VLM_PASSWORD
       valueFrom:
         secretKeyRef:
@@ -291,15 +303,14 @@ clickhouse:
       imagePullPolicy: Always
       command: ["/bin/bash", "-c"]
       args: ["python3 -m v03_pipeline.bin.clickhouse_loader"]
-      envFrom:
-        - configMapRef:
-            name: |-
-              {{ .Chart.Name }}
       env:
-        {{- include "seqr.requiredSecrets" $ | nindent 4 }}
-        {{- with .Values.global.seqr.additionalSecrets }}
-          {{- toYaml . | nindent 6 }}
-        {{- end }}
+        - name: CLICKHOUSE_WRITER_USER
+          value: "seqr_clickhouse_writer"
+        - name: CLICKHOUSE_WRITER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: clickhouse-secrets
+              key: writer_password
       volumeMounts:
         - name: data
           mountPath: |-
@@ -310,9 +321,7 @@ clickhouse:
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
 global:
   seqr:
-    additionalSecrets: {}
     environment:
-      CLICKHOUSE_IN_MEMORY_DIR: "/in-memory-dir"
       CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
       PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
       LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"

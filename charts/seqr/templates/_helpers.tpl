@@ -20,27 +20,34 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Seqr environment shared between application and cron
 */}}
-{{- define "seqr.requiredSecrets" -}}
-- name: POSTGRES_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.requiredSecrets.postgresSecretName }}
-      key: password
-- name: DJANGO_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.requiredSecrets.seqrSecretName }}
-      key: django_key
-- name: CLICKHOUSE_READER_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: clickhouse-secrets
-      key: reader_password
-      optional: true
-- name: CLICKHOUSE_WRITER_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: clickhouse-secrets
-      key: writer_password
-      optional: true
+{{- define "seqr.environment" -}}
+envFrom:
+  - configMapRef:
+      name: {{ .Chart.Name }}
+env:
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.requiredSecrets.postgresSecretName }}
+        key: password
+  - name: DJANGO_KEY
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.requiredSecrets.seqrSecretName }}
+        key: django_key
+  - name: CLICKHOUSE_READER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: clickhouse-secrets
+        key: reader_password
+        optional: true
+  - name: CLICKHOUSE_WRITER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: clickhouse-secrets
+        key: writer_password
+        optional: true
+  {{- with .Values.additionalSecrets }}
+    {{- toYaml . | nindent 2}}
+  {{- end }}
 {{- end }}

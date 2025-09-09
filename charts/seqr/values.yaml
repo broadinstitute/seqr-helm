@@ -64,7 +64,6 @@ environment:
   LUIGI_UI_SERVICE_HOSTNAME: "pipeline-runner-ui"
   LUIGI_UI_SERVICE_PORT: "8082"
   LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
-  HAIL_SEARCH_DATA_DIR: "/var/seqr/seqr-hail-search-data"
 
   # Clickhouse Config
   CLICKHOUSE_READER_USER: "seqr_clickhouse_reader"
@@ -325,6 +324,7 @@ global:
   seqr:
     environment:
       CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
+      PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
   seqrPlatformDeploy: false
   # Enables support for bitnami legacy images (with additional context https://github.com/bitnami/charts/issues/30850#issuecomment-3031915203)
   security:

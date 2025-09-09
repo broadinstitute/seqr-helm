@@ -9,21 +9,17 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 1.45.0-hail-search-final
+version: 2.0.0-dev
 dependencies:
   - name: seqr
-    version: 2.51.0
+    version: 3.2.0
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
-    version: 1.119.0
+    version: 2.2.0
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: pipeline-runner.enabled
-  - name: hail-search
-    version: 2.14.0
-    repository: "https://broadinstitute.github.io/seqr-helm"
-    condition: hail-search.enabled
   - name: vlm
-    version: 1.4.0
+    version: 2.1.0
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: vlm.enabled
   - name: lib

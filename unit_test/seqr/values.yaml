@@ -103,14 +103,16 @@ ingress:
       hosts:
         - *clusterHostname
 
-additionalSecrets:
-  - name: OMIM_KEY
-    valueFrom:
-      secretKeyRef:
-        name: seqr-secrets
-        key: omim_key
-
 serviceAccount:
   create: true
   annotations:
     iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com
+
+global:
+  seqr:
+    additionalSecrets:
+      - name: OMIM_KEY
+        valueFrom:
+          secretKeyRef:
+            name: seqr-secrets
+            key: omim_key

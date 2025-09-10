@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.2.2](https://img.shields.io/badge/Version-3.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
+![Version: 3.4.0](https://img.shields.io/badge/Version-3.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 230a08462c991739acb3328ddddb22f97a1cf7f7](https://img.shields.io/badge/AppVersion-230a08462c991739acb3328ddddb22f97a1cf7f7-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -229,7 +229,7 @@ true
 			<td>clickhouse.extraEnvVars[4].name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"PIPELINE_DATA_DIR_ACCESS_ID"
+"PIPELINE_DATA_DIR_HMAC_KEY"
 </pre>
 </td>
 			<td></td>
@@ -238,7 +238,7 @@ true
 			<td>clickhouse.extraEnvVars[4].valueFrom.secretKeyRef.key</td>
 			<td>string</td>
 			<td><pre lang="json">
-"pipeline_data_dir_access_id"
+"pipeline_data_dir_hmac_key"
 </pre>
 </td>
 			<td></td>
@@ -265,7 +265,7 @@ true
 			<td>clickhouse.extraEnvVars[5].name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"PIPELINE_DATA_DIR_ACCESS_KEY"
+"PIPELINE_DATA_DIR_HMAC_SECRET"
 </pre>
 </td>
 			<td></td>
@@ -274,7 +274,7 @@ true
 			<td>clickhouse.extraEnvVars[5].valueFrom.secretKeyRef.key</td>
 			<td>string</td>
 			<td><pre lang="json">
-"pipeline_data_dir_access_key"
+"pipeline_data_dir_hmac_secret"
 </pre>
 </td>
 			<td></td>

@@ -36,7 +36,7 @@ Then:
     ```
     *Note that kubernetes can have unexpected behavior when run with `sudo`. Make sure to run this and all other `kubectl`/`kind`/`helm` commands without it*
 1. Create the [Required Secrets](#required-secrets) in your cluster using `kubectl`.
-1. [Migrate](#migrating-application-data) any existing application data.
+1. [Migrate](#migrating-application-data-from-docker-composeyaml) any existing application data.
 1. Install the `seqr-platform` chart with any [override values](#valuesenvironment-overrides):
     ```
     helm repo add seqr-helm https://broadinstitute.github.io/seqr-helm

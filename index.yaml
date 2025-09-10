@@ -6568,6 +6568,43 @@ entries:
     version: 0.1.0-dev
   seqr:
   - apiVersion: v2
+    appVersion: 230a08462c991739acb3328ddddb22f97a1cf7f7
+    created: "2025-09-10T18:30:32.892692448Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.31
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.2.2
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.1.0
+    description: A Helm chart for deploying the Seqr app, an open source software
+      platform for rare disease genomics
+    digest: 177425912b363eacda0c104facd7a00e82e5ff15002e34c6685f9f1acbba116b
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-3.3.0/seqr-3.3.0.tgz
+    version: 3.3.0
+  - apiVersion: v2
     appVersion: e92d49295e977081f00f9262d7407a23311785f2
     created: "2025-09-10T16:04:39.238330058Z"
     dependencies:
@@ -19124,4 +19161,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-09-10T16:16:29.243999755Z"
+generated: "2025-09-10T18:30:32.894082219Z"

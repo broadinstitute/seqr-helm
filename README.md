@@ -168,7 +168,7 @@ global:
       PIPELINE_DATA_DIR: 'The current value of HAIL_SEARCH_DATA_DIR'
 ```
 Alternatively you may `rsync` your `HAIL_SEARCH_DATA_DIR` to a `PIPELINE_DATA_DIR` of your choice.
-- There's an automated migration utility (in the form of a luigi task) that will port `hail-search` search data into `clickhouse`:
+- There's an automated migration utility (in the form of a luigi task) that will port `hail-search` search data into `clickhouse`.  Run the following commands:
 ```
 # Login to the pipeline-runner sidecar
 kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash

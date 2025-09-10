@@ -928,6 +928,42 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>cronJobs[2].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python /seqr/manage.py reload_clinvar_all_variants"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"reload-clinvar-all-variants"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[2].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"30 0 * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[2].timeout_s</td>
+			<td>int</td>
+			<td><pre lang="json">
+7200
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>deploymentAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">

@@ -200,7 +200,7 @@ Context on the migration process to support troubleshooting if required:
   ```
   $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
   ```
-- The migration code will run on `GCP Dataproc` as long as the environment is [correctly configured](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2). 
+- The migration code is supported on `GCP Dataproc` provided the environment is [correctly configured](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2). 
 
 
 ## Debugging FAQ

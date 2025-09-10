@@ -107,6 +107,10 @@ cronJobs:
   - name: update-all-reference-data
     schedule: "*/5 * * * *"
     command: "python manage.py update_all_reference_data"
+  - name: reload-clinvar-all-variants
+    schedule: "30 0 * * *"
+    command: "python /seqr/manage.py reload_clinvar_all_variants"
+    timeout_s: 7200
 
 updateAllReferenceDataPostInstallJob:
   enabled: true

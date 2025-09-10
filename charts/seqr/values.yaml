@@ -96,6 +96,8 @@ initContainers: |-
     volumeMounts:
       {{- tpl . $ | nindent 4 }}
     {{- end }}
+  {{- else }}
+    []
   {{- end }}
 
 jobAfterHook: ""

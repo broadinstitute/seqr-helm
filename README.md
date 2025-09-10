@@ -154,6 +154,52 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data
 ```
 
+## Updating *seqr* from the `hail-search` backend to the `clickhouse` backend and migrating variant data.
+
+- The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If your `HAIL_SEARCH_DATA_DIR` is in use, you must override the default `PIPELINE_DATA_DIR` with your existing value:
+```
+global:
+  seqr:
+    environment:
+      PIPELINE_DATA_DIR: 'The current value of HAIL_SEARCH_DATA_DIR'
+```
+Alternatively you may `rsync` your `HAIL_SEARCH_DATA_DIR` to a `PIPELINE_DATA_DIR` of your choice.
+- We've provided a migration utility (in the form of a luigi task) that will port `hail-search` hail tables into `clickhouse`:
+```
+# Login to the pipeline-runner sidecar
+kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+
+# Initialize a python shell
+ipython3
+
+# Run the following code:
+import luigi
+from v03_pipeline.lib.model import DatasetType, ReferenceGenome
+from v03_pipeline.lib.tasks import MigrateAllProjectsToClickHouseTask
+worker = luigi.worker.Worker()
+worker.add(
+  MigrateAllProjectsToClickHouseTask(ReferenceGenome.GRCh37, DatasetType.SNV_INDEL), 
+  MigrateAllProjectsToClickHouseTask(ReferenceGenome.GRCh38, DatasetType.SNV_INDEL),
+)
+worker.run()
+```
+Some high-level context about how the migration works in case there's a need for debugging:
+  - Each project hail table is exported into the new format produced by the loading pipeline and then loaded into ClickHouse as if it were a new pipeline run.  For each of your loaded projects, you should expect a new directory:
+  ```
+  $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
+  ```
+  to be generated.
+  - Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
+  ```
+  $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
+  ```
+  - The Clickhouse ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
+  ```
+  kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
+  ```
+- The migration code supports `GCP Dataproc` provided [the environment is configured according to the instructions](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2). 
+
+
 ## Debugging FAQ
 - How do I uninstall `seqr` and remove all application data?
 ```

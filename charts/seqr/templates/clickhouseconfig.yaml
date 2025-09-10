@@ -37,8 +37,8 @@ data:
     <clickhouse>
       <named_collections>
         <pipeline_data_access>
-          <access_key_id from_env="PIPELINE_DATA_DIR_ACCESS_ID"/>
-          <secret_access_key from_env="PIPELINE_DATA_DIR_ACCESS_KEY"/>
+          <access_key_id from_env="PIPELINE_DATA_DIR_HMAC_KEY"/>
+          <secret_access_key from_env="PIPELINE_DATA_DIR_HMAC_SECRET"/>
           <format>Parquet</format>
         </pipeline_data_access>
       </named_collections>

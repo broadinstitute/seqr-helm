@@ -154,8 +154,12 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data
 ```
 
-## Updating *seqr* from the `hail-search` backend to the `clickhouse` backend and migrating variant data.
-
+## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
+- Verify a >`2.0.0` `seqr-platform` release is available.
+```
+helm repo update
+helm search repo | grep "seqr-platform"
+```
 - The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If your `HAIL_SEARCH_DATA_DIR` is in use, you must override the default `PIPELINE_DATA_DIR` with the existing value:
 ```
 global:

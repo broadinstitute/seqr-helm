@@ -87,7 +87,7 @@ volumeMounts: |-
     mountPath: /var/seqr
     readOnly: false
 initContainers: |-
-  {{- if not (hasPrefix "gs" $.Values.global.seqr.environment.LOADING_DATASETS_DIR) }}
+  {{- if not (hasPrefix "gs://" $.Values.global.seqr.environment.LOADING_DATASETS_DIR) }}
   - name: mkdir-loading-datasets
     image: busybox:1.35
     imagePullPolicy: {{ $.Values.image.pullPolicy }}

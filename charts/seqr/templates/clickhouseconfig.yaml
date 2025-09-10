@@ -32,7 +32,7 @@ data:
         </seqr_postgres_named_collection>
       </named_collections>
     </clickhouse>
-  {{- if hasPrefix "gs" $.Values.global.seqr.environment.PIPELINE_DATA_DIR }}
+  {{- if hasPrefix "gs://" $.Values.global.seqr.environment.PIPELINE_DATA_DIR }}
   02_pipeline_data_access_named_collection.xml: |
     <clickhouse>
       <named_collections>

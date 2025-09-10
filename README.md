@@ -4,8 +4,7 @@ Helm charts for the *seqr* platform
 ## Overview
 This repo consists of helm charts defining the seqr platform.  [Helm](https://helm.sh) is a package manager for [Kubernetes](https://kubernetes.io), an open source system for automating deployment and management of containerized applications.  
 
-1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis) and [`postgresql` relational database](https://github.com/postgres/postgres).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.  Note that this deployment does not include support for `elasticsearch`.
-1. The [hail-search](charts/hail-search) application chart contains a deployment of the service powering variant search within *seqr*.
+1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis), the [`postgresql` relational database](https://github.com/postgres/postgres) and the [`clickhouse` columnar analytics database](https://clickhouse.com/docs/intro).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.  Note that this deployment does not include support for `elasticsearch`.
 1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also runs the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
 1. A [lib](charts/lib) library chart for resources shared
 between the other charts.
@@ -60,7 +59,7 @@ The first deployment will include a download of all of the genomic reference dat
 ```
 kubectl get pods
 NAME                                        READY   STATUS      RESTARTS      AGE
-hail-search-7678986f7-n8655                 1/1     Running     0             22m
+seqr-clickhouse-shard0-0                    4/4     Running     0             22m
 pipeline-runner-api-5557bbc7-vrtcj          2/2     Running     0             22m
 pipeline-runner-ui-749c94468f-62rtv         1/1     Running     0             22m
 seqr-68d7b855fb-bjppn                       1/1     Running     0             22m
@@ -84,10 +83,11 @@ python3 /seqr/manage.py createsuperuser
 
 ## Required Secrets
 
-The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml#L68) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
+The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml#L73) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
 
 1. A secret containing a `password` field for the postgres database password.  By default this secret is named `postgres-secrets`.
 1. A secret containing a `django_key` field for the django security key.  By default this secret is named `seqr-secrets`.
+1. A secret containing `admin_password`, `writer_password`, and `reader_password` fields for the the clickhouse database passwords.  By default this secret is named `clickhouse-secrets`.
 
 Here's how you might create the secrets:
 

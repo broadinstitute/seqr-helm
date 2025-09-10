@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.2.1](https://img.shields.io/badge/Version-3.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
+![Version: 3.2.2](https://img.shields.io/badge/Version-3.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e92d49295e977081f00f9262d7407a23311785f2](https://img.shields.io/badge/AppVersion-e92d49295e977081f00f9262d7407a23311785f2-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -1009,24 +1009,6 @@ false
 			<td>The number of threads to allocate to the gunicorn server</td>
 		</tr>
 		<tr>
-			<td>environment.HAIL_BACKEND_SERVICE_HOSTNAME</td>
-			<td>string</td>
-			<td><pre lang="json">
-"hail-search"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>environment.HAIL_BACKEND_SERVICE_PORT</td>
-			<td>string</td>
-			<td><pre lang="json">
-"5000"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment.LUIGI_UI_SERVICE_HOSTNAME</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -1228,7 +1210,7 @@ false
 			<td>initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: mkdir-loading-datasets\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ $.Values.global.seqr.environment.LOADING_DATASETS_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}"
+"{{- if not (hasPrefix \"gs://\" $.Values.global.seqr.environment.LOADING_DATASETS_DIR) }}\n- name: mkdir-loading-datasets\n  image: busybox:1.35\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: ['/bin/mkdir', '-p', {{ $.Values.global.seqr.environment.LOADING_DATASETS_DIR }}]\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- else }}\n  []\n{{- end }}"
 </pre>
 </td>
 			<td></td>

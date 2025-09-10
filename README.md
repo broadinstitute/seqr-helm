@@ -183,7 +183,7 @@ worker.add(
 )
 worker.run()
 ```
-Some high-level context about how the migration works in case there's a need for debugging:
+Background on the migration process to support troubleshooting if required:
   - Each project hail table is exported into the new format produced by the loading pipeline and then loaded into ClickHouse as if it were a new pipeline run.  For each of your loaded projects, you should expect a new directory:
   ```
   $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
@@ -193,7 +193,7 @@ Some high-level context about how the migration works in case there's a need for
   ```
   $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
   ```
-  - The Clickhouse ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
+  - Run directory ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
   ```
   kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
   ```

@@ -174,11 +174,15 @@ This step should remove the `hail-search` pod and create a `clickhouse` pod.
 
 3. Export the `hail-search` tables to the `clickhouse`-ingestable format.  Run the following commands:
 ```
+# Get the POD-ID of the pipeline-runner pod
+$ kubectl get pods | grep pipeline-runner-api
+pipeline-runner-api-65d565774d-s8fg8            2/2     Running     0          119m
+
 # Login to the pipeline-runner sidecar
-kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+$ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
 
 # Run the migration script
-./v03_pipeline/bin/migrate_all_projects_to_clickhouse.py
+$ ./v03_pipeline/bin/migrate_all_projects_to_clickhouse.py
 ```
 The migration is fully supported if you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2).
 

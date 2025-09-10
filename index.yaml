@@ -13104,6 +13104,45 @@ entries:
     - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-platform-1.45.0-hail-search-final/seqr-platform-1.45.0-hail-search-final.tgz
     version: 1.45.0-hail-search-final
   - apiVersion: v2
+    created: "2025-09-10T13:33:53.156180285Z"
+    dependencies:
+    - name: seqr
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.51.0
+    - condition: pipeline-runner.enabled
+      name: pipeline-runner
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.119.0
+    - condition: hail-search.enabled
+      name: hail-search
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 2.14.0
+    - condition: vlm.enabled
+      name: vlm
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.4.0
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: https://broadinstitute.github.io/seqr-helm
+      version: 1.1.0
+    description: A Helm chart for deploying all components of Seqr, an open source
+      software platform for rare disease genomics
+    digest: 32aebb32ccfeabc0d0c0daf75a3040a02b0306e1c2bcb4fe6c6b1dcb2588459d
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr-platform
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-platform-1.45.0-hail-search-final/seqr-platform-1.45.0-hail-search-final.tgz
+    version: 1.45.0-hail-search-final
+  - apiVersion: v2
     created: "2025-09-08T17:18:18.032383726Z"
     dependencies:
     - name: seqr
@@ -18915,4 +18954,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-09-09T20:36:49.61406535Z"
+generated: "2025-09-10T13:33:53.421331768Z"

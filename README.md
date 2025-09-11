@@ -157,10 +157,9 @@ python3 /seqr/manage.py update_all_reference_data
 ## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
 The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires two separate manual interventions to 1) potentially update an environment variable and 2) migrate the search data.  After following the above instructions to update your `helm repo`.  You should:
 1.  Update `HAIL_SEARCH_DATA_DIR` to `PIPELINE_DATA_DIR`.
-The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If you have not altered your `HAIL_SEARCH_DATA_DIR` and wish to continue using the defaults, you should `rsync` your `HAIL_SEARCH_DATA_DIR` to the default `PIPELINE_DATA_DIR`.
+The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If you have not altered your `HAIL_SEARCH_DATA_DIR` and wish to continue using the defaults, you should rename your `HAIL_SEARCH_DATA_DIR` to the default `PIPELINE_DATA_DIR`.
 ```
-rsync -r /var/seqr/seqr-hail-search-data /var/seqr/pipeline-data
-rm -rf /var/seqr/seqr-hail-search-data
+sudo mv /var/seqr/seqr-hail-search-data /var/seqr/pipeline-data
 ```
 and proceed to step #2.
 
@@ -172,7 +171,7 @@ global:
       PIPELINE_DATA_DIR: # current value of HAIL_SEARCH_DATA_DIR
 ```
 
-2. Run `helm upgrade`:
+2. Upgrade your `helm` installation:
 ```
 helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform -f my-values.yaml
 ```

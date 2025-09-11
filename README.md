@@ -154,6 +154,13 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data
 ```
 
+To update the ClinVar reference data used in search, run the following.  By default, this will be run automatically
+as a cron job.
+```bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
+python3 /seqr/manage.py reload_clinvar_all_variants
+```
+
 ## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
 The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
 
@@ -191,7 +198,7 @@ $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- 
 $ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
 ```
 
-The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multile times in case of failures.
 
 The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
 - Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:

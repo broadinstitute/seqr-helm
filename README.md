@@ -154,6 +154,66 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data
 ```
 
+To update the ClinVar reference data used in search, run the following.  By default, this will be run automatically
+as a cron job.
+```bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
+python3 /seqr/manage.py reload_clinvar_all_variants
+```
+
+## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
+The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
+
+1.  Update `HAIL_SEARCH_DATA_DIR` to `PIPELINE_DATA_DIR`.
+The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If you have not altered your `HAIL_SEARCH_DATA_DIR` and wish to continue using the defaults, you should rename your `HAIL_SEARCH_DATA_DIR` to the default `PIPELINE_DATA_DIR`.
+```
+sudo mv /var/seqr/seqr-hail-search-data /var/seqr/pipeline-data
+```
+and proceed to step #2.
+
+If you have altered the default `HAIL_SEARCH_DATA_DIR` you should set in your override `my-values.yaml`:
+```
+global:
+  seqr:
+    environment:
+      PIPELINE_DATA_DIR: # current value of HAIL_SEARCH_DATA_DIR
+```
+
+2. Upgrade your `helm` installation:
+```
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform -f my-values.yaml
+```
+This step should remove the `hail-search` pod and create a `clickhouse` pod.
+
+3. Export the `hail-search` tables to the `clickhouse`-ingestable format.  Run the following commands:
+```
+# Get the POD-ID of the pipeline-runner pod
+$ kubectl get pods | grep pipeline-runner-api
+pipeline-runner-api-POD-ID            2/2     Running     0          119m
+
+# Login to the pipeline-runner sidecar
+$ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+
+# Run the migration script
+$ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
+```
+
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multile times in case of failures.
+
+The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
+- Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:
+```
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
+```
+- Run directory ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
+```
+kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
+```
+- Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
+```
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
+```
+
 ## Debugging FAQ
 - How do I uninstall `seqr` and remove all application data?
 ```

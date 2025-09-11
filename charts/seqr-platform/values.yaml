@@ -1,3 +1,6 @@
+seqr:
+  clickhouse:
+    enabled: true
 pipeline-runner:
   enabled: true
 vlm:

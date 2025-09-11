@@ -4,8 +4,7 @@ Helm charts for the *seqr* platform
 ## Overview
 This repo consists of helm charts defining the seqr platform.  [Helm](https://helm.sh) is a package manager for [Kubernetes](https://kubernetes.io), an open source system for automating deployment and management of containerized applications.  
 
-1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis) and [`postgresql` relational database](https://github.com/postgres/postgres).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.  Note that this deployment does not include support for `elasticsearch`.
-1. The [hail-search](charts/hail-search) application chart contains a deployment of the service powering variant search within *seqr*.
+1. The [*seqr*](charts/seqr) application chart consists of deployments for the [*seqr* application](https://github.com/broadinstitute/seqr), the [`redis` cache](https://github.com/redis/redis), the [`postgresql` relational database](https://github.com/postgres/postgres) and the [`clickhouse` columnar analytics database](https://clickhouse.com/docs/intro).  The `redis` and `postgresql` services may be disabled if `seqr` is running in a cloud environment with access to managed services.  Note that this deployment does not include support for `elasticsearch`.
 1. The [pipeline-runner](charts/pipeline-runner) application chart contains the multiple services that make up the [*seqr* loading pipeline](https://github.com/broadinstitute/seqr-loading-pipelines).  This chart also runs the [luigi scheduler user interface](https://luigi.readthedocs.io/en/stable/central_scheduler.html) to view running pipeline tasks.
 1. A [lib](charts/lib) library chart for resources shared
 between the other charts.
@@ -60,7 +59,7 @@ The first deployment will include a download of all of the genomic reference dat
 ```
 kubectl get pods
 NAME                                        READY   STATUS      RESTARTS      AGE
-hail-search-7678986f7-n8655                 1/1     Running     0             22m
+seqr-clickhouse-shard0-0                    4/4     Running     0             22m
 pipeline-runner-api-5557bbc7-vrtcj          2/2     Running     0             22m
 pipeline-runner-ui-749c94468f-62rtv         1/1     Running     0             22m
 seqr-68d7b855fb-bjppn                       1/1     Running     0             22m
@@ -84,10 +83,11 @@ python3 /seqr/manage.py createsuperuser
 
 ## Required Secrets
 
-The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml#L68) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
+The *seqr* application expects a few secrets to be defined for the services to start.  The default expected secrets are declared in the [default `values.yaml`](charts/seqr/values.yaml#L73) file of the *seqr* application chart.  You should create these secrets in your kubernetes cluster prior to attempting to install the chart.
 
 1. A secret containing a `password` field for the postgres database password.  By default this secret is named `postgres-secrets`.
 1. A secret containing a `django_key` field for the django security key.  By default this secret is named `seqr-secrets`.
+1. A secret containing `admin_password`, `writer_password`, and `reader_password` fields for the the clickhouse database passwords.  By default this secret is named `clickhouse-secrets`.
 
 Here's how you might create the secrets:
 
@@ -152,6 +152,66 @@ as a cron job.
 ```bash
 kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_all_reference_data
+```
+
+To update the ClinVar reference data used in search, run the following.  By default, this will be run automatically
+as a cron job.
+```bash
+kubectl exec seqr-POD-ID -c seqr -it -- bash
+python3 /seqr/manage.py reload_clinvar_all_variants
+```
+
+## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
+The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
+
+1.  Update `HAIL_SEARCH_DATA_DIR` to `PIPELINE_DATA_DIR`.
+The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If you have not altered your `HAIL_SEARCH_DATA_DIR` and wish to continue using the defaults, you should rename your `HAIL_SEARCH_DATA_DIR` to the default `PIPELINE_DATA_DIR`.
+```
+sudo mv /var/seqr/seqr-hail-search-data /var/seqr/pipeline-data
+```
+and proceed to step #2.
+
+If you have altered the default `HAIL_SEARCH_DATA_DIR` you should set in your override `my-values.yaml`:
+```
+global:
+  seqr:
+    environment:
+      PIPELINE_DATA_DIR: # current value of HAIL_SEARCH_DATA_DIR
+```
+
+2. Upgrade your `helm` installation:
+```
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform -f my-values.yaml
+```
+This step should remove the `hail-search` pod and create a `clickhouse` pod.
+
+3. Export the `hail-search` tables to the `clickhouse`-ingestable format.  Run the following commands:
+```
+# Get the POD-ID of the pipeline-runner pod
+$ kubectl get pods | grep pipeline-runner-api
+pipeline-runner-api-POD-ID            2/2     Running     0          119m
+
+# Login to the pipeline-runner sidecar
+$ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+
+# Run the migration script
+$ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
+```
+
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multile times in case of failures.
+
+The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
+- Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:
+```
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
+```
+- Run directory ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
+```
+kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
+```
+- Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
+```
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
 ```
 
 ## Debugging FAQ

@@ -1,6 +1,6 @@
 # seqr-platform
 
-![Version: 1.31.0](https://img.shields.io/badge/Version-1.31.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying all components of Seqr, an open source software platform for rare disease genomics
 
@@ -20,11 +20,10 @@ A Helm chart for deploying all components of Seqr, an open source software platf
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://broadinstitute.github.io/seqr-helm | hail-search | 2.14.0 |
 | https://broadinstitute.github.io/seqr-helm | lib | 1.1.0 |
-| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 1.5.0 |
-| https://broadinstitute.github.io/seqr-helm | seqr | 2.33.0 |
-| https://broadinstitute.github.io/seqr-helm | vlm | 1.3.1 |
+| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 2.12.0 |
+| https://broadinstitute.github.io/seqr-helm | seqr | 3.4.0 |
+| https://broadinstitute.github.io/seqr-helm | vlm | 2.1.1 |
 
 ## Values
 
@@ -47,6 +46,15 @@ true
 		</tr>
 		<tr>
 			<td>pipeline-runner.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>seqr.clickhouse.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
 true

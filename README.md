@@ -155,7 +155,8 @@ python3 /seqr/manage.py update_all_reference_data
 ```
 
 ## Migrating *seqr* from the `hail-search` backend to the `clickhouse` backend.
-The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires two separate manual interventions to 1) potentially update an environment variable and 2) migrate the search data.  After following the above instructions to update your `helm repo`.  You should:
+The `seqr-platform` update from the `1.45.0-hail-search-final` to `2.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
+
 1.  Update `HAIL_SEARCH_DATA_DIR` to `PIPELINE_DATA_DIR`.
 The `HAIL_SEARCH_DATA_DIR` environment variable has been deprecated in favor of a `PIPELINE_DATA_DIR` variable shared between the application and pipeline.  If you have not altered your `HAIL_SEARCH_DATA_DIR` and wish to continue using the defaults, you should rename your `HAIL_SEARCH_DATA_DIR` to the default `PIPELINE_DATA_DIR`.
 ```
@@ -187,9 +188,10 @@ pipeline-runner-api-POD-ID            2/2     Running     0          119m
 $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
 
 # Run the migration script
-$ ./v03_pipeline/bin/migrate_all_projects_to_clickhouse.py
+$ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
 ```
-The migration is fully supported if you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2).
+
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.
 
 The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
 - Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:

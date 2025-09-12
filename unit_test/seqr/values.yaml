@@ -135,3 +135,12 @@ clickhouse:
         - name: data
           mountPath: |-
             {{ .Values.persistence.mountPath }}
+  additionalUsersdFiles: |-
+    02_deployment_seqr_users_config.xml: 
+      <clickhouse>
+        <profiles>
+          <default>
+            <an_internal_setting>0</an_internal_setting>
+          </default>
+        </profiles>
+      </clickhouse>

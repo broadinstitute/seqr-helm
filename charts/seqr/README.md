@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.5.2](https://img.shields.io/badge/Version-3.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
+![Version: 3.5.3](https://img.shields.io/badge/Version-3.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -55,7 +55,25 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.additionalConfigdFiles</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.additionalSidecars</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.additionalUsersdFiles</td>
 			<td>object</td>
 			<td><pre lang="json">
 {}

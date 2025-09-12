@@ -44,6 +44,9 @@ data:
       </named_collections>
     </clickhouse>
   {{- end }}
+  {{- with $.Values.clickhouse.additionalConfigdFiles }}
+    {{- tpl . $ | nindent 2}}
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -125,4 +128,7 @@ data:
         </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>
     </clickhouse>
+  {{- with $.Values.clickhouse.additionalUsersdFiles }}
+    {{- tpl . $ | nindent 2}}
+  {{- end }}
 {{- end }}

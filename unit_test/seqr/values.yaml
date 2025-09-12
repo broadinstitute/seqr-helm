@@ -129,11 +129,11 @@ clickhouse:
           done
       env:
         - name: CLICKHOUSE_DATA_DIR
-          value: |-
+          value:
             {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
       volumeMounts:
         - name: data
-          mountPath: |-
+          mountPath:
             {{ .Values.persistence.mountPath }}
   additionalUsersdFiles: |-
     02_deployment_seqr_users_config.xml: 

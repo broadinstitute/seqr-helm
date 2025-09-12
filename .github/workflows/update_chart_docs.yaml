@@ -5,8 +5,8 @@ name: update chart docs
 on:
   push:
     branches:
-      # NB: main purposely disabled during Clickhouse development
       - dev
+      - main
 
 jobs:
   update_chart_docs:

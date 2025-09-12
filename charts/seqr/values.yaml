@@ -342,6 +342,8 @@ clickhouse:
   initdbScriptsSecret: seqr-clickhouse-init-db-secret
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
   additionalSidecars: {}  # note this is not a clickhouse chart variable.
+  additionalConfigdFiles: {}
+  additionalUsersdFiles: {}
 global:
   seqr:
     environment:

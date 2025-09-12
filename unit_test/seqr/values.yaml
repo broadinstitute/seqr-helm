@@ -114,3 +114,24 @@ serviceAccount:
   create: true
   annotations:
     iam.gke.io/gcp-service-account: test-service-account@developer.gserviceaccount.com
+
+clickhouse:
+  enabled: true
+  additionalSidecars: |-
+    - name: rsync-rocksdbs
+      image: google/cloud-sdk:slim
+      imagePullPolicy: Always
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          while true; do
+            sleep 7d
+          done
+      env:
+        - name: CLICKHOUSE_DATA_DIR
+          value: |-
+            {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
+      volumeMounts:
+        - name: data
+          mountPath: |-
+            {{ .Values.persistence.mountPath }}

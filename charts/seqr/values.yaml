@@ -307,7 +307,7 @@ clickhouse:
           name: clickhouse-hmac-secrets
           key: pipeline_data_dir_hmac_secret
           optional: true
-  sidecars:
+  sidecars: |-
     - name: clickhouse-loader
       image: gcr.io/seqr-project/seqr-pipeline-runner
       imagePullPolicy: Always
@@ -328,16 +328,20 @@ clickhouse:
         - name: CLICKHOUSE_WRITER_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: *clickhouseSecretName
+              name: {{ .Values.auth.existingSecret }}
               key: writer_password
       volumeMounts:
         - name: data
           mountPath: |-
             {{ .Values.persistence.mountPath }}
+    {{- with .Values.additionalSidecars }}
+      {{- tpl . $ | nindent 0}}
+    {{- end }}
   existingConfigdConfigmap: seqr-clickhouse-configd-config
   existingUsersdConfigmap: seqr-clickhouse-usersd-config
   initdbScriptsSecret: seqr-clickhouse-init-db-secret
   initdbSecretEnabled: true  # note this is not a clickhouse chart variable, but controls seqr's db initialization.
+  additionalSidecars: {} # note this is not a clickhouse chart variable.
 global:
   seqr:
     environment:

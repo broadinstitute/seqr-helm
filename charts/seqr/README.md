@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.5.1](https://img.shields.io/badge/Version-3.5.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
+![Version: 3.5.2](https://img.shields.io/badge/Version-3.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -50,6 +50,15 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>string</td>
 			<td><pre lang="json">
 "podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.additionalSidecars</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
 </pre>
 </td>
 			<td></td>
@@ -712,172 +721,10 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>clickhouse.sidecars[0].args[0]</td>
+			<td>clickhouse.sidecars</td>
 			<td>string</td>
 			<td><pre lang="json">
-"python3 -m v03_pipeline.bin.clickhouse_loader"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].command[0]</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/bin/bash"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].command[1]</td>
-			<td>string</td>
-			<td><pre lang="json">
-"-c"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[0].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"INCLUDE_PIPELINE_VERSION_IN_PREFIX"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[0].value</td>
-			<td>string</td>
-			<td><pre lang="json">
-"{{ .Values.global.seqr.environment.INCLUDE_PIPELINE_VERSION_IN_PREFIX }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[1].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"CLICKHOUSE_DATA_DIR"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[1].value</td>
-			<td>string</td>
-			<td><pre lang="json">
-"{{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[2].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"PIPELINE_DATA_DIR"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[2].value</td>
-			<td>string</td>
-			<td><pre lang="json">
-"{{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[3].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"CLICKHOUSE_WRITER_USER"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[3].value</td>
-			<td>string</td>
-			<td><pre lang="json">
-"seqr_clickhouse_writer"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[4].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"CLICKHOUSE_WRITER_PASSWORD"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[4].valueFrom.secretKeyRef.key</td>
-			<td>string</td>
-			<td><pre lang="json">
-"writer_password"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].env[4].valueFrom.secretKeyRef.name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"clickhouse-secrets"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"gcr.io/seqr-project/seqr-pipeline-runner"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].imagePullPolicy</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Always"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"clickhouse-loader"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].volumeMounts[0].mountPath</td>
-			<td>string</td>
-			<td><pre lang="json">
-"{{ .Values.persistence.mountPath }}"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>clickhouse.sidecars[0].volumeMounts[0].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"data"
+"- name: clickhouse-loader\n  image: gcr.io/seqr-project/seqr-pipeline-runner\n  imagePullPolicy: Always\n  command: [\"/bin/bash\", \"-c\"]\n  args: [\"python3 -m v03_pipeline.bin.clickhouse_loader\"]\n  env:\n    - name: INCLUDE_PIPELINE_VERSION_IN_PREFIX\n      value: |-\n        {{ .Values.global.seqr.environment.INCLUDE_PIPELINE_VERSION_IN_PREFIX }}\n    - name: CLICKHOUSE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}\n    - name: PIPELINE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}\n    - name: CLICKHOUSE_WRITER_USER\n      value: \"seqr_clickhouse_writer\"\n    - name: CLICKHOUSE_WRITER_PASSWORD\n      valueFrom:\n        secretKeyRef:\n          name: {{ .Values.auth.existingSecret }}\n          key: writer_password\n  volumeMounts:\n    - name: data\n      mountPath: |-\n        {{ .Values.persistence.mountPath }}\n{{- with .Values.additionalSidecars }}\n  {{- tpl . $ | nindent 0}}\n{{- end }}"
 </pre>
 </td>
 			<td></td>

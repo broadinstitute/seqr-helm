@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.15.0](https://img.shields.io/badge/Version-2.15.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 73572184cd4a6912240a2c9e34c5ae260d1860eb](https://img.shields.io/badge/AppVersion-73572184cd4a6912240a2c9e34c5ae260d1860eb-informational?style=flat-square)
+![Version: 2.16.0](https://img.shields.io/badge/Version-2.16.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 73572184cd4a6912240a2c9e34c5ae260d1860eb](https://img.shields.io/badge/AppVersion-73572184cd4a6912240a2c9e34c5ae260d1860eb-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -68,19 +68,19 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.REFERENCE_DATASETS_DIR</td>
+			<td>environment.PIPELINE_DATA_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/var/seqr/seqr-reference-data"
+"/var/seqr/pipeline-data"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>environment.SHOULD_TRIGGER_HAIL_BACKEND_RELOAD</td>
+			<td>environment.REFERENCE_DATASETS_DIR</td>
 			<td>string</td>
 			<td><pre lang="json">
-"1"
+"/var/seqr/seqr-reference-data"
 </pre>
 </td>
 			<td></td>
@@ -99,6 +99,15 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>bool</td>
 			<td><pre lang="json">
 false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>hailWorkerResources</td>
+			<td>string</td>
+			<td><pre lang="json">
+"requests:\n  memory: \"12Gi\""
 </pre>
 </td>
 			<td></td>
@@ -188,7 +197,7 @@ false
 			<td>pods[0].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  resources:\n    requests:\n      memory: \"12Gi\"\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
+"{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  {{- with $.Values.hailWorkerResources }}\n  resources:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -261,15 +270,6 @@ false
 			<td>bool</td>
 			<td><pre lang="json">
 true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>pods[0].sidecar.resources.requests.memory</td>
-			<td>string</td>
-			<td><pre lang="json">
-"12Gi"
 </pre>
 </td>
 			<td></td>
@@ -348,15 +348,6 @@ true
 		</tr>
 		<tr>
 			<td>pods[1].sidecar</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources</td>
 			<td>object</td>
 			<td><pre lang="json">
 {}

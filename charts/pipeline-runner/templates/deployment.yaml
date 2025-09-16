@@ -81,8 +81,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $.Chart.Name }}
+          {{- with $.Values.hailWorkerResources }}
           resources:
-            {{- toYaml .resources | nindent 12 }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           {{- with $.Values.volumeMounts }}
           volumeMounts:
             {{- tpl . $ | nindent 12 }}

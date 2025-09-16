@@ -56,9 +56,10 @@ pods:
           - configMapRef:
               name: seqr-platform
               optional: true
+        {{- with $.Values.hailWorkerResources }}
         resources:
-          requests:
-            memory: "12Gi"
+          {{- tpl . $ | nindent 4 }}
+        {{- end }}
         {{- with $.Values.volumeMounts }}
         volumeMounts:
           {{- tpl . $ | nindent 4 }}
@@ -69,10 +70,6 @@ pods:
     sidecar:
       command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
       privileged: true
-      resources:
-        requests:
-          # Default memory request because the worker runs HAIL.
-          memory: "12Gi"
   - name: ui
     service:
       type: NodePort
@@ -92,11 +89,13 @@ pods:
     resources: {}
     sidecar: {}
 
-resources: {}
+hailWorkerResources: |-
+  requests:
+    memory: "12Gi"
 environment:
   REFERENCE_DATASETS_DIR: "/var/seqr/seqr-reference-data"
+  PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
-  SHOULD_TRIGGER_HAIL_BACKEND_RELOAD: "1"
 
 affinity: |-
   podAntiAffinity:

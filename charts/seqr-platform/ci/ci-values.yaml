@@ -2,8 +2,9 @@ seqr:
   cronJobs: []
   clickhouse:
     enabled: true
-  image:
-    repository: bitnamilegacy/redis
+  redis:
+    image:
+      repository: bitnamilegacy/redis
 pipeline-runner:
   pods:
     - name: api

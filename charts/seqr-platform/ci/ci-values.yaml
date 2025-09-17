@@ -9,7 +9,7 @@ seqr:
     primary:
       initContainers:
         - name: seqr-postgresql-init-chmod-data
-          image: busybox
+          image: bitnamilegacy/os-shell
           imagePullPolicy: "IfNotPresent"
           command:
             - /bin/sh

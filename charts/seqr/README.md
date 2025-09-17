@@ -1423,7 +1423,7 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>redis.images.repository</td>
+			<td>redis.image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
 "bitnamilegacy/redis"

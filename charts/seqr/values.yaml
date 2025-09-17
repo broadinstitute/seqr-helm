@@ -123,7 +123,7 @@ networkPolicy:
 redis:
   # -- Set to "false" to disable the redis cache (if you're using a managed cache service).
   enabled: true
-  images:
+  image:
     repository: bitnamilegacy/redis
   architecture: standalone
   auth:

@@ -2,31 +2,6 @@ seqr:
   cronJobs: []
   clickhouse:
     enabled: true
-  redis:
-    image:
-      repository: bitnamilegacy/redis
-  postgresql:
-    primary:
-      initContainers:
-        - name: seqr-postgresql-init-chmod-data
-          image: bitnamilegacy/os-shell
-          imagePullPolicy: "IfNotPresent"
-          command:
-            - /bin/sh
-            - -ec
-            - |
-              mkdir -p {{ .Values.postgresqlDataDir }}
-              chown -R `id -u`:`id -G | cut -d " " -f2` {{ .Values.postgresqlDataDir }}
-          # In theory this block is template-able but is getting wrapped in single quotes.
-          securityContext:
-            runAsGroup: 1001
-            runAsNonRoot: false
-            seLinuxOptions: {}
-            seccompProfile:
-              type: RuntimeDefault
-          volumeMounts:
-            - name: data
-              mountPath: /var/seqr
 pipeline-runner:
   pods:
     - name: api

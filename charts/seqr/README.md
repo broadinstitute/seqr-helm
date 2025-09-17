@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.5.3](https://img.shields.io/badge/Version-3.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
+![Version: 3.5.4](https://img.shields.io/badge/Version-3.5.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: df265fdbf6e7623e15b07b76f2a3078bca3dfd9e](https://img.shields.io/badge/AppVersion-df265fdbf6e7623e15b07b76f2a3078bca3dfd9e-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -1264,7 +1264,7 @@ true
 			<td>postgresql.primary.initContainers[0].image</td>
 			<td>string</td>
 			<td><pre lang="json">
-"busybox"
+"bitnamilegacy/os-shell"
 </pre>
 </td>
 			<td></td>

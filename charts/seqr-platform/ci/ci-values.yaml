@@ -17,7 +17,6 @@ seqr:
             - |
               mkdir -p {{ .Values.postgresqlDataDir }}
               chown -R `id -u`:`id -G | cut -d " " -f2` {{ .Values.postgresqlDataDir }}
-              echo `id -u`:`id -G | cut -d " " -f2`
           # In theory this block is template-able but is getting wrapped in single quotes.
           securityContext:
             runAsGroup: 1001

@@ -58,4 +58,6 @@ pipeline-runner:
           {{- end }}
       resources: {}
       sidecar: {}
-  hailWorkerResources: {}
+  hailWorkerResources: |-
+    requests:
+      memory: 1Mi

@@ -1264,7 +1264,7 @@ true
 			<td>postgresql.primary.initContainers[0].image</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- include \"postgresql.v1.volumePermissions.image\" . }}"
+"busybox"
 </pre>
 </td>
 			<td></td>

@@ -173,8 +173,7 @@ postgresql:
     # See here: https://github.com/bitnami/charts/blob/aa038e9953df2ba74d481cb7ba1cccb3dc32c5fc/bitnami/postgresql/templates/primary/statefulset.yaml#L117-L157
     initContainers:
       - name: seqr-postgresql-init-chmod-data
-        image: |-
-          {{- include "postgresql.v1.volumePermissions.image" . }}
+        image: busybox
         imagePullPolicy: "IfNotPresent"
         command:
           - /bin/sh

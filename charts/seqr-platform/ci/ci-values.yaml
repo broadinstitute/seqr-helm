@@ -26,7 +26,7 @@ seqr:
               type: RuntimeDefault
           volumeMounts:
             - name: data
-            mountPath: /var/seqr
+              mountPath: /var/seqr
 pipeline-runner:
   pods:
     - name: api

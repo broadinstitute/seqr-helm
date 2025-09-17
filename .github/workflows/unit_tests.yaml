@@ -52,4 +52,4 @@ jobs:
             --from-literal=reader_password='clickhousereaderpassword' \
             --from-literal=writer_password='clickhousewriterpassword'
 
-          ct install --charts charts/seqr-platform --namespace default
+          ct install --charts charts/seqr-platform --namespace default --helm-extra-args '--timeout 600s'

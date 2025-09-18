@@ -54,9 +54,6 @@ pods:
         envFrom:
           - configMapRef:
               name: {{ $.Chart.Name }}
-          - configMapRef:
-              name: seqr-platform
-              optional: true
         {{- with $.Values.hailWorkerResources }}
         resources:
           {{- tpl . $ | nindent 4 }}

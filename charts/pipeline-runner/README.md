@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.19.0](https://img.shields.io/badge/Version-2.19.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: a3bbc53a9d11defc098fa22ad32d3ef1d8d5c3d0](https://img.shields.io/badge/AppVersion-a3bbc53a9d11defc098fa22ad32d3ef1d8d5c3d0-informational?style=flat-square)
+![Version: 2.20.0](https://img.shields.io/badge/Version-2.20.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: a3bbc53a9d11defc098fa22ad32d3ef1d8d5c3d0](https://img.shields.io/badge/AppVersion-a3bbc53a9d11defc098fa22ad32d3ef1d8d5c3d0-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -206,7 +206,7 @@ true
 			<td>pods[0].initContainers</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- if $.Values.initRsyncEnabled }}\n{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n    - configMapRef:\n        name: seqr-platform\n        optional: true\n  {{- with $.Values.hailWorkerResources }}\n  resources:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}\n{{- else }}\n  []\n{{- end }}"
+"{{- if $.Values.initRsyncEnabled }}\n{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n  {{- with $.Values.hailWorkerResources }}\n  resources:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}\n{{- else }}\n  []\n{{- end }}"
 </pre>
 </td>
 			<td></td>

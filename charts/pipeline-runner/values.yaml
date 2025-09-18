@@ -94,7 +94,7 @@ pods:
     sidecar: {}
 
 
-initRsyncEnabled: true 
+initRsyncEnabled: true
 hailWorkerResources: |-
   requests:
     memory: "12Gi"

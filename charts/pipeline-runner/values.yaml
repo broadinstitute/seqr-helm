@@ -44,6 +44,7 @@ pods:
     healthCheckRoute: /status
     command: ["python3", "-m", "v03_pipeline.api"]
     initContainers: |-
+      {{- if $.Values.initRsyncEnabled }}
       {{- range $r := list "GRCh37" "GRCh38" }}
       {{- range $s := list "rsync_reference_data" "download_vep_reference_data"}}
       - name: {{ $s | replace "_" "-" }}-{{ $r | lower}}
@@ -65,6 +66,9 @@ pods:
           {{- tpl . $ | nindent 4 }}
         {{- end }}
       {{- end }}
+      {{- end }}
+      {{- else }}
+        []
       {{- end }}
     resources: {}
     sidecar:
@@ -89,6 +93,8 @@ pods:
     resources: {}
     sidecar: {}
 
+
+initRsyncEnabled: true 
 hailWorkerResources: |-
   requests:
     memory: "12Gi"

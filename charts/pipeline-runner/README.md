@@ -149,6 +149,15 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>networkPolicy.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>nodeSelector</td>
 			<td>object</td>
 			<td><pre lang="json">

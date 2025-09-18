@@ -14,4 +14,3 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/name: {{ $.Chart.Name }}-api
-{{- end }}

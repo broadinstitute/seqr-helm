@@ -90,7 +90,8 @@ pods:
     resources: {}
     sidecar: {}
 
-
+networkPolicy:
+  enabled: false
 initRsyncEnabled: true
 hailWorkerResources: |-
   requests:

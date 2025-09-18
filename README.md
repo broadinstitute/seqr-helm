@@ -119,7 +119,14 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py update_igv_location old_prefix new_prefix
 ```
 
-Note that you do not need to migrate any elasticsearch data.
+Note that you do not need to migrate any elasticsearch data, although in order to continue to perform searches all data will need to be reloaded from VCF using the standard data loading process.
+
+After re-loading all the data that will continue to be used in search, we recommend running the following one-time command to ensure that previously saved variants stay in sync with the latest available annotations going forward:
+
+```
+kubectl exec seqr-POD-ID -c seqr -it -- bash
+python3 /seqr/manage.py set_saved_variant_key
+```
 
 ## Values/Environment Overrides
 
@@ -212,6 +219,13 @@ kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
 - Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
 ```
 $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
+```
+
+After all migrations have successfully completed, run the following command to ensure that previously saved variants stay in sync with the latest available annotations going forward:
+
+```
+kubectl exec seqr-POD-ID -c seqr -it -- bash
+python3 /seqr/manage.py set_saved_variant_key
 ```
 
 ## Debugging FAQ

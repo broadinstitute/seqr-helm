@@ -6,12 +6,12 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: {{ $.Chart.Name }}-ui
+      name: {{ $.Chart.Name }}-ui
   policyTypes:
     - Ingress
   ingress:
     - from:
       - podSelector:
           matchLabels:
-            app.kubernetes.io/name: {{ $.Chart.Name }}-api
+            name: {{ $.Chart.Name }}-api
 {{- end }}

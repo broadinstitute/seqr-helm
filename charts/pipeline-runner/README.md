@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.37.0](https://img.shields.io/badge/Version-2.37.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4557de7855577bb36e888c32a037351760e03abf](https://img.shields.io/badge/AppVersion-4557de7855577bb36e888c32a037351760e03abf-informational?style=flat-square)
+![Version: 2.38.0](https://img.shields.io/badge/Version-2.38.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 97a77c22cf3f60975faed5db27a5e643e21a060b](https://img.shields.io/badge/AppVersion-97a77c22cf3f60975faed5db27a5e643e21a060b-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 

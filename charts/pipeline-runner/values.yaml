@@ -10,7 +10,13 @@ serviceAccount:
 podAnnotations: {}
 deploymentAnnotations: {}
 
-additionalSecrets: {}
+additionalSecrets:
+  - name: CLICKHOUSE_WRITER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: clickhouse-secrets
+        key: writer_password
+
 volumes: |-
   - name: seqr-datasets
     persistentVolumeClaim:
@@ -100,6 +106,7 @@ environment:
   REFERENCE_DATASETS_DIR: "/var/seqr/seqr-reference-data"
   PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
   LUIGI_STATE_DIR: "/var/seqr/luigi-state"
+  CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
 
 affinity: |-
   podAntiAffinity:

@@ -313,7 +313,7 @@ clickhouse:
       command: ["/bin/bash", "-c"]
       args: ["python3 -m v03_pipeline.bin.clickhouse_loader"]
       env:
-        - name: CLICKHOUSE_LOADER_DISABLED:
+        - name: CLICKHOUSE_LOADER_DISABLED
           value: |-
             {{ .Values.global.seqr.environment.CLICKHOUSE_LOADER_DISABLED }}
         - name: CLICKHOUSE_DATA_DIR

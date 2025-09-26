@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.8.0](https://img.shields.io/badge/Version-3.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ec21bfd66486f3ae44ad46659be6097a0337460c](https://img.shields.io/badge/AppVersion-ec21bfd66486f3ae44ad46659be6097a0337460c-informational?style=flat-square)
+![Version: 3.8.1](https://img.shields.io/badge/Version-3.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: ec21bfd66486f3ae44ad46659be6097a0337460c](https://img.shields.io/badge/AppVersion-ec21bfd66486f3ae44ad46659be6097a0337460c-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -742,7 +742,7 @@ true
 			<td>clickhouse.sidecars</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: clickhouse-loader\n  image: gcr.io/seqr-project/seqr-pipeline-runner\n  imagePullPolicy: Always\n  command: [\"/bin/bash\", \"-c\"]\n  args: [\"python3 -m v03_pipeline.bin.clickhouse_loader\"]\n  env:\n    - name: INCLUDE_PIPELINE_VERSION_IN_PREFIX\n      value: |-\n        {{ .Values.global.seqr.environment.INCLUDE_PIPELINE_VERSION_IN_PREFIX }}\n    - name: CLICKHOUSE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}\n    - name: PIPELINE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}\n    - name: CLICKHOUSE_WRITER_USER\n      value: \"seqr_clickhouse_writer\"\n    - name: CLICKHOUSE_WRITER_PASSWORD\n      valueFrom:\n        secretKeyRef:\n          name: {{ .Values.auth.existingSecret }}\n          key: writer_password\n  volumeMounts:\n    - name: data\n      mountPath: |-\n        {{ .Values.persistence.mountPath }}\n{{- with .Values.additionalSidecars }}\n  {{- tpl . $ | nindent 0}}\n{{- end }}"
+"- name: clickhouse-loader\n  image: gcr.io/seqr-project/seqr-pipeline-runner\n  imagePullPolicy: Always\n  command: [\"/bin/bash\", \"-c\"]\n  args: [\"python3 -m v03_pipeline.bin.clickhouse_loader\"]\n  env:\n    - name: CLICKHOUSE_LOADER_DISABLED:\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_LOADER_DISABLED }}\n    - name: CLICKHOUSE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}\n    - name: PIPELINE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}\n    - name: CLICKHOUSE_WRITER_USER\n      value: \"seqr_clickhouse_writer\"\n    - name: CLICKHOUSE_WRITER_PASSWORD\n      valueFrom:\n        secretKeyRef:\n          name: {{ .Values.auth.existingSecret }}\n          key: writer_password\n  volumeMounts:\n    - name: data\n      mountPath: |-\n        {{ .Values.persistence.mountPath }}\n{{- with .Values.additionalSidecars }}\n  {{- tpl . $ | nindent 0}}\n{{- end }}"
 </pre>
 </td>
 			<td></td>
@@ -1018,19 +1018,19 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>global.seqr.environment.CLICKHOUSE_SERVICE_HOSTNAME</td>
+			<td>global.seqr.environment.CLICKHOUSE_LOADER_DISABLED</td>
 			<td>string</td>
 			<td><pre lang="json">
-"seqr-clickhouse"
+"0"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>global.seqr.environment.INCLUDE_PIPELINE_VERSION_IN_PREFIX</td>
+			<td>global.seqr.environment.CLICKHOUSE_SERVICE_HOSTNAME</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0"
+"seqr-clickhouse"
 </pre>
 </td>
 			<td></td>

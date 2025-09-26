@@ -313,9 +313,9 @@ clickhouse:
       command: ["/bin/bash", "-c"]
       args: ["python3 -m v03_pipeline.bin.clickhouse_loader"]
       env:
-        - name: INCLUDE_PIPELINE_VERSION_IN_PREFIX
+        - name: CLICKHOUSE_LOADER_DISABLED:
           value: |-
-            {{ .Values.global.seqr.environment.INCLUDE_PIPELINE_VERSION_IN_PREFIX }}
+            {{ .Values.global.seqr.environment.CLICKHOUSE_LOADER_DISABLED }}
         - name: CLICKHOUSE_DATA_DIR
           value: |-
             {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
@@ -349,7 +349,7 @@ global:
       CLICKHOUSE_DATA_DIR: "/var/seqr/clickhouse-data"
       CLICKHOUSE_IN_MEMORY_DIR: "/in-memory-dir"
       CLICKHOUSE_SERVICE_HOSTNAME: 'seqr-clickhouse'
-      INCLUDE_PIPELINE_VERSION_IN_PREFIX: '0'
+      CLICKHOUSE_LOADER_DISABLED: '0'
       LOADING_DATASETS_DIR: "/var/seqr/seqr-loading-temp"
       PIPELINE_DATA_DIR: "/var/seqr/pipeline-data"
   seqrPlatformDeploy: false

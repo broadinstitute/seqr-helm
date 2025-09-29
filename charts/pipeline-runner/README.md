@@ -32,10 +32,28 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 	</thead>
 	<tbody>
 		<tr>
-			<td>additionalSecrets</td>
-			<td>object</td>
+			<td>additionalSecrets[0].name</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+"CLICKHOUSE_WRITER_PASSWORD"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>additionalSecrets[0].valueFrom.secretKeyRef.key</td>
+			<td>string</td>
+			<td><pre lang="json">
+"writer_password"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>additionalSecrets[0].valueFrom.secretKeyRef.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"clickhouse-secrets"
 </pre>
 </td>
 			<td></td>
@@ -54,6 +72,15 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>object</td>
 			<td><pre lang="json">
 {}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.CLICKHOUSE_WRITER_USER</td>
+			<td>string</td>
+			<td><pre lang="json">
+"seqr_clickhouse_writer"
 </pre>
 </td>
 			<td></td>

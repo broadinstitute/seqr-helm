@@ -29,5 +29,5 @@ spec:
     - from:
       - podSelector:
           matchLabels:
-            app.kubernetes.io/name: {{ .Chart.Name }}-api
+            name: {{ .Chart.Name }}-api
 {{- end }}

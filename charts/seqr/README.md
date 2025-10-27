@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.11.0](https://img.shields.io/badge/Version-3.11.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: b6fdd9c208f50f2102c1b650db6c41b002fbdaf5](https://img.shields.io/badge/AppVersion-b6fdd9c208f50f2102c1b650db6c41b002fbdaf5-informational?style=flat-square)
+![Version: 3.12.0](https://img.shields.io/badge/Version-3.12.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 78ecee10c474d301653db9ce121b0bb8fd082dc8](https://img.shields.io/badge/AppVersion-78ecee10c474d301653db9ce121b0bb8fd082dc8-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 

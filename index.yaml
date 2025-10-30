@@ -2370,6 +2370,30 @@ entries:
     version: 0.1.0
   pipeline-runner:
   - apiVersion: v2
+    appVersion: 8087cbbea7bb54e726d74991fee2050df6d42546
+    created: "2025-10-30T10:35:15.038465123Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.1.0
+    description: A Helm chart for deploying the loading pipeline of Seqr, an open
+      source software platform for rare disease genomics
+    digest: 1343cfe8d5e7df7b0ca3a2dcc7e55116a92fbb526c00c61d50dfb4e23fbc9cdf
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: pipeline-runner
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-2.68.0/pipeline-runner-2.68.0.tgz
+    version: 2.68.0
+  - apiVersion: v2
     appVersion: fbae03ddac4ccc5ba4ca78535fadc27703dc93b1
     created: "2025-10-29T15:02:24.221535537Z"
     dependencies:
@@ -7959,6 +7983,43 @@ entries:
     - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-0.1.0-dev/pipeline-runner-0.1.0-dev.tgz
     version: 0.1.0-dev
   seqr:
+  - apiVersion: v2
+    appVersion: 44d95f29e89fa0a0a07384def5f98fe966d6d049
+    created: "2025-10-30T10:35:15.25589947Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.31
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.2.2
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.1.0
+    description: A Helm chart for deploying the Seqr app, an open source software
+      platform for rare disease genomics
+    digest: ec6670f062be77c4e393022a9f9d7a2557e245042bc8a5807454a9d377862626
+    home: https://seqr.broadinstitute.org
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: seqr
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/seqr-3.13.0/seqr-3.13.0.tgz
+    version: 3.13.0
   - apiVersion: v2
     appVersion: 78ecee10c474d301653db9ce121b0bb8fd082dc8
     created: "2025-10-27T16:14:11.112690511Z"
@@ -22774,4 +22835,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-10-29T15:02:24.222869542Z"
+generated: "2025-10-30T10:35:15.257613165Z"

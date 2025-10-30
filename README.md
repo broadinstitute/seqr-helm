@@ -205,7 +205,7 @@ $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- 
 $ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
 ```
 
-The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multile times in case of failures.
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multiple times in case of failures.
 
 The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
 - Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:

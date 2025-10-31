@@ -87,7 +87,7 @@ The *seqr* application expects a few secrets to be defined for the services to s
 
 1. A secret containing a `password` field for the postgres database password.  By default this secret is named `postgres-secrets`.
 1. A secret containing a `django_key` field for the django security key.  By default this secret is named `seqr-secrets`.
-1. A secret containing `admin_password`, `writer_password`, and `reader_password` fields for the the clickhouse database passwords.  By default this secret is named `clickhouse-secrets`.  Note that your passwords should not contain dashes!
+1. A secret containing `admin_password`, `writer_password`, and `reader_password` fields for the the clickhouse database passwords.  By default this secret is named `clickhouse-secrets`.  Note that due to some complexity in how we handle the ClickHouse password internally, you should use alphanumeric characters only!
 
 Here's how you might create the secrets:
 

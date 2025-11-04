@@ -14,7 +14,6 @@ data:
     record_task_history = True
     state_path = {{ .Values.environment.LUIGI_STATE_DIR }}/luigi-state.pickle
     remove_delay = 3600
-    retry_count = 0
     worker_disconnect_delay = 5
 
     [task_history]

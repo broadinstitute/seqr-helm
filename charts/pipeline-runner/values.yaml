@@ -48,7 +48,7 @@ pods:
       type: ClusterIP
       port: 6000
     healthCheckRoute: /status
-    command: ["python3", "-m", "v03_pipeline.api"]
+    command: ["uv", "run", "python3", "-m", "v03_pipeline.api"]
     initContainers: |-
       {{- if $.Values.initRsyncEnabled }}
       {{- range $r := list "GRCh37" "GRCh38" }}
@@ -75,7 +75,7 @@ pods:
       {{- end }}
     resources: {}
     sidecar:
-      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      command: ["uv", "run", "python3", "-m", "v03_pipeline.bin.pipeline_worker"]
       privileged: true
   - name: ui
     service:

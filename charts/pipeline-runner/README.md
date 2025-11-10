@@ -206,7 +206,7 @@ false
 			<td>pods[0].command[0]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"python3"
+"uv"
 </pre>
 </td>
 			<td></td>
@@ -215,13 +215,31 @@ false
 			<td>pods[0].command[1]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"-m"
+"run"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>pods[0].command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].command[3]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-m"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].command[4]</td>
 			<td>string</td>
 			<td><pre lang="json">
 "v03_pipeline.api"
@@ -287,7 +305,7 @@ false
 			<td>pods[0].sidecar.command[0]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"python3"
+"uv"
 </pre>
 </td>
 			<td></td>
@@ -296,13 +314,31 @@ false
 			<td>pods[0].sidecar.command[1]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"-m"
+"run"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>pods[0].sidecar.command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python3"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.command[3]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-m"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[0].sidecar.command[4]</td>
 			<td>string</td>
 			<td><pre lang="json">
 "v03_pipeline.bin.pipeline_worker"

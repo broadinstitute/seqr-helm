@@ -4,11 +4,11 @@ pods:
       type: ClusterIP
       port: 6000
     healthCheckRoute: /status
-    command: ["python3", "-m", "v03_pipeline.api"]
+    command: ["uv", "run", "python3", "-m", "v03_pipeline.api"]
     initContainers: {}
     resources: {}
     sidecar:
-      command: ["python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      command: ["uv", "run", "python3", "-m", "v03_pipeline.bin.pipeline_worker"]
       privileged: true
       resources: {}  # Also disable memory request
   - name: ui

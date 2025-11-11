@@ -83,7 +83,7 @@ pods:
       port: 8082
       nodePort: 30951
     healthCheckRoute: /
-    command: ["uv" "run", "luigid"]
+    command: ["uv", "run", "luigid"]
     initContainers: |-
       - name: mkdir-luigi-state
         image: busybox:1.35

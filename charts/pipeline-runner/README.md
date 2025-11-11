@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.80.0](https://img.shields.io/badge/Version-2.80.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0474c61e7e962204c28835b603586729e4e79a45](https://img.shields.io/badge/AppVersion-0474c61e7e962204c28835b603586729e4e79a45-informational?style=flat-square)
+![Version: 2.81.0](https://img.shields.io/badge/Version-2.81.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 124acc60f7723adcb579bf9c043bddb89cacfa38](https://img.shields.io/badge/AppVersion-124acc60f7723adcb579bf9c043bddb89cacfa38-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -357,6 +357,24 @@ true
 		</tr>
 		<tr>
 			<td>pods[1].command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"uv"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"run"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>pods[1].command[2]</td>
 			<td>string</td>
 			<td><pre lang="json">
 "luigid"

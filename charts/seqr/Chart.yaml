@@ -9,8 +9,8 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 3.13.0
-appVersion: "44d95f29e89fa0a0a07384def5f98fe966d6d049"
+version: 3.14.0
+appVersion: "6f41a442933ed3d098893c3e571a74eca1ab6ed4"
 dependencies:
   - name: redis
     version: 19.0.2

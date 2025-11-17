@@ -214,11 +214,11 @@ $PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhous
 ```
 - Once the hail tables for the project have been successfully converted to parquet, you should expect a new file:
 ```
-$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{sample_type}_{project_guid}/_SUCCESS
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}/_SUCCESS
 ```
 - Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
 ```
-$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{sample_type}_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
 ```
 
 After all migrations have successfully completed, run the following command to ensure that previously saved variants stay in sync with the latest available annotations going forward:

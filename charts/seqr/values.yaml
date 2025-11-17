@@ -307,32 +307,6 @@ clickhouse:
           key: pipeline_data_dir_hmac_secret
           optional: true
   sidecars: |-
-    - name: clickhouse-loader
-      image: gcr.io/seqr-project/seqr-pipeline-runner
-      imagePullPolicy: Always
-      command: ["/bin/bash", "-c"]
-      args: ["python3 -m v03_pipeline.bin.clickhouse_loader"]
-      env:
-        - name: CLICKHOUSE_LOADER_DISABLED
-          value: |-
-            {{ .Values.global.seqr.environment.CLICKHOUSE_LOADER_DISABLED }}
-        - name: CLICKHOUSE_DATA_DIR
-          value: |-
-            {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}
-        - name: PIPELINE_DATA_DIR
-          value: |-
-            {{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}
-        - name: CLICKHOUSE_WRITER_USER
-          value: "seqr_clickhouse_writer"
-        - name: CLICKHOUSE_WRITER_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.auth.existingSecret }}
-              key: writer_password
-      volumeMounts:
-        - name: data
-          mountPath: |-
-            {{ .Values.persistence.mountPath }}
     {{- with .Values.additionalSidecars }}
       {{- tpl . $ | nindent 0}}
     {{- end }}

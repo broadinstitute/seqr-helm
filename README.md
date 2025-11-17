@@ -205,20 +205,20 @@ $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- 
 $ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
 ```
 
-The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multile times in case of failures.
+The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multiple times in case of failures.
 
 The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
 - Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:
 ```
-$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}
 ```
-- Run directory ingestion is managed by a sidecar within the `clickhouse` pod.  To tail logs:
+- Once the hail tables for the project have been successfully converted to parquet, you should expect a new file:
 ```
-kubectl logs seqr-clickhouse-shard0-0 -c clickhouse-loader -f
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}/_SUCCESS
 ```
 - Once the run has been successfully loaded into `clickhouse`, you should expect a new file:
 ```
-$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}/_CLICKHOUSE_LOAD_SUCCESS
 ```
 
 After all migrations have successfully completed, run the following command to ensure that previously saved variants stay in sync with the latest available annotations going forward:

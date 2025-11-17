@@ -210,7 +210,7 @@ The migration is fully supported whether or not you have configured your environ
 The migration should take a few minutes per project, substantially less than loading directly from VCF.  To check the status of the migration and to debug if required:
 - Each project hail table is exported into the format produced by the loading pipeline as if it were a new run.  For each of your loaded projects, you should expect a directory to be created:
 ```
-$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration_{project_guid}
+$PIPELINE_DATA_DIR/{ReferenceGenome}/{DatasetType}/runs/hail_search_to_clickhouse_migration-{random_str}_{SampleType}_{project_guid}
 ```
 - Once the hail tables for the project have been successfully converted to parquet, you should expect a new file:
 ```

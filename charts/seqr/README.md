@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.15.0](https://img.shields.io/badge/Version-3.15.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 680ebe745fd91d055818076c8d17d8985201a769](https://img.shields.io/badge/AppVersion-680ebe745fd91d055818076c8d17d8985201a769-informational?style=flat-square)
+![Version: 3.16.0](https://img.shields.io/badge/Version-3.16.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 680ebe745fd91d055818076c8d17d8985201a769](https://img.shields.io/badge/AppVersion-680ebe745fd91d055818076c8d17d8985201a769-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -742,7 +742,7 @@ true
 			<td>clickhouse.sidecars</td>
 			<td>string</td>
 			<td><pre lang="json">
-"- name: clickhouse-loader\n  image: gcr.io/seqr-project/seqr-pipeline-runner\n  imagePullPolicy: Always\n  command: [\"/bin/bash\", \"-c\"]\n  args: [\"python3 -m v03_pipeline.bin.clickhouse_loader\"]\n  env:\n    - name: CLICKHOUSE_LOADER_DISABLED\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_LOADER_DISABLED }}\n    - name: CLICKHOUSE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}\n    - name: PIPELINE_DATA_DIR\n      value: |-\n        {{ .Values.global.seqr.environment.PIPELINE_DATA_DIR }}\n    - name: CLICKHOUSE_WRITER_USER\n      value: \"seqr_clickhouse_writer\"\n    - name: CLICKHOUSE_WRITER_PASSWORD\n      valueFrom:\n        secretKeyRef:\n          name: {{ .Values.auth.existingSecret }}\n          key: writer_password\n  volumeMounts:\n    - name: data\n      mountPath: |-\n        {{ .Values.persistence.mountPath }}\n{{- with .Values.additionalSidecars }}\n  {{- tpl . $ | nindent 0}}\n{{- end }}"
+"{{- with .Values.additionalSidecars }}\n  {{- tpl . $ | nindent 0}}\n{{- end }}"
 </pre>
 </td>
 			<td></td>

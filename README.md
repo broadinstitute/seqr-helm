@@ -202,7 +202,7 @@ pipeline-runner-api-POD-ID            2/2     Running     0          119m
 $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
 
 # Run the migration script
-$ python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
+$ uv run python3 -m 'v03_pipeline.bin.migrate_all_projects_to_clickhouse'
 ```
 
 The migration is fully supported whether or not you have configured your environment to run the loading pipeline [on GCP dataproc](https://github.com/broadinstitute/seqr/blob/master/deploy/LOCAL_INSTALL_HELM.md#option-2) and will run in the same environment as data loading.  It is also idempotent, so can safely be run multiple times in case of failures.

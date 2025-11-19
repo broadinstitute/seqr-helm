@@ -12,7 +12,7 @@ between the other charts.
 
 ## Instructions for Initial Deployment
 
-The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space. While there is no requirement for the minimum number of CPUs, having more available will significantly speed up data loading and some searches.
+The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space. While there is no requirement for the minimum number of CPUs, having more available will significantly speed up data loading and some searches.  For ClickHouse specifically, we recommend reading over the [OSS usage recommendations](https://clickhouse.com/docs/operations/tips), in particular the [filesystem section](https://clickhouse.com/docs/operations/tips#file-system).
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
@@ -252,4 +252,35 @@ kubectl logs pipeline-runner-api-5557bbc7-vrtcj -c pipeline-runner-api-sidecar
 ....
 base_hail_table - INFO - UpdatedCachedReferenceDatasetQuery(reference_genome=GRCh37, dataset_type=SNV_INDEL, crdq=CLINVAR_PATH_VARIANTS) start
 [Stage 42:========>
+```
+
+- How do I shell-into/connect to Clickhouse?
+
+There are two ways:
+
+1) You can port forward and connect with a local clickhouse client:
+
+```
+kubectl port-forward services/seqr-clickhouse 9000:9000
+```
+
+& in another terminal:
+```
+./clickhouse client --user seqr_clickhouse_reader --password XXXXX
+```
+
+2) You can directly connect by ssh-ing into the clickhouse pod and using a client in the shell:
+
+```
+Desktop % kubectl exec seqr-clickhouse-shard0-0 -it -c clickhouse -- bash
+I have no name!@seqr-clickhouse-shard0-0:/$ cd /opt/bitnami/clickhouse/bin/
+I have no name!@seqr-clickhouse-shard0-0:/opt/bitnami/clickhouse/bin$ ./clickhouse client
+```
+
+Then you can navigate the database shell like:
+
+```
+USE seqr;
+SHOW tables;
+SELECT COUNT(*) FROM `GRCh38/SNV_INDEL/entries`;
 ```

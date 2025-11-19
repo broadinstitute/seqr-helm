@@ -11,7 +11,7 @@ Notable infrastructure changes will be kept in this file.
 
 ### Changed
 - Deprecates the ClickHouse loading service, moving loading directly into the loading pipeline as a Luigi task.
-- Updates the migration script to load directly into ClickHouse after generating parquets.
+- Updates the `hail-search` -> `ClickHouse` migration script to load directly into ClickHouse after generating parquets.
 
 ### Fixed
 

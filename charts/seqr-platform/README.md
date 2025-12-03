@@ -1,6 +1,6 @@
 # seqr-platform
 
-![Version: 2.12.1](https://img.shields.io/badge/Version-2.12.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.12.2](https://img.shields.io/badge/Version-2.12.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying all components of Seqr, an open source software platform for rare disease genomics
 
@@ -21,7 +21,7 @@ A Helm chart for deploying all components of Seqr, an open source software platf
 | Repository | Name | Version |
 |------------|------|---------|
 | https://broadinstitute.github.io/seqr-helm | lib | 1.1.0 |
-| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 2.109.0 |
+| https://broadinstitute.github.io/seqr-helm | pipeline-runner | 2.111.0 |
 | https://broadinstitute.github.io/seqr-helm | seqr | 3.17.0 |
 | https://broadinstitute.github.io/seqr-helm | vlm | 2.2.0 |
 

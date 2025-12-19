@@ -1,6 +1,6 @@
 # seqr-platform
 
-![Version: 2.15.3](https://img.shields.io/badge/Version-2.15.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.15.4](https://img.shields.io/badge/Version-2.15.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for deploying all components of Seqr, an open source software platform for rare disease genomics
 

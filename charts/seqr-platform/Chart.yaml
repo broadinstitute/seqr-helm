@@ -15,7 +15,7 @@ dependencies:
     version: 3.20.0
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
-    version: 2.120.0
+    version: 2.121.0
     repository: "https://broadinstitute.github.io/seqr-helm"
     condition: pipeline-runner.enabled
   - name: vlm

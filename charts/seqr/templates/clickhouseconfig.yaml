@@ -72,6 +72,8 @@ data:
           <!-- Reduces the memory bloat of the dictionary group by. -->
           <max_bytes_ratio_before_external_group_by>0.1</max_bytes_ratio_before_external_group_by>
           <max_bytes_ratio_before_external_sort>0.1</max_bytes_ratio_before_external_sort>
+
+          <stop_refreshable_materialized_views_on_startup>1</stop_refreshable_materialized_views_on_startup>
         </default>
       </profiles>
     </clickhouse>

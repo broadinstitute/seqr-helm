@@ -1,7 +1,7 @@
 dependencies:
 - name: seqr
   repository: https://broadinstitute.github.io/seqr-helm
-  version: 3.24.0
+  version: 3.25.0
 - name: pipeline-runner
   repository: https://broadinstitute.github.io/seqr-helm
   version: 2.130.0
@@ -11,5 +11,5 @@ dependencies:
 - name: lib
   repository: https://broadinstitute.github.io/seqr-helm
   version: 1.1.0
-digest: sha256:42f301018807e5743ae26310585e35f0bc81854131f4b8957d584b8acaa24b3b
-generated: "2026-01-16T15:57:49.339253944Z"
+digest: sha256:68d60b1042847df515ed1d10b8085266cc32392135f5039fa031f79c00800f52
+generated: "2026-01-16T18:05:51.917105196Z"

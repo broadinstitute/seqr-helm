@@ -257,7 +257,7 @@ clickhouse:
             {{ .Values.persistence.mountPath }}
     - name: sync-variants-disk
       image: busybox
-      command: ['/bin/sh', '-c', 'mkdir -p $CLICKHOUSE_DATA_DIR && cd $CLICKHOUSE_DATA_DIR && find . -type f | grep -E "GRCh(37|38)/[^/]+/(v[0-9]+/)?variants(?!/disk)" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR && chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR']
+      command: ['/bin/sh', '-c', 'mkdir -p $CLICKHOUSE_DATA_DIR && cd $CLICKHOUSE_DATA_DIR && find . -type f | grep -E "GRCh(37|38)/[^/]+/(v[0-9]+/)?variants" | grep -v "/variants/details" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR && chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR']
       env:
         - name: CLICKHOUSE_IN_MEMORY_DIR
           value: |-

@@ -535,7 +535,7 @@ false
 			<td>clickhouse.initContainers[1].command[2]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"mkdir -p $CLICKHOUSE_DATA_DIR \u0026\u0026 cd $CLICKHOUSE_DATA_DIR \u0026\u0026 find . -type f | grep -E \"GRCh(37|38)/[^/]+/(v[0-9]+/)?annotations\" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR \u0026\u0026 chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR"
+"mkdir -p $CLICKHOUSE_DATA_DIR \u0026\u0026 cd $CLICKHOUSE_DATA_DIR \u0026\u0026 find . -type f | grep -E \"GRCh(37|38)/[^/]+/(v[0-9]+/)?variants(?!/disk)\" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR \u0026\u0026 chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR"
 </pre>
 </td>
 			<td></td>

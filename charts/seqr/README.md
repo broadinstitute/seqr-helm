@@ -589,7 +589,7 @@ false
 			<td>clickhouse.initContainers[1].name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"sync-annotations-disk"
+"sync-variants-disk"
 </pre>
 </td>
 			<td></td>

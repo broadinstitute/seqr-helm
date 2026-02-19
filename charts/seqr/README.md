@@ -631,6 +631,123 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.initContainers[2].command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/bin/sh"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-c"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"mkdir -p $CLICKHOUSE_DATA_DIR \u0026\u0026 cd $CLICKHOUSE_DATA_DIR \u0026\u0026 find . -type f | grep -E \"GRCh(37|38)/[^/]+/(v[0-9]+/)?variants\" | grep -v \"/variants/details\" | xargs -I{} -P16 cp -v --parents {} $CLICKHOUSE_IN_MEMORY_DIR \u0026\u0026 chown -R 1001:1001 $CLICKHOUSE_IN_MEMORY_DIR"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].env[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"CLICKHOUSE_IN_MEMORY_DIR"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].env[0].value</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ .Values.global.seqr.environment.CLICKHOUSE_IN_MEMORY_DIR }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].env[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"CLICKHOUSE_DATA_DIR"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].env[1].value</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ .Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].image</td>
+			<td>string</td>
+			<td><pre lang="json">
+"busybox"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"sync-variants-disk"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].volumeMounts[0].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ .Values.global.seqr.environment.CLICKHOUSE_IN_MEMORY_DIR }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].volumeMounts[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"in-memory-dir"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].volumeMounts[1].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ .Values.persistence.mountPath }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>clickhouse.initContainers[2].volumeMounts[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"data"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.initdbScriptsSecret</td>
 			<td>string</td>
 			<td><pre lang="json">

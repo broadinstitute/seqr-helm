@@ -97,9 +97,33 @@ kubectl create secret generic postgres-secrets \
 
 kubectl create secret generic seqr-secrets \
   --from-literal=django_key='securely-generated-key'
+
+kubectl create secret generic clickhouse-secrets \
+  --from-literal=admin_password='clickhouseadminpassword' \
+  --from-literal=reader_password='clickhousereaderpassword' \
+  --from-literal=writer_password='clickhousewriterpassword'
 ```
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
+
+## Values/Environment Overrides
+
+All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might create a file `my-values.yaml` with the contents:
+```
+seqr:
+  postgresql:
+    enabled: false
+```
+
+This is also the recommended pattern for overriding any `seqr` environment variables:
+
+```
+seqr:
+  environment:
+    GUNICORN_WORKER_THREADS: "8"
+```
+
+A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
 ## Migrating Application Data from `docker-compose.yaml`
 
@@ -127,25 +151,6 @@ After re-loading all the data that will continue to be used in search, we recomm
 kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py set_saved_variant_key
 ```
-
-## Values/Environment Overrides
-
-All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might create a file `my-values.yaml` with the contents:
-```
-seqr:
-  postgresql:
-    enabled: false
-```
-
-This is also the recommended pattern for overriding any `seqr` environment variables:
-
-```
-seqr:
-  environment:
-    GUNICORN_WORKER_THREADS: "8"
-```
-
-A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
 ## Updating *seqr*
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
@@ -229,7 +234,10 @@ python3 /seqr/manage.py set_saved_variant_key
 ```
 
 ## Migrating *seqr* from the `annotations` and `transcripts` schema to the `reference_data`, `variants`, and `variants/details` schema (`2.x.x` -> `3.x.x` breaking release).
-The `seqr-platform` update from the `2.19.0-annotations-final` to `3.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
+The `seqr-platform` update from the `2.19.0-annotations-final` to `3.0.0` is breaking and requires several manual interventions.  If your first install
+is `~3.x.x` you may ignore these instructions.
+
+Here is the full sequence of steps:
 
 
 1. If you have an HGMD licence, you must now supply the VCFs as environment variables.  You may supply cloud storage links in your helm installation as `seqr.environment` env vars.
@@ -257,7 +265,7 @@ seqr:
             key: clingen_allele_registry_password
 ```
 
-3. Update your installation and run the migration process.
+3. Update your installation to the final supported 2.x.x version and run the migration process.
 
   1. Run the helm upgrade to release the `2.19.0-annotations-final` version.
   ```
@@ -287,7 +295,14 @@ At a high level, this process:
 - Triggers a refresh of the processes that join each reference dataset against seqr variants.
 
 Note that the schema for the tables themselves, and the asynchronous process that builds the `all_variants` tables, is
-managed automatically by the Django migrations.
+managed automatically by the Django migrations.  The migration is expected to take a couple of hours.  It is idempotent 
+and can safely be run multiple times.
+
+4. Upgrade your installation to the latest version.
+```
+helm repo update
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
+```
 
 
 ## Debugging FAQ

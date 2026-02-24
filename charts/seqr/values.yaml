@@ -67,6 +67,10 @@ environment:
   CLICKHOUSE_WRITER_USER: "seqr_clickhouse_writer"
   CLICKHOUSE_VLM_USERNAME: "vlm_clickhouse_reader"
 
+  # HGMD
+  HGMD_GRCH37_URL: null
+  HGMD_GRCH38_URL: null
+
 # -- Secrets which are required for seqr's functionality
 requiredSecrets:
   # -- The secret containing the postgres credentials. See the README for information on the format of this secret

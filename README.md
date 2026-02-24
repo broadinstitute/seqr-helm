@@ -228,6 +228,68 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py set_saved_variant_key
 ```
 
+## Migrating *seqr* from the `annotations` and `transcripts` schema to the `reference_data`, `variants`, and `variants/details` schema (`2.x.x` -> `3.x.x` breaking release).
+The `seqr-platform` update from the `2.19.0-annotations-final` to `3.0.0` is breaking and requires manual interventions to potentially update an environment variable and migrate the search data.  Here is the full sequence of steps:
+
+
+1. If you have an HGMD licence, you must now supply the VCFs as environment variables.  You may supply cloud storage links in your helm installation as `seqr.environment` env vars.
+```
+seqr:
+  environment:
+    HGMD_GRCH37_URL: 'https://storage.googleapis.com/YOUT_BUCKET_NAME/GRCh37/HGMD/HGMD_Pro_2023.1_hg19.vcf.gz'
+    HGMD_GRCH38_URL: 'https://storage.googleapis.com/YOUR_BUCKET_NAME/GRCh38/HGMD/HGMD_Pro_2023.1_hg38.vcf.gz'
+```
+
+2.  Clingen Allele Registry support has also been moved from the pipeline into a CronJob that runs from the seqr pod.
+The secrets should be moved to the `seqr.additionalSecrets` section of your helm overrides.
+```
+seqr:
+  additionalSecrets:
+    - name: CLINGEN_ALLELE_REGISTRY_LOGIN
+    valueFrom:
+        secretKeyRef:
+            name: pipeline-secrets
+            key: clingen_allele_registry_login
+    - name: CLINGEN_ALLELE_REGISTRY_PASSWORD
+    valueFrom:
+        secretKeyRef:
+            name: pipeline-secrets
+            key: clingen_allele_registry_password
+```
+
+3. Update your installation and run the migration process.
+
+  1. Run the helm upgrade to release the `2.19.0-annotations-final` version.
+  ```
+  helm repo update
+  helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version 2.19.0-annotations-final
+  ```
+
+  2. Login to the `pipeline-runner` pod:
+  ```
+  # Get the POD-ID of the pipeline-runner pod
+  $ kubectl get pods | grep pipeline-runner-api
+  pipeline-runner-api-POD-ID            2/2     Running     0          119m
+
+  # Login to the pipeline-runner sidecar
+  $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+  ```
+
+  3. Run the provided migration:
+  ```
+  $ uv run python3 -m 'v03_pipeline.bin.migrate_variants_tables'
+  ```
+
+At a high level, this process:
+- Drops all reference data from your hail annotations table.
+- Exports the annotations table to the new `variants.parquet` and the new `variant_details.parquet`.
+- Loads those into ClickHouse.
+- Triggers a refresh of the processes that join each reference dataset against seqr variants.
+
+Note that the schema for the tables themselves, and the asynchronous process that builds the `all_variants` tables, is
+managed automatically by the Django migrations.
+
+
 ## Debugging FAQ
 - How do I uninstall `seqr` and remove all application data?
 ```

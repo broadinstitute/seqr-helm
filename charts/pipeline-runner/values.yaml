@@ -49,30 +49,7 @@ pods:
       port: 6000
     healthCheckRoute: /status
     command: ["uv", "run", "python3", "-m", "v03_pipeline.api"]
-    initContainers: |-
-      {{- if $.Values.initRsyncEnabled }}
-      {{- range $r := list "GRCh37" "GRCh38" }}
-      {{- range $s := list "rsync_reference_data" "download_vep_reference_data"}}
-      - name: {{ $s | replace "_" "-" }}-{{ $r | lower}}
-        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
-        imagePullPolicy: {{ $.Values.image.pullPolicy }}
-        command: ["/v03_pipeline/bin/{{ $s }}.bash", "{{ $r }}"]
-        envFrom:
-          - configMapRef:
-              name: {{ $.Chart.Name }}
-        {{- with $.Values.hailWorkerResources }}
-        resources:
-          {{- tpl . $ | nindent 4 }}
-        {{- end }}
-        {{- with $.Values.volumeMounts }}
-        volumeMounts:
-          {{- tpl . $ | nindent 4 }}
-        {{- end }}
-      {{- end }}
-      {{- end }}
-      {{- else }}
-        []
-      {{- end }}
+    initContainers: {}
     resources: {}
     sidecar:
       command: ["uv", "run", "python3", "-m", "v03_pipeline.bin.pipeline_worker"]
@@ -98,7 +75,6 @@ pods:
 
 networkPolicy:
   enabled: false
-initRsyncEnabled: true
 hailWorkerResources: |-
   requests:
     memory: "12Gi"

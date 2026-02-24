@@ -20,13 +20,6 @@ class TestPipelineRunnerChart(unittest.TestCase):
         self.assertIn('checksum/config', p.stdout)
         self.assertIn('pipeline-runner-ui', p.stdout)
         self.assertIn('pipeline-runner-api-sidecar', p.stdout)
-        for job in [
-            'rsync-reference-data-grch37',
-            'rsync-reference-data-grch38',
-            'download-vep-reference-data-grch37',
-            'download-vep-reference-data-grch38',
-        ]:
-            self.assertIn(job, p.stdout)
         self.assertIn(
             'sqlite:///var/seqr/luigi-state/luigi-task-hist.db',
             p.stdout

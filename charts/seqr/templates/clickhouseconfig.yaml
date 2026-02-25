@@ -18,8 +18,8 @@ data:
       </user_directories>
       <format_schema_path>{{ $.Values.global.seqr.environment.CLICKHOUSE_DATA_DIR }}/format_schemas/</format_schema_path>
       <dictionaries_lazy_load>false</dictionaries_lazy_load>
-      <!-- Give hint to ClickHouse that a large chunk of the node's memory is for mounted RocksDB. -->
-      <max_server_memory_usage_to_ram_ratio>0.7</max_server_memory_usage_to_ram_ratio>
+      <!-- Give hint to ClickHouse that a small chunk of the node's memory is for mounted RocksDB. -->
+      <max_server_memory_usage_to_ram_ratio>0.9</max_server_memory_usage_to_ram_ratio>
     </clickhouse>
   01_seqr_postgres_named_collection.xml: |
     <clickhouse>

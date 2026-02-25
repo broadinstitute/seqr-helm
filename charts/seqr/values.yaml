@@ -117,6 +117,9 @@ cronJobs:
     schedule: "30 0 * * *"
     command: "python /seqr/manage.py reload_clinvar_all_variants"
     timeout_s: 7200
+  - name: register-caids
+    schedule: "0 20 * * *"
+    command: "python manage.py register_caids"
 
 updateAllReferenceDataPostInstallJob:
   enabled: true

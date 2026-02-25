@@ -107,7 +107,7 @@ cronJobs:
     command: "./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_reference_data.bash GRCh37"
   - name: reference-data-sync-38
     schedule: "*/5 * * * *"
-    command: "./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_reference_data.bash GRCh37"
+    command: "./v03_pipeline/bin/rsync_reference_data.bash GRCh38 && ./v03_pipeline/bin/download_vep_reference_data.bash GRCh38"
 
 global:
   seqrPlatformDeploy: false

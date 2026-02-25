@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.27.2](https://img.shields.io/badge/Version-3.27.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4b516a750c181ef2280b6cd222b7c8845d9721c8](https://img.shields.io/badge/AppVersion-4b516a750c181ef2280b6cd222b7c8845d9721c8-informational?style=flat-square)
+![Version: 3.28.1](https://img.shields.io/badge/Version-3.28.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: e9ca10982a8c1e475b628cd86983181f1a032d9e](https://img.shields.io/badge/AppVersion-e9ca10982a8c1e475b628cd86983181f1a032d9e-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -964,6 +964,33 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>cronJobs[3].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python manage.py register_caids"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[3].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"register-caids"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[3].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"0 20 * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>deploymentAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -1007,6 +1034,24 @@ false
 </pre>
 </td>
 			<td>The number of threads to allocate to the gunicorn server</td>
+		</tr>
+		<tr>
+			<td>environment.HGMD_GRCH37_URL</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.HGMD_GRCH38_URL</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>environment.LUIGI_UI_SERVICE_HOSTNAME</td>

@@ -234,7 +234,7 @@ python3 /seqr/manage.py set_saved_variant_key
 ```
 
 ## Migrating *seqr* from the `annotations` and `transcripts` schema to the `reference_data`, `variants`, and `variants/details` schema (`2.x.x` -> `3.x.x` breaking release).
-The `seqr-platform` update from the `2.19.1-annotations-final` to `3.0.0` is breaking and requires several manual interventions.  If your first install
+The `seqr-platform` update from the `2.19.2-annotations-final` to `3.0.0` is breaking and requires several manual interventions.  If your first install
 is `~3.x.x` you may ignore these instructions.
 
 Here is the full sequence of steps:
@@ -267,10 +267,10 @@ seqr:
 
 3. Update your installation to the final supported 2.x.x version and run the migration process.
 
-  1. Run the helm upgrade to release the `2.19.1-annotations-final` version.
+  1. Run the helm upgrade to release the `2.19.2-annotations-final` version.
   ```
   helm repo update
-  helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version 2.19.1-annotations-final
+  helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version 2.19.2-annotations-final
   ```
 
   2. Login to the `pipeline-runner` pod:

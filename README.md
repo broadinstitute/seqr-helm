@@ -12,7 +12,7 @@ between the other charts.
 
 ## Instructions for Initial Deployment
 
-The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `750GB` of disk space. While there is no requirement for the minimum number of CPUs, having more available will significantly speed up data loading and some searches.
+The Kubernetes ecosystem contains many standardized and custom solutions across a [wide range of cloud and on-premises environments](https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/).  To avoid the complexity of a full-fledged [production environment](https://kubernetes.io/docs/setup/production-environment/) and to achieve parity with the [existing docker-compose](https://github.com/broadinstitute/seqr/blob/master/docker-compose.yml), we recommend setting up a simple local Kubernetes cluster on an on-premises server or a cloud Virtual Machine with at least `32GB` of memory and `500GB` of disk space. While there is no requirement for the minimum number of CPUs, having more available will significantly speed up data loading and some searches.
 
 Install the four required kubernetes infrastructure components:
 1. The [`docker`](https://docs.docker.com/engine/install/) container engine.
@@ -97,9 +97,33 @@ kubectl create secret generic postgres-secrets \
 
 kubectl create secret generic seqr-secrets \
   --from-literal=django_key='securely-generated-key'
+
+kubectl create secret generic clickhouse-secrets \
+  --from-literal=admin_password='clickhouseadminpassword' \
+  --from-literal=reader_password='clickhousereaderpassword' \
+  --from-literal=writer_password='clickhousewriterpassword'
 ```
 
 Alternatively, you can use your preferred method for defining secrets in kubernetes. For example, you might use [External Secrets](https://external-secrets.io/) to synchronize secrets from your cloud provider into your kubernetes cluster.
+
+## Values/Environment Overrides
+
+All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might create a file `my-values.yaml` with the contents:
+```
+seqr:
+  postgresql:
+    enabled: false
+```
+
+This is also the recommended pattern for overriding any `seqr` environment variables:
+
+```
+seqr:
+  environment:
+    GUNICORN_WORKER_THREADS: "8"
+```
+
+A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
 ## Migrating Application Data from `docker-compose.yaml`
 
@@ -127,25 +151,6 @@ After re-loading all the data that will continue to be used in search, we recomm
 kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py set_saved_variant_key
 ```
-
-## Values/Environment Overrides
-
-All default values in the `seqr-platform` chart may be overriden with [helm's Values file functionality](https://helm.sh/docs/chart_template_guide/values_files/).  For example, to disable the `postgresql` deployment, you might create a file `my-values.yaml` with the contents:
-```
-seqr:
-  postgresql:
-    enabled: false
-```
-
-This is also the recommended pattern for overriding any `seqr` environment variables:
-
-```
-seqr:
-  environment:
-    GUNICORN_WORKER_THREADS: "8"
-```
-
-A more comprehensive example of what this may look like, and how the different values are formated in practice, is found in the [*seqr* unit tests](unit_test/seqr/values.yaml).
 
 ## Updating *seqr*
 To fetch the latest versions of the `helm` infrastructure and `seqr` application code, you may run:
@@ -228,12 +233,98 @@ kubectl exec seqr-POD-ID -c seqr -it -- bash
 python3 /seqr/manage.py set_saved_variant_key
 ```
 
+## Migrating *seqr* from the `annotations` and `transcripts` schema to the `reference_data`, `variants`, and `variants/details` schema (`2.x.x` -> `3.x.x` breaking release).
+The `seqr-platform` update from the `2.19.2-annotations-final` to `3.0.0` is breaking and requires several manual interventions.  If your first install
+is `~3.x.x` you may ignore these instructions.
+
+Here is the full sequence of steps:
+
+
+1. If you have an HGMD licence, you must now supply the VCFs as environment variables.  You may supply cloud storage links in your helm installation as `seqr.environment` env vars.
+```
+seqr:
+  environment:
+    HGMD_GRCH37_URL: 'https://storage.googleapis.com/YOUT_BUCKET_NAME/GRCh37/HGMD/HGMD_Pro_2023.1_hg19.vcf.gz'
+    HGMD_GRCH38_URL: 'https://storage.googleapis.com/YOUR_BUCKET_NAME/GRCh38/HGMD/HGMD_Pro_2023.1_hg38.vcf.gz'
+```
+
+2.  Clingen Allele Registry support has also been moved from the pipeline into a CronJob that runs from the seqr pod.
+The secrets should be moved to the `seqr.additionalSecrets` section of your helm overrides.
+```
+seqr:
+  additionalSecrets:
+    - name: CLINGEN_ALLELE_REGISTRY_LOGIN
+    valueFrom:
+        secretKeyRef:
+            name: pipeline-secrets
+            key: clingen_allele_registry_login
+    - name: CLINGEN_ALLELE_REGISTRY_PASSWORD
+    valueFrom:
+        secretKeyRef:
+            name: pipeline-secrets
+            key: clingen_allele_registry_password
+```
+
+3. Update your installation to the final supported 2.x.x version and run the migration process.
+
+  1. Run the helm upgrade to release the `2.19.2-annotations-final` version.
+  ```
+  helm repo update
+  helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version 2.19.2-annotations-final
+  ```
+
+  2. Login to the `pipeline-runner` pod:
+  ```
+  # Get the POD-ID of the pipeline-runner pod
+  $ kubectl get pods | grep pipeline-runner-api
+  pipeline-runner-api-POD-ID            2/2     Running     0          119m
+
+  # Login to the pipeline-runner sidecar
+  $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+  ```
+
+  3. Run the provided migration:
+  ```
+  $ uv run python3 -m 'v03_pipeline.bin.migrate_variants_tables'
+  ```
+
+At a high level, this process:
+- Drops all reference data from your hail annotations table.
+- Exports the annotations table to the new `variants.parquet` and the new `variant_details.parquet`.
+- Loads those into ClickHouse.
+- Triggers a refresh of the processes that join each reference dataset against seqr variants.
+
+Note that the schema for the tables themselves, and the asynchronous process that builds the `all_variants` tables, is
+managed automatically by the Django migrations.  The migration is expected to take a couple of hours.  It is idempotent 
+and can safely be run multiple times.
+
+4. Delete your existing pipeline reference data _SUCCESS files.  This will trigger an updated sync with a reduced file set.
+```
+rm -rf $REFERENCE_DATASETS_DIR/GRCh37/_SUCCESS 
+rm -rf $REFERENCE_DATASETS_DIR/GRCh38/_SUCCESS
+```
+
+OR (if you've set the environment to a google cloud storage bucket)
+
+```
+gsutil rm -rf $REFERENCE_DATASETS_DIR/GRCh37/_SUCCESS 
+gsutil rm -rf $REFERENCE_DATASETS_DIR/GRCh38/_SUCCESS
+```
+
+5. Upgrade your installation to the latest version.
+```
+helm repo update
+helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
+```
+
+
 ## Debugging FAQ
 - How do I uninstall `seqr` and remove all application data?
 ```
 helm uninstall YOUR_INSTITUTION_NAME-seqr
 kind delete cluster
-rm -rf /var/seqr
+rm -rf /var/seqr/*
+rm -rf /var/seqr/.user_scripts_initialized # an additional dotfile left by the bitnami postgresql container
 ```
 - How do I view `seqr`'s disk utilization?
 You may access the size of each of the on-disk components with:

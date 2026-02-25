@@ -1036,6 +1036,24 @@ false
 			<td>The number of threads to allocate to the gunicorn server</td>
 		</tr>
 		<tr>
+			<td>environment.HGMD_GRCH37_URL</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>environment.HGMD_GRCH38_URL</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>environment.LUIGI_UI_SERVICE_HOSTNAME</td>
 			<td>string</td>
 			<td><pre lang="json">

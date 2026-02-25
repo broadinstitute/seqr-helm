@@ -298,7 +298,20 @@ Note that the schema for the tables themselves, and the asynchronous process tha
 managed automatically by the Django migrations.  The migration is expected to take a couple of hours.  It is idempotent 
 and can safely be run multiple times.
 
-4. Upgrade your installation to the latest version.
+4. Delete your existing pipeline reference data _SUCCESS files.  This will trigger an updated sync with a reduced file set.
+```
+rm -rf $REFERENCE_DATASETS_DIR/GRCh37/_SUCCESS 
+rm -rf $REFERENCE_DATASETS_DIR/GRCh38/_SUCCESS
+```
+
+OR (if you've set the environment to a google cloud storage bucket)
+
+```
+gsutil rm -rf $REFERENCE_DATASETS_DIR/GRCh37/_SUCCESS 
+gsutil rm -rf $REFERENCE_DATASETS_DIR/GRCh38/_SUCCESS
+```
+
+5. Upgrade your installation to the latest version.
 ```
 helm repo update
 helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
@@ -310,7 +323,8 @@ helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform
 ```
 helm uninstall YOUR_INSTITUTION_NAME-seqr
 kind delete cluster
-rm -rf /var/seqr
+rm -rf /var/seqr/*
+rm -rf /var/seqr/.user_scripts_initialized # an additional dotfile left by the bitnami postgresql container
 ```
 - How do I view `seqr`'s disk utilization?
 You may access the size of each of the on-disk components with:

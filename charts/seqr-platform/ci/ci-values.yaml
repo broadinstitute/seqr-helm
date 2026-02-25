@@ -3,7 +3,7 @@ seqr:
   clickhouse:
     enabled: true
 pipeline-runner:
-  initRsyncEnabled: false
+  cronJobs: []
   hailWorkerResources: |-
     requests:
       memory: 1Mi

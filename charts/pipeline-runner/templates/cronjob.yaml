@@ -1,0 +1,78 @@
+{{- range $c := .Values.cronJobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $.Chart.Name }}-{{- $c.name }}
+  labels:
+    name: {{ $.Chart.Name }}-{{- $c.name }}
+    {{- include "pipeline-runner.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ toYaml $c.schedule }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      completions: 1
+      parallelism: 1
+      template:
+        metadata:
+          name: {{ $.Chart.Name }}-{{- $c.name }}
+          labels:
+            name: {{ $.Chart.Name }}-{{- $c.name }}
+            {{- include "pipeline-runner.labels" $ | nindent 12 }}
+          annotations:
+            checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
+          {{- with $.Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        spec:
+          activeDeadlineSeconds: {{ $c.timeout_s | default 1800 }}
+          restartPolicy: Never
+          shareProcessNamespace: true
+          {{- with $.Values.volumes }}
+          volumes:
+            {{- tpl . $ | nindent 10 }}
+          {{- end }}
+          {{- with $.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+          {{- if $.Values.serviceAccount.create }}
+          serviceAccountName: {{ $.Chart.Name }}
+          {{- end }}
+          containers:
+          - name: {{ $.Chart.Name }}-{{- $c.name }}
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
+            {{- with $.Values.volumeMounts }}
+            volumeMounts:
+              {{- tpl . $ | nindent 14 }}
+            {{- end }}
+            envFrom:
+              - configMapRef:
+                  name: {{ $.Chart.Name }}
+            {{- with $.Values.additionalSecrets }}
+            env:
+              {{- toYaml . | nindent 14}}
+            {{- end }}
+            command: ["/bin/bash", "-c"]
+            args:
+              - echo starting CronJob {{ $c.name }};
+              {{- if $.Values.jobBeforeHook}}
+                {{ $.Values.jobBeforeHook }};
+              {{- end }}
+              {{- if $.Values.jobAfterHook}}
+                trap "{{ $.Values.jobAfterHook }}" EXIT;
+              {{- end }}
+                {{ $c.command }};
+          {{- with $.Values.deploymentSidecars }}
+            {{- tpl . $ | nindent 10 }}
+          {{- end }}
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}

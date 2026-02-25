@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.144.0](https://img.shields.io/badge/Version-2.144.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 19154e00d5d5510d6aa28bca6dfc2e8f969e761d](https://img.shields.io/badge/AppVersion-19154e00d5d5510d6aa28bca6dfc2e8f969e761d-informational?style=flat-square)
+![Version: 2.145.0](https://img.shields.io/badge/Version-2.145.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 19154e00d5d5510d6aa28bca6dfc2e8f969e761d](https://img.shields.io/badge/AppVersion-19154e00d5d5510d6aa28bca6dfc2e8f969e761d-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -63,6 +63,60 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>string</td>
 			<td><pre lang="json">
 "podAntiAffinity:\n  preferredDuringSchedulingIgnoredDuringExecution:\n    - weight: 1.0\n      podAffinityTerm:\n        labelSelector:\n          matchExpressions:\n            - key: \"app.kubernetes.io/part-of\"\n              operator: In\n              values:\n              - \"seqr-platform\"\n        topologyKey: \"kubernetes.io/hostname\""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[0].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"./v03_pipeline/bin/rsync_reference_data.bash GRCh37 \u0026\u0026 ./v03_pipeline/bin/download_vep_reference_data.bash GRCh37"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"reference-data-sync-37"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[0].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"*/5 * * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"./v03_pipeline/bin/rsync_reference_data.bash GRCh38 \u0026\u0026 ./v03_pipeline/bin/download_vep_reference_data.bash GRCh38"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"reference-data-sync-38"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[1].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"*/5 * * * *"
 </pre>
 </td>
 			<td></td>
@@ -167,10 +221,19 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>initRsyncEnabled</td>
-			<td>bool</td>
+			<td>jobAfterHook</td>
+			<td>string</td>
 			<td><pre lang="json">
-true
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>jobBeforeHook</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
 </pre>
 </td>
 			<td></td>
@@ -258,9 +321,9 @@ false
 		</tr>
 		<tr>
 			<td>pods[0].initContainers</td>
-			<td>string</td>
+			<td>object</td>
 			<td><pre lang="json">
-"{{- if $.Values.initRsyncEnabled }}\n{{- range $r := list \"GRCh37\" \"GRCh38\" }}\n{{- range $s := list \"rsync_reference_data\" \"download_vep_reference_data\"}}\n- name: {{ $s | replace \"_\" \"-\" }}-{{ $r | lower}}\n  image: \"{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}\"\n  imagePullPolicy: {{ $.Values.image.pullPolicy }}\n  command: [\"/v03_pipeline/bin/{{ $s }}.bash\", \"{{ $r }}\"]\n  envFrom:\n    - configMapRef:\n        name: {{ $.Chart.Name }}\n  {{- with $.Values.hailWorkerResources }}\n  resources:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n  {{- with $.Values.volumeMounts }}\n  volumeMounts:\n    {{- tpl . $ | nindent 4 }}\n  {{- end }}\n{{- end }}\n{{- end }}\n{{- else }}\n  []\n{{- end }}"
+{}
 </pre>
 </td>
 			<td></td>

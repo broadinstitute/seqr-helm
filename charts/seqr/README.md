@@ -964,6 +964,33 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>cronJobs[3].command</td>
+			<td>string</td>
+			<td><pre lang="json">
+"python manage.py register_caids"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[3].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"register-caids"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>cronJobs[3].schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"0 20 * * *"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>deploymentAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">

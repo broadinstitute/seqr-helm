@@ -1,6 +1,6 @@
 # pipeline-runner
 
-![Version: 2.147.0](https://img.shields.io/badge/Version-2.147.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 09fdc71636c5c2ed24e89719d791927042dec785](https://img.shields.io/badge/AppVersion-09fdc71636c5c2ed24e89719d791927042dec785-informational?style=flat-square)
+![Version: 2.148.0](https://img.shields.io/badge/Version-2.148.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 09fdc71636c5c2ed24e89719d791927042dec785](https://img.shields.io/badge/AppVersion-09fdc71636c5c2ed24e89719d791927042dec785-informational?style=flat-square)
 
 A Helm chart for deploying the loading pipeline of Seqr, an open source software platform for rare disease genomics
 
@@ -167,10 +167,10 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td></td>
 		</tr>
 		<tr>
-			<td>global.seqr.environment</td>
-			<td>object</td>
+			<td>global.seqr.environment.CLICKHOUSE_SERVICE_HOSTNAME</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+"seqr-clickhouse"
 </pre>
 </td>
 			<td></td>

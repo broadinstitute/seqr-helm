@@ -112,4 +112,5 @@ cronJobs:
 global:
   seqrPlatformDeploy: false
   seqr:
-    environment: {}
+    environment:
+      CLICKHOUSE_SERVICE_HOSTNAME: 'seqr-clickhouse'

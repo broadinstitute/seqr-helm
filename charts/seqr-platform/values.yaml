@@ -1,6 +1,8 @@
 seqr:
   clickhouse:
     enabled: true
+  image:
+    tag: "bf9905d0df4f06fdda21f72188d00346dc582c2d"
 pipeline-runner:
   enabled: true
 vlm:

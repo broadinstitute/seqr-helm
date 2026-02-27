@@ -985,7 +985,7 @@ false
 			<td>cronJobs[3].schedule</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0 20 * * *"
+"0,30 * * * *"
 </pre>
 </td>
 			<td></td>

@@ -9,10 +9,10 @@ maintainers:
   - name: seqr
     email: seqr@broadinstitute.org
 type: application
-version: 3.0.3
+version: 3.1.0
 dependencies:
   - name: seqr
-    version: 3.28.1
+    version: 3.29.0
     repository: "https://broadinstitute.github.io/seqr-helm"
   - name: pipeline-runner
     version: 2.149.0

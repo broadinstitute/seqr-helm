@@ -1,3 +1,0 @@
-{{- if not .Values.global.seqrPlatformDeploy }}
-{{- include "lib.persistentvolume" . }}
-{{- end }}

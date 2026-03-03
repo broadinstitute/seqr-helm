@@ -931,7 +931,7 @@ false
 			<td>cronJobs[2].command</td>
 			<td>string</td>
 			<td><pre lang="json">
-"python /seqr/manage.py reload_clinvar_all_variants"
+"python /seqr/manage.py check; python /seqr/manage.py reload_clinvar_all_variants"
 </pre>
 </td>
 			<td></td>

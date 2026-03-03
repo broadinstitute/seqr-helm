@@ -115,7 +115,9 @@ cronJobs:
     command: "python manage.py update_all_reference_data"
   - name: reload-clinvar-all-variants
     schedule: "30 0 * * *"
-    command: "python /seqr/manage.py reload_clinvar_all_variants"
+    # NB: seen weird errors thrown by Django relating to Foreign Key setup.
+    # The additional check (which normally runs durin the seqr entrypoint) resolves the issues.
+    command: "python /seqr/manage.py check; python /seqr/manage.py reload_clinvar_all_variants"
     timeout_s: 7200
   - name: register-caids
     schedule: "0,30 * * * *"

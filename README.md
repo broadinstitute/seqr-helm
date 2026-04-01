@@ -267,26 +267,28 @@ seqr:
 
 3. Update your installation to the final supported 2.x.x version and run the migration process.
 
-  1. Run the helm upgrade to release the `seqr-platform-2.19.3-annotations-final` version.
-  ```
-  helm repo update
-  helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version seqr-platform-2.19.3-annotations-final
-  ```
+    1. Run the helm upgrade to release the `seqr-platform-2.19.3-annotations-final` version.
 
-  2. Login to the `pipeline-runner` pod:
-  ```
-  # Get the POD-ID of the pipeline-runner pod
-  $ kubectl get pods | grep pipeline-runner-api
-  pipeline-runner-api-POD-ID            2/2     Running     0          119m
+        ```bash
+        helm repo update
+        helm upgrade YOUR_INSTITUTION_NAME-seqr seqr-helm/seqr-platform --version seqr-platform-2.19.3-annotations-final
+        ```
 
-  # Login to the pipeline-runner sidecar
-  $ kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
-  ```
+    2. Login to the `pipeline-runner` pod:
 
-  3. Run the provided migration:
-  ```
-  $ uv run python3 -m 'v03_pipeline.bin.migrate_variants_tables'
-  ```
+        ```bash
+        # Get the POD-ID of the pipeline-runner pod
+        kubectl get pods | grep pipeline-runner-api
+
+        # Login to the pipeline-runner sidecar
+        kubectl exec pipeline-runner-api-POD-ID -c pipeline-runner-api-sidecar -it -- bash
+        ```
+
+    3. Run the provided migration:
+
+        ```bash
+        uv run python3 -m v03_pipeline.bin.migrate_variants_tables
+        ```
 
 At a high level, this process:
 - Drops all reference data from your hail annotations table.

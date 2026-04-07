@@ -71,7 +71,7 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>cronJobs[0].command</td>
 			<td>string</td>
 			<td><pre lang="json">
-"./v03_pipeline/bin/rsync_reference_data.bash GRCh37 \u0026\u0026 ./v03_pipeline/bin/download_vep_reference_data.bash GRCh37"
+"./loading_pipeline/bin/rsync_reference_data.bash GRCh37 \u0026\u0026 ./loading_pipeline/bin/download_vep_reference_data.bash GRCh37"
 </pre>
 </td>
 			<td></td>
@@ -98,7 +98,7 @@ A Helm chart for deploying the loading pipeline of Seqr, an open source software
 			<td>cronJobs[1].command</td>
 			<td>string</td>
 			<td><pre lang="json">
-"./v03_pipeline/bin/rsync_reference_data.bash GRCh38 \u0026\u0026 ./v03_pipeline/bin/download_vep_reference_data.bash GRCh38"
+"./loading_pipeline/bin/rsync_reference_data.bash GRCh38 \u0026\u0026 ./loading_pipeline/bin/download_vep_reference_data.bash GRCh38"
 </pre>
 </td>
 			<td></td>
@@ -305,7 +305,7 @@ false
 			<td>pods[0].command[4]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"v03_pipeline.api"
+"loading_pipeline.api"
 </pre>
 </td>
 			<td></td>
@@ -404,7 +404,7 @@ false
 			<td>pods[0].sidecar.command[4]</td>
 			<td>string</td>
 			<td><pre lang="json">
-"v03_pipeline.bin.pipeline_worker"
+"loading_pipeline.bin.pipeline_worker"
 </pre>
 </td>
 			<td></td>

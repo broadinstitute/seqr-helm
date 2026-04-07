@@ -48,11 +48,11 @@ pods:
       type: ClusterIP
       port: 6000
     healthCheckRoute: /status
-    command: ["uv", "run", "python3", "-m", "v03_pipeline.api"]
+    command: ["uv", "run", "python3", "-m", "loading_pipeline.api"]
     initContainers: {}
     resources: {}
     sidecar:
-      command: ["uv", "run", "python3", "-m", "v03_pipeline.bin.pipeline_worker"]
+      command: ["uv", "run", "python3", "-m", "loading_pipeline.bin.pipeline_worker"]
       privileged: true
   - name: ui
     service:
@@ -104,10 +104,10 @@ jobBeforeHook: ""
 cronJobs:
   - name: reference-data-sync-37
     schedule: "*/5 * * * *"
-    command: "./v03_pipeline/bin/rsync_reference_data.bash GRCh37 && ./v03_pipeline/bin/download_vep_reference_data.bash GRCh37"
+    command: "./loading_pipeline/bin/rsync_reference_data.bash GRCh37 && ./loading_pipeline/bin/download_vep_reference_data.bash GRCh37"
   - name: reference-data-sync-38
     schedule: "*/5 * * * *"
-    command: "./v03_pipeline/bin/rsync_reference_data.bash GRCh38 && ./v03_pipeline/bin/download_vep_reference_data.bash GRCh38"
+    command: "./loading_pipeline/bin/rsync_reference_data.bash GRCh38 && ./loading_pipeline/bin/download_vep_reference_data.bash GRCh38"
 
 global:
   seqrPlatformDeploy: false

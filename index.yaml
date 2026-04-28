@@ -2370,6 +2370,30 @@ entries:
     version: 0.1.0
   pipeline-runner:
   - apiVersion: v2
+    appVersion: 92a8a350dac846b469c3f66020e3aa0d825b30a5
+    created: "2026-04-28T21:49:20.176856205Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.1.0
+    description: A Helm chart for deploying the loading pipeline of Seqr, an open
+      source software platform for rare disease genomics
+    digest: 7dc18c83d12f5bb9b4e90b3b7bd560ae62e4ad881d207ded322a0ba444334353
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: pipeline-runner
+    sources:
+    - https://github.com/broadinstitute/seqr-helm
+    - https://github.com/broadinstitute/seqr-loading-pipelines
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/pipeline-runner-2.165.0/pipeline-runner-2.165.0.tgz
+    version: 2.165.0
+  - apiVersion: v2
     appVersion: f87d20552be7b85bc86b060d5cb64f8310c6c47c
     created: "2026-04-23T17:21:39.61878435Z"
     dependencies:
@@ -28200,4 +28224,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2026-04-28T20:37:01.864945917Z"
+generated: "2026-04-28T21:49:20.178215203Z"

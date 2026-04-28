@@ -1,6 +1,6 @@
 # seqr
 
-![Version: 3.36.0](https://img.shields.io/badge/Version-3.36.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6c6e8d22d802558863cd580764ccad162a73f8c3](https://img.shields.io/badge/AppVersion-6c6e8d22d802558863cd580764ccad162a73f8c3-informational?style=flat-square)
+![Version: 3.36.1-dev](https://img.shields.io/badge/Version-3.36.1--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6c6e8d22d802558863cd580764ccad162a73f8c3](https://img.shields.io/badge/AppVersion-6c6e8d22d802558863cd580764ccad162a73f8c3-informational?style=flat-square)
 
 A Helm chart for deploying the Seqr app, an open source software platform for rare disease genomics
 
@@ -22,7 +22,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 | Repository | Name | Version |
 |------------|------|---------|
 | file://../lib | lib | 1.1.0 |
-| https://charts.bitnami.com/bitnami | clickhouse | 9.2.2 |
+| https://charts.bitnami.com/bitnami | clickhouse | 9.4.4 |
 | https://charts.bitnami.com/bitnami | postgresql | 15.5.31 |
 | https://charts.bitnami.com/bitnami | redis | 19.0.2 |
 
@@ -409,7 +409,7 @@ true
 			<td>clickhouse.image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"25.4.3"
+"25.7.5"
 </pre>
 </td>
 			<td></td>

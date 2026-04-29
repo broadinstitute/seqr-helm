@@ -205,10 +205,7 @@ postgresql:
 clickhouse:
   enabled: false
   image:
-    repository: bitnamilegacy/clickhouse
-    # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
-    # recommended to hard pin.
-    tag: '25.7.5'
+    repository: gcr.io/seqr-project/clickhouse-docker-image
   fullnameOverride: seqr-clickhouse
   shards: 1
   replicaCount: 1

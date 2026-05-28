@@ -59,6 +59,7 @@ data:
     <clickhouse>
       <profiles>
         <default>
+          <!-- Necessary for application logic, seqr search will not work otherwise -->
           <flatten_nested>0</flatten_nested>
           <join_use_nulls>1</join_use_nulls>
 
@@ -73,8 +74,14 @@ data:
           <max_bytes_ratio_before_external_group_by>0.1</max_bytes_ratio_before_external_group_by>
           <max_bytes_ratio_before_external_sort>0.1</max_bytes_ratio_before_external_sort>
 
+          <!-- Necessary to stop reference data views from re-building on server restart -->
           <stop_refreshable_materialized_views_on_startup>1</stop_refreshable_materialized_views_on_startup>
+          
+          <!-- Allows creation of MVs before other tables -->
           <allow_materialized_view_with_bad_select>1</allow_materialized_view_with_bad_select>
+          
+          <!-- Major version bump from 25 to 26 led to failed tests for unknown reasaons -->
+          <enable_join_runtime_filters>0</enable_join_runtime_filters>
         </default>
       </profiles>
     </clickhouse>

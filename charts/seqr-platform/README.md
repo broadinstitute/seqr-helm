@@ -54,15 +54,6 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>seqr.clickhouse.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>vlm.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">

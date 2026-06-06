@@ -201,14 +201,12 @@ postgresql:
           - name: data
             mountPath: /var/seqr
 
-# The clickhouse backend is experimental and not yet supported.
 clickhouse:
-  enabled: false
+  enabled: true
   image:
-    repository: bitnamilegacy/clickhouse
-    # Per https://github.com/bitnami/charts/tree/main/bitnami/clickhouse#rolling-vs-immutable-tags
-    # recommended to hard pin.
-    tag: '25.4.3'
+    registry: "gcr.io"
+    repository: "seqr-project/seqr-clickhouse"
+    tag: "26.3.9"
   fullnameOverride: seqr-clickhouse
   shards: 1
   replicaCount: 1

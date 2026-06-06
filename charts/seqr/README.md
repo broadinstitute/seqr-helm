@@ -112,7 +112,7 @@ A Helm chart for deploying the Seqr app, an open source software platform for ra
 			<td>clickhouse.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td></td>
@@ -397,10 +397,19 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.image.registry</td>
+			<td>string</td>
+			<td><pre lang="json">
+"gcr.io"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"bitnamilegacy/clickhouse"
+"seqr-project/seqr-clickhouse"
 </pre>
 </td>
 			<td></td>
@@ -409,7 +418,7 @@ true
 			<td>clickhouse.image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"25.4.3"
+"26.3.9"
 </pre>
 </td>
 			<td></td>

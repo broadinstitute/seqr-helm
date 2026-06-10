@@ -1,6 +1,6 @@
 # vlm
 
-![Version: 2.5.0](https://img.shields.io/badge/Version-2.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: a987764500fd46aae0a2b17062a5795617f85ed0](https://img.shields.io/badge/AppVersion-a987764500fd46aae0a2b17062a5795617f85ed0-informational?style=flat-square)
+![Version: 2.6.0](https://img.shields.io/badge/Version-2.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 75ec42b60a5b3d1a373f8fe1a45aa3de8f43bc22](https://img.shields.io/badge/AppVersion-75ec42b60a5b3d1a373f8fe1a45aa3de8f43bc22-informational?style=flat-square)
 
 A Helm chart for deploying VLM within Seqr
 

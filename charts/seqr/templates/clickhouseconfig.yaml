@@ -131,9 +131,17 @@ data:
           </networks>
           <grants>
             <query>GRANT SELECT ON seqr."GRCh37/SNV_INDEL/key_lookup"</query>
+            <query>GRANT SELECT ON seqr."GRCh37/SNV_INDEL/entries"</query>
             <query>GRANT dictGet ON seqr."GRCh37/SNV_INDEL/gt_stats_dict"</query>
             <query>GRANT SELECT ON seqr."GRCh38/SNV_INDEL/key_lookup"</query>
+            <query>GRANT SELECT ON seqr."GRCh38/SNV_INDEL/entries"</query>
             <query>GRANT dictGet ON seqr."GRCh38/SNV_INDEL/gt_stats_dict"</query>
+            <query>GRANT dictGet ON seqr.seqrdb_affected_status_dict</query>
+            <query>GRANT dictGet ON seqr.seqrdb_sex_dict</query>
+            <query>GRANT dictGet ON seqr.seqrdb_individual_metadata_dict</query>
+            <query>GRANT dictGet ON seqr.seqrdb_discovery_variant_dict</query>
+            <query>GRANT dictGet ON seqr.seqrdb_excluded_variant_dict</query>
+            <query>GRANT dictGet ON seqr.seqrdb_omim</query>
           </grants>
         </{{ $.Values.environment.CLICKHOUSE_VLM_USERNAME }}>
       </users>

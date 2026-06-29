@@ -1,6 +1,6 @@
 image:
   repository: gcr.io/seqr-project/seqr-pipeline-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 imagePullSecrets: []
 
 serviceAccount:

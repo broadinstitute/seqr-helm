@@ -28707,6 +28707,29 @@ entries:
     version: 0.1.0-dev
   vlm:
   - apiVersion: v2
+    appVersion: 167a34efc7fa924d5a23c371b03eebedbe39d0d5
+    created: "2026-07-16T19:04:03.6683204Z"
+    dependencies:
+    - import-values:
+      - child: exports.global
+        parent: global
+      name: lib
+      repository: file://../lib
+      version: 1.1.0
+    description: A Helm chart for deploying VLM within Seqr
+    digest: 986662dde5326960957955fb89b725817dd38e38630173a2a6f598db986f084e
+    maintainers:
+    - email: seqr@broadinstitute.org
+      name: seqr
+    name: vlm
+    sources:
+    - https://github.com/broadinstitute/seqr
+    - https://github.com/broadinstitute/seqr-helm
+    type: application
+    urls:
+    - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-2.8.0/vlm-2.8.0.tgz
+    version: 2.8.0
+  - apiVersion: v2
     appVersion: c5f3572bce3821cf907d2213dd637fada342226b
     created: "2026-06-18T15:33:06.154381474Z"
     dependencies:
@@ -29315,4 +29338,4 @@ entries:
     urls:
     - https://github.com/broadinstitute/seqr-helm/releases/download/vlm-0.0.1/vlm-0.0.1.tgz
     version: 0.0.1
-generated: "2026-07-14T16:59:58.166890015Z"
+generated: "2026-07-16T19:04:03.670351317Z"

@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: gcr.io/seqr-project/seqr
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 imagePullSecrets: []
 
 serviceAccount:
@@ -207,6 +207,7 @@ clickhouse:
     registry: "gcr.io"
     repository: "seqr-project/seqr-clickhouse"
     tag: "26.3.9"
+    pullPolicy: IfNotPresent
   fullnameOverride: seqr-clickhouse
   shards: 1
   replicaCount: 1

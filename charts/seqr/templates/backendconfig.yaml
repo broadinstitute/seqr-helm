@@ -1,0 +1,13 @@
+{{- if .Values.ingress.backendConfig.enabled -}}
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: {{ .Values.ingress.backendConfig.nameOverride | default (printf "%s-backend-config" .Chart.Name) }}
+  labels:
+    {{- include "seqr.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.ingress.backendConfig.securityPolicy }}
+  securityPolicy:
+    name: {{ .Values.ingress.backendConfig.securityPolicy | quote }}
+  {{- end }}
+{{- end }}

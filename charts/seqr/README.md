@@ -397,6 +397,15 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>clickhouse.image.pullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"IfNotPresent"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>clickhouse.image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -1237,7 +1246,7 @@ false
 			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Always"
+"IfNotPresent"
 </pre>
 </td>
 			<td></td>

@@ -197,7 +197,7 @@ false
 			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Always"
+"IfNotPresent"
 </pre>
 </td>
 			<td></td>

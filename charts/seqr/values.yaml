@@ -22,6 +22,9 @@ ingress:
   enabled: false
   backendConfig: {}
 
+ingressCutover:
+  enabled: false
+
 resources:
   {}
 

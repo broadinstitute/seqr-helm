@@ -16,8 +16,13 @@ service:
   type: NodePort
   port: 8000
   nodePort: 30950
+  annotations: {}
 
 ingress:
+  enabled: false
+  backendConfig: {}
+
+ingressCutover:
   enabled: false
 
 resources:

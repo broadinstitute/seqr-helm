@@ -19,4 +19,8 @@ spec:
           matchLabels:
             kubernetes.io/metadata.name: {{ .Values.ingress.namespaceLabel | default .Values.ingress.nameOverride }}
       {{- end }}
+      {{- range .Values.ingress.backendConfig.healthCheckCidrs }}
+      - ipBlock:
+          cidr: {{ . }}
+      {{- end }}
 {{- end }}

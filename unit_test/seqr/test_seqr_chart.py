@@ -8,7 +8,8 @@ DEFAULT_ARGS = [
     'install',
     'test', 
     'charts/seqr', 
-    '--dry-run==server',
+    '--dry-run',
+    'server',
     '-f',
     os.path.join(WORK_DIR, 'values.yaml')
 ]

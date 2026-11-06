@@ -1,11 +1,15 @@
 {{- range $c := .Values.cronJobs }}
+{{- $name := printf "%s-%s" $.Chart.Name $c.name }}
+{{- if or (gt (len $name) 63) (not (regexMatch "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$" $name)) }}
+{{- fail (printf "invalid resource name %q" $name) }}
+{{- end }}
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ $.Chart.Name }}-{{- $c.name }}
+  name: {{ $name }}
   labels:
-    name: {{ $.Chart.Name }}-{{- $c.name }}
+    name: {{ $name }}
     {{- include "seqr.labels" $ | nindent 4 }}
 spec:
   schedule: {{ toYaml $c.schedule }}
@@ -19,9 +23,9 @@ spec:
       parallelism: 1
       template:
         metadata:
-          name: {{ $.Chart.Name }}-{{- $c.name }}
+          name: {{ $name }}
           labels:
-            name: {{ $.Chart.Name }}-{{- $c.name }}
+            name: {{ $name }}
             {{- include "seqr.labels" $ | nindent 12 }}
           annotations:
             checksum/config: {{ include (print $.Template.BasePath "/environment.yaml") $ | sha256sum }}
@@ -44,7 +48,7 @@ spec:
           serviceAccountName: {{ $.Chart.Name }}
           {{- end }}
           containers:
-          - name: {{ $.Chart.Name }}-{{- $c.name }}
+          - name: {{ $name }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}
             {{- with $.Values.volumeMounts }}
